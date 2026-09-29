@@ -115,6 +115,28 @@ Sorted roughly by how relevant each paper is to "explanation evaluation". "Eval"
 ### 3.3 Cefis & Carpita 2024 (#3): possible falsifier for "cross-model xG explanation agreement"
 - FACT (abstract): 8 classifiers are compared on accuracy and on "explainability ... assessed using some appropriate metrics". The top features are consistent across classifiers.
 - UNVERIFIED: which metric they used, whether the comparison was local or global, and whether it was quantitative. The full text is paywalled. **Any proposal claiming "first cross-model comparison of xG explanations" must first read this paper.**
+- **VERIFIED 2026-09-29 (full text, via BC library):**
+  - FACT, setup:
+    - Data: 7,801 open-play shots (free kicks and penalties excluded), Serie A 2022/23 for training and 2023/24 for testing (3,535 shots, 334 goals).
+    - Features: 26, from Understat events, **proprietary Math&Sport tracking at 50 fps**, and Sofifa-based PLS-SEM composites. The new ones include shooter visual (KOS) angle, opponents in the visual cone, opponent defending quality within 10% of the pitch width, shot-minute fatigue proxy, and assist type.
+    - Models: 8 classifiers: BR-logit, BR-cloglog, Lasso-logit, Lasso-cloglog, XGBoost, RF, SVM, FNN. Classification threshold 0.1.
+  - FACT, explanations:
+    - **Two global methods**: SHAP (R `fastshap`) and RGE (Rank Graduation Explainability, a leave-one-feature-out rank measure from Babaei, Giudici & Raffinetti 2025).
+    - Each model gets a **global feature ranking** on the test set.
+    - **Cross-model "concordance" = Spearman ρ between those 26-feature rankings** (Fig. 7): statistical models agree with each other at ρ > 0.7, ML models at ρ < 0.7, and cross-group about 0.5.
+    - The top features are shooter x (distance), AngleShot and shooter visual angle, across models.
+    - The SHAP-vs-RGE comparison is only qualitative ("RGE distinguishes statistical from algorithmic models more effectively").
+  - FACT, other results:
+    - Accuracy: BR-cloglog is best overall, with XGBoost close. On the test season, the ML models and Understat over-predict total goals (RF 397, Understat 377, actual 334); BR-logit predicts 333.
+    - The random 75/25 split vs season split "did not differ significantly", with no numbers given.
+  - FACT, what it does **not** do: any **local (per-shot)** explanation, agreement or stability; any perturbation; any check against geometric ground truth such as mirror symmetry, monotonicity in distance or angle, or iso-distance arcs; any disagreement-vs-quality analysis.
+  - Citers (Semantic Scholar, 13, checked 2026-09-29): none tests local explanation disagreement for xG. The closest are Rahimian 2025 (#4, text explanations), "Defensive-Pressure-Aware xG via feature-embedded FNN" (ICBASE 2026), and the Cefis–Metulini–Carpita restricted Shapley value for *player credit* (2603.11016).
+  - SYNTHESIS:
+    - This **falsifies "first quantitative cross-model comparison of xG explanations"** at the *global-ranking* level; cite it as the prior work.
+    - C1's gap survives, narrowed to **local, per-shot disagreement across methods and models, tested against physics-derived ground truth**.
+    - Their own feature set shows why that matters: BR models carry a *linear* y term, so they cannot be mirror-symmetric about the goal centre. Global rank agreement of about 0.5–0.7 says nothing about whether individual explanations respect geometry.
+    - The season-split and goal-overprediction results are a small hook for C2: split regime and calibration.
+    - Their data is not open, so C1 still needs StatsBomb open data (360 freeze-frames allow a KOS-angle analogue).
 
 ### 3.4 Rahimian et al. 2025 (#4): evaluates *text* explanations
 - FACT: it has a quantitative "accuracy" check. An LLM reads the generated text and states each feature's sign, which is compared with the true LR contribution. This evaluates whether the LLM layer is faithful to a *transparent* model. It does not evaluate post-hoc attribution faithfulness of a black box.

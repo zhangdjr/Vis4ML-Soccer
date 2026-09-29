@@ -427,6 +427,8 @@ This ranking weights your stated order: **grade first, then publication**, with 
 - A failed week-1 spike: D5's three environments won't install, or D2's row ordering is wrong and features must be recomputed. Swap in the next candidate.
 - Silva's feedback on Oct 6. For example, a strong preference for the default project moves D1 up.
 
+**Update 2026-09-29 (spikes, §12):** no spike failed, and the ranking is unchanged. D5's environment installed and its measurement works. D2's row ordering *was* wrong in the old pilot, but a name-based join fixes it without recomputing features, and TIME's numbers reproduce. D2's novelty claim is narrower after Wang et al. (§11).
+
 ---
 
 ## 11. What you should verify yourself
@@ -450,7 +452,7 @@ These are the checks most likely to change the conclusions.
    - (c) download one GZ3D FITS file and one Legacy Survey cutout, and check their alignment.
 6. **D3:** recompute the MT-Bench 66/85/63/81% numbers (about 1 h), and time one Ollama judge call.
 7. **D1:** ask which NYC boroughs are held out, and run Tile2Net's Boston example on the GPU box.
-8. **Soccer C1:** read Cefis & Carpita 2024 (paywalled; NYU library).
+8. ~~**Soccer C1:** read Cefis & Carpita 2024~~: done 2026-09-29; see "Verified on 2026-09-29" below.
 9. **Licenses you would publish under:**
    - GZ DESI (NC-SA, plus its code-release clause);
    - LIVECell (NC) and NeurIPS22 (NC-ND);
@@ -458,6 +460,57 @@ These are the checks most likely to change the conclusions.
    - StatsBomb (credit + logo).
 10. ~~The JS/D3 expectation~~: resolved. Silva says it is not required (§2).
 11. **Whether extending a lab tool is welcomed** (Calibrate, Visagreement, mTSeer), and **whether Visagreement's planned image/text extension is already in progress** (§13.2). Ask at the Oct 6 discussion.
+
+### Verified on 2026-09-29
+Full notes: `spike_results/partB_dblp_licenses.md` and `spike_results/partB_scoop_checks.md`. Items 3(d), 4(a–b), 5(c) and 6 are covered by the spikes in §12.
+
+- **Item 1, dblp.**
+  - The dblp web API is now behind an Anubis bot check. The official SPARQL endpoint worked, cross-checked against OpenAlex.
+  - FACT: 2023–26 records (non-CoRR in parentheses): Silva 66 (37), Nonato 33 (21), Miranda 39 (24), Barr 19 (11), Bertini 14 (10), after disambiguation.
+  - FACT: **no title by any of the five touches cells or microscopy, galaxies or astronomy, TSFMs, or LLM-as-judge.**
+  - SYNTHESIS: the nearest items are tangential and useful as citations:
+    - Visagreement (D5/D3 framing);
+    - TiVy, Nonato's time-series vis review, and Bertini's COVID multi-forecast study (D2);
+    - Calibrate, Mountaineer, and Barr's faithfulness-metric disagreement paper (D4).
+  - Outside the lab: arXiv 2608.14106 "Forecast Collapse in TSFMs" is tangential to D2.
+- **Item 3(b), D5 scoop.** FACT: BISCUIT and MARC have **0 citers**.
+  - FACT: BISCUIT's 2026-07-06 author response adds object-level scores but still does not answer Bankhead's independence question.
+  - FACT: none of the 547 keyword-filtered citers of Cellpose-SAM and micro-SAM, nor the 69 citers of CellSAM, tests correlated errors or per-cell agreement against GT.
+  - **New closest precedent (must cite): RBQE, arXiv 2609.10495**. It uses two-model agreement to flag failed polyp segmentations, and shows that referee independence matters. But it is image-level, not microscopy, and never varies shared pretraining.
+  - Verdict: partial precedent, **no scoop**.
+- **Item 3(c), NeurIPS22 Tuning.**
+  - FACT: micro-SAM's *paper-era* (v2) code used Tuning as a **test** set.
+  - FACT: the *current* LM generalist training script uses torch-em `split="val"`, which has mapped to `Tuning.zip` since May 2024.
+  - SYNTHESIS: today's default `vit_b_lm` (v4) very likely used Tuning for checkpoint selection. **Treat Tuning as model-selection-exposed for micro-SAM v4, and Public-Test (50 images) as the clean held-out set.**
+  - Cellpose-SAM trained on 616 Training-labeled images only (earlier session's reading; bioRxiv was unreachable today).
+- **Item 5(a–b), D4 scoop.** FACT: ZooBot:3D (arXiv 2606.16507) is a U-Net predicting per-pixel volunteer-vote fractions, with no attributions and no calibration analysis.
+  - The SAE-on-Zoobot paper (2510.23749), GZ Evo, and Butterworth & Spindler 2026 are tangential.
+  - Verdict: **no scoop**; the risk from the group that owns the data is unchanged.
+- **Item 4(c), D2 scoop.** FACT: TIME has 19 citers, all benchmark or model papers. Jander et al. has 0.
+  - **New partial overlap: Wang et al., arXiv 2606.18367** (traffic). It stratifies per-window errors by regime and shows aggregates hide transition-window failures.
+  - SYNTHESIS: **drop any "first to show aggregates hide failures" claim.** Lead with *predicting* failure from context features across TIME, plus the in-vivo test of Jander's failure modes.
+- **Item 9, licenses (FACT).**
+  - **LIVECell:** CC BY-NC 4.0 for data and models, MIT for code. It is a plain public S3 bucket with no AWS Open Data Registry entry.
+  - **NeurIPS22 CellSeg:** Zenodo 10719375, CC BY-NC-ND 4.0. The 50 Public-Test images are inside the 2.9 GB `Testing.zip`. SYNTHESIS: ND likely forbids hosting overlays or derived masks in a public tool, so use it for internal evaluation only.
+  - **GZ DESI (HF):** CC BY-NC-SA 4.0, plus "all models trained on these datasets [must] be released as source code by publication". The Zenodo catalogues (8360385, 4573248) are CC BY 4.0 but have no images.
+  - **TIME:** the data is CC BY-NC 4.0 since 2026-05-25. **TIME-Output is Apache-2.0.** The GitHub code has no LICENSE file, and the README and pyproject disagree (MIT vs Apache).
+  - Still open: no explicit GZ3D/SDSS license was found.
+- **Item 8, Soccer C1: both Cefis & Carpita papers read, 2026-09-29.** Details are in `lit_notes/01_soccer_xai.md` §3.3.
+  - **The target paper**: *Statistics* 59(2):426–445, doi 10.1080/02331888.2024.2445305. FACT:
+    - 8 classifiers on 7,801 Serie A shots (train 22/23, test 23/24), with 26 features including proprietary tracking.
+    - Explanations are **global only**: SHAP and RGE feature rankings per model.
+    - **Cross-model concordance = Spearman ρ between the global rankings**: statistical models ρ > 0.7, ML models < 0.7, cross-group about 0.5.
+    - The top features are consistent: distance (x), shot angle, shooter visual angle.
+    - There is no per-shot or local analysis, no perturbations and no geometric ground-truth checks.
+    - 13 citers (Semantic Scholar); none does local xG explanation disagreement.
+  - **The earlier paper you sent**: *"A new xG model for football analytics"*, JORS 76(1), doi 10.1080/01605682.2024.2323669. FACT: logistic regression only, 660 shots, odds ratios plus hand-built what-if scenarios. It does not bear on C1.
+  - SYNTHESIS:
+    - **C1 survives, but its novelty claim must narrow.** "First cross-model comparison of xG explanations" is **falsified** at the global level. The defensible gap is **local, per-shot disagreement across methods and models, evaluated against physics-derived ground truth** (mirror symmetry, monotonicity, iso-distance arcs).
+    - Cite Cefis & Carpita 2024 as the global baseline that C1 goes beyond.
+    - Their linear-y logistic models, which cannot be mirror-symmetric, are a ready example of why global rank agreement (ρ about 0.5–0.7) does not certify local explanations.
+    - The ML-overpredicts-goals result (RF +19%) is a small hook for C2 (calibration by split regime).
+    - Their data is proprietary, so C1 stays on StatsBomb open.
+    - C1's position in the ranking does not change.
 
 ---
 
@@ -473,6 +526,31 @@ These are the checks most likely to change the conclusions.
   - Method: state pre-registered hypotheses, the grade-safe MVP, and the gated stretch goals.
   - Timeline: use the deep-dive hour budget.
   - Disclose AI use.
+
+### Spike results (2026-09-29, BC Andromeda HPC)
+Per-spike details, commands and timings are in `spike_results/A1…A4*.md`. Code, envs, data and outputs are in `~/vis4ml_spikes/`, a symlink to `/projects/weilab/zhangdjr/vis4ml_spikes`. All compute ran in SLURM jobs: `gtml` L40S 46 GB, `weilab` A10 23 GB, and `short` CPU.
+
+| Spike | Verdict | Key numbers |
+|---|---|---|
+| **A1 D5 microscopy** | **PASS** | Cellpose-SAM and micro-SAM (`vit_b_lm`) on 8 LIVECell test images (one per cell type, 2,006 GT cells). **0.13–1.6 s per image**, ≤4.4 GB GPU. Pooled F1@0.5: Cellpose-SAM 0.86, micro-SAM AIS 0.78. Cellpose mostly *misses* cells; micro-SAM AIS mostly *merges* them (407 GT cells in merges). **Error κ between the two = 0.52**, and 80% of Cellpose-SAM errors are shared. 113 "silent failures" (both wrong, agreeing at IoU ≥ 0.5). Agreement vs per-cell IoU: ρ = 0.62–0.76 (0.51–0.62 within image), comparable to Cellpose flow error (ρ = −0.63). |
+| A2 D2 TSFMs | **PASS, with correction** | **The previous pilot's row-order assumption was wrong for 34/50 datasets (88% of series-variates).** The correct join is by name; it was verified by content (100%) and reproduces TIME Tables 4–5 **within 0.1%** (Chronos-2 seasonal = 1 / 0: 0.5653 / 0.6544 vs 0.565 / 0.654). Within-series variance share: **0.66 (MASE) but 0.45 (CRPS)**. Chronos-2 vs TimesFM-2.5 windows differing by >25%: 31.8% (MASE) / 27.7% (CRPS). The old feature-ρ table is void: with the correct join, seasonal_strength ρ = −0.21 and x_entropy +0.21, and length is no longer the top feature. |
+| A3 D3 LLM judges | Step 1 **PASS**; step 2 **PASS** | MT-Bench agreement reproduced **exactly** (turn 1): GPT-4 vs human 66.0 / 84.6%, human–human 63.0 / 81.0% (all within 1 pp). Throughput: on the lab server `cscigpu08`, `qwen3.6:27b` generates about 25 tok/s (about 30 h for 3,844 calls, one judge); `gpt-oss:20b` is not installed there. **On one Andromeda L40S with user-space Ollama 0.34.4, both judges are resident (32 / 46 GB). Qwen generates about 70 tok/s but serially (Ollama has no parallel support for its hybrid-SSM architecture); gpt-oss manages 113 tok/s at 4 parallel. The minimum run takes about 4.7 h.** |
+| A4 D4 astronomy | **PASS** | Zoobot 2.9.0 / ConvNeXt-nano encoder + Dirichlet-multinomial head, GZ DESI `tiny`, "smooth-or-featured" (dr5): test NLL 4.32 → 2.73, vote-fraction MAE 0.36 → 0.16 in 2 epochs, **3 s per epoch** on A10. A GZ3D bar/spiral mask aligns with its Legacy Survey DR10 cutout to 1 px (0.26″); centre mask within 0.39″. |
+
+What this changes (SYNTHESIS):
+- **D5 stays #1.** Both models install in one env and run in under 2 s per image, and the core measurement works. The early signal is interesting: substantial shared errors between two SAM-lineage models, with agreement about as informative as internal scores.
+  - Still missing for RQ2: a **non-SAM third model**, Cellpose3 `cyto3` in a separate env. **CellSAM now runs** (DeepCell key supplied), but it is SAM-based too: a SAM encoder plus a DETR box prompter. Zero-shot on LIVECell it is bimodal by cell type: F1 0.92 on BV2 and SkBr3, 0.02–0.31 on the other six at default settings. Its κ with Cellpose-SAM is 0.19. Pair κ must be read against each pair's accuracy gap (see `spike_results/A1_microscopy_seg.md`).
+  - micro-SAM AMG's default thresholds return **zero masks** on LIVECell, so its predicted-IoU head is poorly calibrated. Use AIS, and report AMG with tuned thresholds only on non-test data.
+- **D2 stays #2, but two claims must change.**
+  - (i) Every per-variate feature analysis must join by `(dataset_id, series_name, variate_name)`, as the TIME leaderboard does.
+  - (ii) Pre-register H1 per metric. H1 (>50% of variance within series) holds for MASE but not for CRPS (0.45), though it clears the 0.3 falsification line for both.
+  - The "same-family noise floor" (Chronos-2 vs Chronos-Bolt) is not a noise floor; use seed or sample reruns. Together with the Wang et al. partial overlap (§11), D2's novelty margin is thinner.
+- **D4 is technically easy.** The pipeline and alignment both work. The bar mask covers pixels 30× brighter than the cutout's mean, so the brightness-baseline requirement is real. Use Legacy Survey cutouts as model input, because GZ3D images have the MaNGA hexagon drawn in.
+- **Disk:** `~/vis4ml_spikes` is **49 GB**, far over the ~10 GB budget. It sits on `/projects/weilab` (12 TB free); `/home` is unchanged at 15 GB free. Breakdown:
+  - about 13 GB of conda envs plus their hardlinked package cache. d5 alone is about 12 GB (CUDA libraries and napari); Zoobot and CellSAM were added to the same env to avoid more torch installs;
+  - **32 GB of user-space Ollama plus qwen3.6:27b and gpt-oss:20b**;
+  - 1.7 GB of CellSAM weights, 1.7 GB of other weights, and 0.44 GB of data.
+  - Easy cuts: `ollama/models` (30 GB) if D3 is dropped; `envs/d5` if D5 is dropped.
 
 ---
 

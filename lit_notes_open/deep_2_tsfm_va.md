@@ -173,6 +173,8 @@ EXPRTS and TimeTuner are poor reproduction targets:
 
 **Caveat.** Series and variate rows were joined to feature rows by assuming the orders match: `len(features) == S × V` held for 49 of 50 datasets. **I have not verified this ordering in TIME's code.** It is check #2 in §11.
 
+> **Correction 2026-09-29 (`spike_results/A2_time_tsfm.md`):** the positional ordering was **wrong** for 34 of 50 datasets (88% of series-variates). The two feature-ρ rows below ("Largest single-feature Spearman ρ …") are therefore **void**. With the correct name join: seasonal_strength ρ = −0.21, x_entropy +0.21, length −0.11. The window-level variance and disagreement rows do not use features and are unchanged (0.662, 31.8%).
+
 | Quantity | Value |
 |---|---|
 | Median relMASE vs seasonal naive: Chronos-2 / TimesFM-2.5 / Moirai2 / TiRex | 0.663 / 0.677 / 0.692 / 0.690 |
