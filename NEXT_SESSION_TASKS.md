@@ -79,7 +79,7 @@ Label findings FACT / SYNTHESIS. Append them to `research_gap_review.md` §11 as
 5. **License recheck** for anything the project would publish under: LIVECell, NeurIPS22 CellSeg, GZ DESI (its code-release clause), TIME data.
 
 ## Things only the user can do (list them at the end if still open)
-- **Get the Visagreement full text** (IEEE TVCG 31(10), 2025; doi 10.1109/TVCG.2025.3558074) via the NYU library, if the chosen project builds on it (D3, D4 RQ-B or Soccer C1). The last sessions only had the author's summary.
+- ~~Visagreement full text~~: done 2026-09-29. Takeaways are in `research_gap_review.md` §13.2.
 - **Get Cefis & Carpita 2024** (*Statistics* 59(2), doi 10.1080/02331888.2024.2445305), **only if Soccer C1 is chosen.**
 - **Ask Silva or the TA, only if D1 (Tile2Net) is chosen:** which NYC areas Tile2Net was trained on. Evaluating calibration on training areas would look falsely good.
 - **Create a DeepCell API key**, if CellSAM is wanted for D5.

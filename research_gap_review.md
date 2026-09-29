@@ -220,6 +220,7 @@ Full notes: `lit_notes_open/deep_5_microscopy_qc.md`.
   - Pre-registered falsification criteria.
 - **Risk.** Agreement may just encode image difficulty. The within-image AUROC and the attribute baseline are designed to catch this, and a negative result is still reportable. Other risks: 3 environments, and instance-matching engineering.
 - **Course fit.** Model assessment, black-box signals, DL visualization; a Visagreement-like "disagreement as evidence" framing without overlap.
+- **Lab hook (FACT, Visagreement full text).** Its Case Study 2 *conjectures* that model accuracy is worse where explanation methods disagree. The authors call this "the first time such a possibility has been pointed out", but say it is "not comprehensive enough to assert". D5 tests the analogous claim (disagreement signals error) rigorously, per instance, against GT, in a new modality. That is a natural way to pitch it to Silva.
 - **Publication path.** Add 2–3 more datasets and a small user study with biologists. Venues: a BioImage/CVPR CVMI workshop, MICCAI workshops, or a VIS short paper. Its answer to a named reviewer question is the hook.
 - **12b.** Course fit **High** · upside **Medium** (answers a named question) · technical risk **Medium** (your background lowers it) · data risk **Low–Med** · viz burden **Low–Med** · evaluation clarity **High** (GT exists).
 
@@ -255,6 +256,7 @@ Full notes: `lit_notes_open/deep_4_astro_zoobot.md`.
 - **Models.** Zoobot is GPL-3.0, v2.9, maintained. The HF encoders (Apache-2.0) are encoders only, so you must fine-tune a decision-tree head.
 - **Viz.** A Calibrate-style reliability view for *soft, multi-question* labels (Calibrate handles hard binary labels only, which is the hook); an image grid linked to vote distributions; attribution overlays with masks; slice views.
 - **Evaluation.** PIT and coverage tests with pre-registered thresholds (RQ-A); pointing-game/IoU against masks **vs. a brightness baseline** (RQ-B).
+- **Risk (in-lab).** Visagreement's authors list adapting the tool to **image** data as near-future work (FACT, full text). RQ-B (attribution agreement on galaxy images) is therefore both a welcome extension and a possible in-lab scoop. Ask Silva.
 - **Risk.** **Brightness confound.** Bars are central and bright, so attributions must beat a light-profile baseline. There is also scoop risk from the Walmsley/Masters/Spindler group (who own the data), and a ZooBot:3D segmentation model now exists. RQ-A alone is incremental.
 - **12b.** Fit **High** · upside **Medium** (RQ-B → ML4PS / VIS short) · technical **Medium** · data **Low** · viz **Low–Med** · evaluation **High** (RQ-A) / Med-High (RQ-B).
 
@@ -267,7 +269,7 @@ Full notes: `lit_notes_open/deep_3_llm_judges.md`.
 - **Evaluation.** Planted P1–P3 must be flagged in the top 3 with BH q < 0.05; a null control must produce no flags.
 - **Compute.** About 13 GPU-h (MVP) to 36–46 GPU-h (full), unattended; unmeasured.
 - **Education stretch.** ASAP 7/8 or PERSUADE 2.0, including a DIF (differential item functioning) slice.
-- **Risk.** "Not novel", since it is structurally Visagreement-for-judges, and scoop risk from PAIR, KAIST and IBM.
+- **Risk.** "Not novel", since it is structurally Visagreement-for-judges, and scoop risk from PAIR, KAIST and IBM. Also (FACT, full text) Visagreement's authors list adapting the tool to **text** data as "a challenge we intend to address in the near future". Ask Silva whether that is in progress.
 - **12b.** Fit **High** · upside **Medium** · technical **Low–Med** · data **Low** · viz **Medium** · evaluation **High**.
 
 ### 5.5 D1: Tile2Net calibration and error attribution (maps, default project)
@@ -285,7 +287,7 @@ Full notes: `lit_notes_open/deep_1_tile2net_segrel.md`.
 ### 5.6 Soccer C1 and C2 (round 1)
 Full notes: `lit_notes/`, plus `lit_notes/round1_soccer_review.md` §11.
 
-- **C1: physics-anchored evaluation of explanation disagreement for xG.** Does cross-method or cross-model disagreement flag explanations that violate shot geometry (mirror invariance, iso-distance arcs, monotonicity)? It extends Visagreement's open question: in its case study, disagreement did not correlate with explanation-quality metrics, and the authors had no GT to check. Data: StatsBomb open. Risk: every method may simply agree on distance/angle. 12b: fit Excellent · upside Moderate (my earlier "Moderate–High" was generous; it is on par with D2) · technical Low–Mod · data Low · viz Moderate · evaluation Med–High.
+- **C1: physics-anchored evaluation of explanation disagreement for xG.** Does cross-method or cross-model disagreement flag explanations that violate shot geometry (mirror invariance, iso-distance arcs, monotonicity)? It extends Visagreement's open question. FACT, full text: its Case Study 1 found "no definitive correlation" between disagreement and explanation quality, but quality was measured only by the proxy metrics sensitivity and infidelity. SYNTHESIS: a GT-based test of that relationship is still open, and soccer geometry could supply one. Data: StatsBomb open. Risk: every method may simply agree on distance/angle. 12b: fit Excellent · upside Moderate (my earlier "Moderate–High" was generous; it is on par with D2) · technical Low–Mod · data Low · viz Moderate · evaluation Med–High.
 - **C2: split-regime dependence of soccer explanations (VAEP, xG).** Holding features fixed, how do calibration and SHAP change across random, by-match and leave-one-tournament-out splits? Gap: Davis 2024 gives no explanation protocol; Peters 2026 covers feature leakage only. Risk: a null result for xG. 12b: fit Very good · upside Moderate · technical Low · data Low · viz Low–Mod · evaluation High.
 
 ### 5.7 Strong scan-level options (not deep-dived; treat as provisional)
@@ -455,7 +457,7 @@ These are the checks most likely to change the conclusions.
    - TIME data (NC);
    - StatsBomb (credit + logo).
 10. ~~The JS/D3 expectation~~: resolved. Silva says it is not required (§2).
-11. **Whether extending a lab tool is welcomed** (Calibrate, Visagreement, mTSeer). Ask at the Oct 6 discussion.
+11. **Whether extending a lab tool is welcomed** (Calibrate, Visagreement, mTSeer), and **whether Visagreement's planned image/text extension is already in progress** (§13.2). Ask at the Oct 6 discussion.
 
 ---
 
@@ -484,7 +486,22 @@ These are the checks most likely to change the conclusions.
 - **My earlier "Moderate–High" upside for Soccer C1 was generous.** It is on par with D2.
 - **My earlier top-2 (D2, D3) is superseded** by §10, now that D4 and D5 have been reviewed.
 
-### 13.2 The other research system's report (`deep-research-report.md`)
+### 13.2 Visagreement full-text check (2026-09-29; the user supplied the full text)
+The earlier rounds read Visagreement only through the author's IJCAI-DC summary. The full text confirms these FACTs:
+- **Scope:** tabular data, **binary classification only**, local feature-importance methods (10 Captum methods) on PyTorch MLPs. Datasets: COMPAS, Adult, German Credit, HELOC, Diabetes, plus 2 synthetic.
+- **Metrics:** Krishna et al.'s FA/SA/RA/SRA metrics map each instance into a "(dis)agreement space". LAMP projects that space with the corners as control points. LAMP is a DR method that places chosen control points first and positions the other points relative to them.
+- **Evaluation:** 3 case studies plus a 4-expert think-aloud evaluation.
+- **Case Study 1 (quality):** "no definitive correlation" between disagreement and quality, measured **only** by sensitivity and infidelity. Some method sets (Input×Gradient, IG, Shapley Value Sampling) agree more when quality is good.
+- **Case Study 2 (accuracy):** with the RA/SRA metrics, instances in the disagreement area have worse balanced accuracy and F1. The agreement area is mostly label 1 and the disagreement area mostly label 0. The authors call it a conjecture that is "not comprehensive enough to assert".
+- **Case Study 3 (features):** no feature globally drives disagreement. Feature "switching" may reflect the off-manifold problem.
+- **Stated limitations and future work:** binary only; **"not appropriate for handling disagreements in image and text data … a challenge we intend to address in the near future"**; performance on larger data; about 4 methods is the practical maximum.
+
+Implications (SYNTHESIS):
+- (a) D5, D3 and Soccer C1 can each be pitched as a rigorous, GT-based test of Visagreement's Case Study 1/2 conjectures.
+- (b) The planned image/text extension is an **in-lab scoop risk** for D4 RQ-B and D3. **Ask Silva on Oct 6** whether it is in progress.
+- (c) Earlier wording saying the authors "had no GT" was my inference. It is corrected to "quality was measured only by proxy metrics".
+
+### 13.3 The other research system's report (`deep-research-report.md`)
 Compared in round 1. In the claims I checked, about 5 of its ~12 table entries were materially wrong:
 - **PassAI:** misattributed and misdescribed.
 - **Decroos 2019:** described as VAE tracking embeddings; it is VAEP on event data.
@@ -496,7 +513,7 @@ It also missed MOUNTAINEER/Visagreement, Ichmoukhamedov 2024 and Tang 2023, whic
 
 It does agree with this review that soccer XAI rarely evaluates its explanations. It also usefully pointed to SkillCorner's open phase-of-play labels.
 
-### 13.3 AI-use disclosure (for the course)
+### 13.4 AI-use disclosure (for the course)
 - **Who:** produced by Claude (Opus 5.5) with 19 sub-agents: 6 Opus in round 1; 5 Sonnet scans + 3 Opus deep dives in round 2; 5 Sonnet scans + 2 Opus deep dives in round 3.
 - **Verification:** the lead agent verified the load-bearing claims against primary sources (§0.2).
 - **Your responsibility:** the research design choices and final judgments are yours to make and defend.
