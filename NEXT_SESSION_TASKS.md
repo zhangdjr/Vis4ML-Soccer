@@ -5,6 +5,12 @@
 - `research_gap_review.md`, §1, §5.1–5.3, §10 and §11.
 - The deep dives are optional background: `lit_notes_open/deep_5_microscopy_qc.md`, `deep_2_tsfm_va.md`, `deep_4_astro_zoobot.md`, `deep_3_llm_judges.md`.
 
+## ⚠️ Update 2026-09-29: running on the HPC cluster (GPU box unreachable)
+- **Login node:** installs, downloads, CPU-only work (A2, A3 step 1, all of Part B). Keep it light; no heavy compute on the login node.
+- **GPU work (A1, A4) runs inside a SLURM job,** e.g. `srun --gres=gpu:1 --time=2:00:00 --pty bash`. Ask the user for partition and account names. First test whether compute nodes have internet (`curl -I https://huggingface.co` from inside a job). If not, pre-download everything on the login node.
+- **Skip A3 step 2 (Ollama throughput)** until the GPU box is reachable. Just note it as pending.
+- Check how much GPU memory the assigned card has (`nvidia-smi`), and adjust batch or tile sizes to fit.
+
 ## Who the user is (short)
 - NYU MSDS student doing a **solo** DS-GA 3001 (Visualization for ML, Prof. Claudio Silva) project.
 - Proposal is due **2026-10-20**. The project discussion lecture is **2026-10-06**.
