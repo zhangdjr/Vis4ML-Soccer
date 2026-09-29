@@ -36,6 +36,8 @@ There are **two rankings** over the same evidence:
 
 Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are in §4 and in `research_gap_details.md` §5 and §9.
 
+> **Compute is not a constraint (updated 2026-09-29).** You have a SLURM cluster with many L40S (46 GB), A10 (23 GB) and **A100** GPUs. So GPU cost is rated as *your hours to set up and debug*, not GPU time. **The binding constraint is your 3–4 h/week.** Unattended overnight jobs are nearly free.
+
 **Field key:**
 - **Upside:** research and publication potential if things go reasonably well.
 - **Grade safety:** probability of a solid course deliverable.
@@ -48,7 +50,7 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 ### 3a. Grade-first top 5 (safest path to a strong course project)
 
-| # | Candidate | Upside | Grade safety | Difficulty | Compute | Viz burden | Data risk | Scoop risk | Silva fit | Interest | Main risk |
+| # | Candidate | Upside | Grade safety | Difficulty | Compute (your setup effort) | Viz burden | Data risk | Scoop risk | Silva fit | Interest | Main risk |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | **1** | **D5:** do cell-segmentation models share mistakes, and does agreement flag bad cells without GT? (microscopy) | Med (High if shared-error result holds) | **High** | Med | Low (<2 s/img) | Low–Med | Low–Med (NC licenses) | **Low** (0 citers; RBQE partial) | High (tests Visagreement's conjecture) | High (your segmentation skills) | Agreement may just track difficulty |
 | **2** | **D2:** where do time-series foundation models fail, window by window? | Med | **High** | Low–Med | **None** (released outputs) | Low–Med | Low | Med–High (fast field; Wang et al.) | Med–High (mTSeer) | Low | Thin novelty; a null result is plausible |
@@ -73,11 +75,17 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 | # | Ambitious version | Upside | Grade safety (with floor) | Difficulty | Compute | Extra hours vs. 40 | Scoop risk | Floor if it fails | Paper needs (post-course) | Plausible venues (verify deadlines) |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **1** | **D5 full:** a correlated-error audit across 4+ models (incl. non-SAM) and 2–3 held-out datasets, plus GT-free triage evaluated by simulated inspection | **Med–High** | Med–High | Med–High | Low–Med | +25–35 h | Low | Error taxonomy + consistency matrix on LIVECell | A third dataset; κ with CIs across model lineages; optional biologist feedback | CVPR/MICCAI microscopy workshops; IEEE VIS short; ISBI |
+| **1** | **D5 full:** a correlated-error audit across 4+ models (incl. non-SAM) and 2–3 held-out datasets, plus GT-free triage evaluated by simulated inspection. **With the cluster, it can add seed-level ensembles** (see the D5 + Rashomon note below) | **Med–High** (High with the combined version) | Med–High | Med–High | Low | +25–35 h | Low | Error taxonomy + consistency matrix on LIVECell | A third dataset; κ with CIs across model lineages; optional biologist feedback | CVPR/MICCAI microscopy workshops; IEEE VIS short; ISBI |
 | **2** | **D4 RQ-B:** does *human* ambiguity predict *explanation* unreliability? (GZ3D masks, beating a brightness baseline) | **Med–High** (the most distinctive story) | Med | Med–High | Low | +25–35 h | Med (data owners; lab image extension) | Small-N calibration audit (RQ-A) | Several morphology questions; comparison vs. ZooBot:3D | NeurIPS ML4PS; RAS Techniques & Instruments (rolling); VIS short |
-| **3** | **Rashomon/multiplicity VA for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity (pairs naturally with D5) | Med–High | Med− | **High** | Med (10–20 seeds; about a day on the L40S) | +30–40 h | Low–Med | Seed-variance maps on one dataset | A link to annotation ambiguity; a second dataset | VIS short; CVPR/ICCV workshops; the VIS Uncertainty workshop |
+| **3** | **Rashomon/multiplicity VA for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity (pairs naturally with D5) | Med–High | Med | High (training pipeline) | **Low** (10–20 seeds = one overnight run on the cluster) | +30–40 h | Low–Med | Seed-variance maps on one dataset | A link to annotation ambiguity; a second dataset | VIS short; CVPR/ICCV workshops; the VIS Uncertainty workshop |
 | **4** | **D2-max:** the in-vivo test of Jander's TSFM failure modes, plus failure *prediction* on held-out datasets | Med | High | Med | None–Low | +20–30 h | **Med–High** | Variance decomposition + a failure predictor | A second benchmark (GIFT-Eval); a dose-response analysis | ICLR TSFM workshops; IEEE VIS short; IJF |
 | **5** | **Soccer C1 full:** per-shot disagreement across methods and models on several tournaments, checked against physics ground truth | Med (smaller venues, higher acceptance odds) | Med–High | Med | Low | +20–25 h | Low–Med | Global + semantic-perturbation analysis on one tournament | Several tournaments; a Rashomon set of xG models | MLSA @ ECML-PKDD; JQAS; J. Sports Analytics |
+
+**The combined D5 + Rashomon idea (SPECULATION, strongest ambitious framing; cheap with the cluster):**
+- Measure *where* segmentation errors stop being shared, along a hierarchy of disagreement: same model with different seeds → fine-tuned variants → different architectures (SAM vs non-SAM) → different training data.
+- This turns D5's "are errors correlated?" into **"at what level do errors become independent, and so when is agreement-based QC trustworthy?"**
+- The cost is your hours for one training pipeline (fine-tuning Cellpose/micro-SAM with seeds). GPU time is overnight jobs.
+- **Floor:** D5's cross-model audit alone.
 
 **Dropped from the ambitious view:** D3, because of crowded scoop exposure from big labs, and D1, because it is the default project and classmates overlap.
 
