@@ -468,31 +468,39 @@ This ranking weights your stated order: **grade first, then publication**, with 
 
 These are the checks most likely to change the conclusions.
 
-1. **dblp for Silva, Nonato, Miranda, Barr and Bertini, 2023–2026.** It was blocked for every agent. Look for microscopy, astronomy, forecasting and LLM-evaluation work.
-2. **Prior-cohort projects.** Ask the TA for last year's project list, and search GitHub for repos created in Dec 2025.
+**Status as of 2026-09-29:**
+- ✅ **Done:** completed by the verification/spike session. Evidence is in "Verified on 2026-09-29" below, §12 Spike results, and `spike_results/`.
+- 🟡 **Open, yours:** only you can do it (ask a person, read, or decide).
+- ⏳ **Open, later:** do it after you choose a topic, or on a schedule.
+- ➖ **Only if needed:** matters only for a specific candidate.
+
+**Still on your plate:** items 2, 3(a), 4(c) and 11 (item 7 only if you pick D1). Everything else is done.
+
+1. ✅ **dblp for Silva, Nonato, Miranda, Barr and Bertini, 2023–2026.** Done via dblp SPARQL + OpenAlex. **No lab paper touches microscopy, astronomy, TSFMs or LLM-as-judge.**
+2. 🟡 **Prior-cohort projects.** *Optional.* Ask the TA for last year's project list. The GitHub search was done in earlier rounds, and it only found the Tile2Net repos.
 3. **D5:**
-   - (a) read BISCUIT's open reviews yourself;
-   - (b) check whether BISCUIT or MARC have citers that test the "uncorrelated errors" assumption;
-   - (c) confirm whether NeurIPS22 Tuning was micro-SAM's validation set;
-   - (d) install Cellpose-SAM and micro-SAM, and run them on 5 LIVECell test images.
+   - (a) 🟡 read BISCUIT's open reviews yourself. *Optional.* They are the hook for your pitch. The session confirmed the author response still does not answer Bankhead.
+   - (b) ✅ BISCUIT/MARC citers: 0 citers. New must-cite precedent: **RBQE (arXiv 2609.10495)**, a partial precedent, not a scoop.
+   - (c) ✅ NeurIPS22 Tuning: treat it as model-selection-exposed for micro-SAM v4. Use **Public-Test** as the held-out set.
+   - (d) ✅ Cellpose-SAM + micro-SAM installed and run on 8 LIVECell test images (A1 **PASS**). CellSAM runs too.
 4. **D2:**
-   - (a) verify the TIME row ordering in `zqiao11/TIME`;
-   - (b) re-run the pilot with CRPS;
-   - (c) run a weekly arXiv scoop check on TIME and Jander citers.
+   - (a) ✅ TIME row ordering: it **was wrong** in the old pilot. The fix is a name-based join, which reproduces TIME within 0.1%.
+   - (b) ✅ Pilot re-run with CRPS: the within-series share is 0.45 (vs 0.66 by MASE).
+   - (c) ⏳ weekly arXiv scoop check on TIME and Jander citers. It was done once (new partial overlap: Wang et al. 2606.18367); repeat weekly until Oct 20 if you pick D2.
 5. **D4:**
-   - (a) check the ZooBot:3D (2026) paper for any attribution-vs-mask analysis;
-   - (b) review Walmsley group 2025–26 output, including the SAE-on-Zoobot work;
-   - (c) download one GZ3D FITS file and one Legacy Survey cutout, and check their alignment.
-6. **D3:** recompute the MT-Bench 66/85/63/81% numbers (about 1 h), and time one Ollama judge call.
-7. **D1:** ask which NYC boroughs are held out, and run Tile2Net's Boston example on the GPU box.
-8. ~~**Soccer C1:** read Cefis & Carpita 2024~~: done 2026-09-29; see "Verified on 2026-09-29" below.
-9. **Licenses you would publish under:**
-   - GZ DESI (NC-SA, plus its code-release clause);
-   - LIVECell (NC) and NeurIPS22 (NC-ND);
-   - TIME data (NC);
-   - StatsBomb (credit + logo).
-10. ~~The JS/D3 expectation~~: resolved. Silva says it is not required (§2).
-11. **Whether extending a lab tool is welcomed** (Calibrate, Visagreement, mTSeer), and **whether Visagreement's planned image/text extension is already in progress** (§13.2). Ask at the Oct 6 discussion.
+   - (a) ✅ ZooBot:3D checked: no attributions or calibration analysis, so no scoop.
+   - (b) ✅ Walmsley group 2025–26 checked (SAE-on-Zoobot, GZ Evo): tangential.
+   - (c) ✅ GZ3D mask aligns with the Legacy Survey cutout to about 1 px (A4 **PASS**).
+6. ✅ **D3:** MT-Bench numbers reproduced exactly (66.0 / 84.6 / 63.0 / 81.0%). Ollama timing measured: the minimum run takes about 4.7 h on an L40S.
+7. ➖ **D1 (only if you pick Tile2Net):** ask which NYC boroughs are held out, and run the Boston example. Skipped at your request.
+8. ✅ **Soccer C1:** both Cefis & Carpita papers read. C1 narrows to *local, per-shot* disagreement.
+9. ✅ **Licenses:** all checked (details below). One gap remains: no explicit GZ3D/SDSS license was found, so cite SDSS's standard acknowledgment.
+10. ✅ **JS/D3 expectation:** resolved. Silva says it is not required (§2).
+11. 🟡 **Ask Silva on Oct 6:**
+    - (a) whether extending a lab tool is welcome (Calibrate, Visagreement, mTSeer);
+    - (b) **whether Visagreement's planned image/text extension is already in progress** (§13.2);
+    - (c) which pitched topic he prefers;
+    - (d) confirm your solo status.
 
 ### Verified on 2026-09-29
 Full notes: `spike_results/partB_dblp_licenses.md` and `spike_results/partB_scoop_checks.md`. Items 3(d), 4(a–b), 5(c) and 6 are covered by the spikes in §12.
