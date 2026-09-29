@@ -24,7 +24,7 @@
 
 - **Deadlines:** 4-page proposal **Oct 20**; 1-page update Nov 3; presentations Dec 1 and 8; 8-page report (IEEE VIS format) **Dec 14**. The project is 45% of the grade.
 - **Format (syllabus, verbatim):** "reproduce prior work **or** implement a proposed research idea of your choosing". It also says: "demonstrate both the prior work, and your final research project, to the class". Solo is allowed.
-  - **Correction (2026-09-29):** earlier versions of this review read that as "reproduce **and** extend". That reading was stronger than the text. A reproduction is **not strictly required**. Every candidate below still includes a small one, because it validates your pipeline and gives you "prior work" to demonstrate. Treat it as optional polish. Ask Silva what "demonstrate the prior work" means (§6).
+  - **Correction (2026-09-29):** earlier versions of this review read that as "reproduce **and** extend". That reading was stronger than the text. A reproduction is **not strictly required**. Every candidate below still includes a small one, because it validates your pipeline and gives you "prior work" to demonstrate. Treat it as optional polish. Your reading of the "demonstrate" sentence: you present whichever path you chose (reproduction or your own idea).
 - **Front end:** **Silva confirmed JS/D3 is not required.** Streamlit/Plotly is fine, as long as the topic fits the class.
 - **Oct 6** lecture is the project discussion. Pitch there.
 
@@ -133,7 +133,7 @@
 - Whether extending his lab's tools is welcome (Calibrate, Visagreement, mTSeer).
 - **Whether Visagreement's planned image/text extension is already in progress.** This matters for D4 and D3.
 - Confirm your solo status.
-- **What "demonstrate the prior work" means:** a reproduction, or just presenting the papers you build on?
+- *(Optional, quick confirm)* **"Demonstrate both the prior work, and your final research project":** your reading (2026-09-29) is that you demo whichever path you chose. Nothing in the plan depends on this.
 - *Only if D1:* which NYC areas Tile2Net was trained on.
 
 **Optional:** ask the TA for last year's project list; skim BISCUIT's open reviews, which are the D5 hook.
