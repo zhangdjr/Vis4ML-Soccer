@@ -2,6 +2,7 @@
 
 **Project:** solo final project, NYU DS-GA 3001 *Visualization for Machine Learning* (Prof. Claudio Silva), Fall 2026
 **Compiled:** 2026-09-29 by Claude (Opus 5.5), lead reviewer. The review took three rounds and 19 sub-agents (list in §0.2). The lead reviewer checked every claim the conclusions depend on.
+**Last updated 2026-09-29 (evening):** the feasibility-spike and verification results (§11 "Verified", §12 "Spike results") are now folded into §0, §1, §5, §7 and §9, so earlier sections no longer contradict them.
 **This is the single consolidated document.** It replaces `literature_review.md` (round 1) and `literature_review_open.md` (round 2), which are archived as `lit_notes/round1_soccer_review.md` and `lit_notes_open/round2_open_review.md`. Per-area evidence (full paper tables, search logs, PDFs) lives in:
 - `lit_notes/01–06_*.md`: soccer
 - `lit_notes_open/scan_1–10_*.md`: broad scans
@@ -65,9 +66,10 @@
 - **Search services were throttled throughout.** dblp was blocked for every agent. Semantic Scholar rate-limited almost immediately. OpenAlex's free daily budget ran out mid-round in rounds 2 and 3.
 - **As a result, the broad scans missed instructor-lab overlap three times** that the deep dives later caught: mTSeer, a prior-cohort project, and Priscylla Silva's lab membership. Assume some overlap may still be missing. Check dblp yourself (§11).
 - **Not swept item by item:** CHI/UIST/IUI 2026 full programs, MLSA and StatsBomb proceedings, IEEE TGRS/JSTARS, and the Astronomy & Computing and MNRAS back catalogues.
-- **Pilot numbers and compute estimates are unmeasured on your machines:**
-  - D2's variance-share pilot assumes an unverified row ordering.
-  - D3's Ollama throughput is estimated from public benchmarks.
+- **Pilot numbers and compute estimates:** ~~unmeasured~~ **measured on 2026-09-29** (§12 Spike results):
+  - D2's original pilot used the **wrong** row ordering for 34 of 50 datasets. It was redone with a name-based join, which reproduces TIME's numbers within 0.1%.
+  - D3's throughput was measured on an L40S: the minimum run takes about 4.7 h.
+  - D5 and D4 pipelines run end to end.
 
 ---
 
@@ -95,6 +97,12 @@
 2. **D2, window-level failure regimes of time-series foundation models.**
 
 The **interest-driven alternative is D4** (Zoobot / Galaxy Zoo, astronomy).
+
+**Feasibility spikes (2026-09-29): all four passed** (D5, D2, D3, D4; D1 skipped), and the ranking is unchanged. Two corrections came out of them:
+- D2's novelty claim is narrower because of Wang et al. 2606.18367.
+- D2's old pilot correlations are void.
+
+D3 is cheaper than estimated. Details are in §12.
 
 ---
 
@@ -197,13 +205,20 @@ Full notes: `lit_notes_open/deep_5_microscopy_qc.md`.
   - MARC (arXiv 2609.13665, Sept 2026) admits consensus "may reinforce" failure modes.
   - Zenk et al. (MedIA 2024) benchmark failure detection in *3D radiology*, *per image*, and leave other levels to future work.
   - The NeurIPS22 challenge and Miao 2026 report only coarse per-modality or S/N splits.
+  - **Must cite: RBQE (arXiv 2609.10495),** the closest precedent (FACT, verified 2026-09-29). It uses two-model agreement to flag failed *polyp* segmentations and shows that referee independence matters. But it works per image, not in microscopy, and never varies shared pretraining. **Partial precedent, not a scoop.**
+  - FACT, 2026-09-29: BISCUIT and MARC have 0 citers. No citer of Cellpose-SAM, micro-SAM or CellSAM tests correlated errors against GT.
+  - **Spike signal (8 LIVECell test images, 2,006 cells; SYNTHESIS, too small to be a finding):**
+    - Cellpose-SAM vs micro-SAM error κ = 0.52, and 80% of Cellpose-SAM's errors are shared.
+    - 113 silent failures.
+    - Agreement vs per-cell IoU: ρ = 0.62–0.76, or 0.51–0.62 within an image, which is comparable to Cellpose flow error (ρ = −0.63).
 - **Reproduce.** The NeurIPS22 CellSeg per-modality F1 table for 1–2 models on its Public-Test set, and a Cellpose-SAM benchmark number on LIVECell test.
 - **Minimum viable project (grade-safe).** Per-instance error taxonomy (merge / split / miss / false positive), attribute small multiples and an error-consistency matrix on LIVECell. This is a strict subset, done by Nov 3.
 - **Stronger version.** RQ1–RQ3 with within-image AUROC, Zenk's risk-coverage metric (AURC), and a **triage view evaluated by simulated inspection**: errors found per K cells inspected, against GT. No user study is needed.
 - **Data (FACT, with the leakage map checked).**
   - **NeurIPS22 Public-Test** (50 labelled images): held out from all models.
-  - NeurIPS22 Tuning (101 images): possibly micro-SAM validation, unconfirmed.
-  - **LIVECell test**: Cellpose-SAM and micro-SAM trained on LIVECell *train*, and CellSAM never saw LIVECell.
+  - NeurIPS22 Tuning (101 images): **resolved 2026-09-29, treat it as model-selection-exposed** for micro-SAM v4. Its current training script uses `split="val"`, which maps to Tuning. Use **Public-Test** as the clean held-out set.
+  - **LIVECell test**: Cellpose-SAM and micro-SAM trained on LIVECell *train*, so its test split is **in-distribution** for them (held-out images, not a domain shift). CellSAM never saw LIVECell.
+  - NeurIPS22's ND license likely forbids publishing derived overlays, so use it for evaluation only.
   - BBBC038 is in every model's training data, so it is **unusable** for held-out claims.
   - Licenses: LIVECell CC BY-NC 4.0; NeurIPS22 CC-BY-NC-ND (fine for research).
 - **Models and compute.** Repos are maintained and permissively licensed.
@@ -211,6 +226,7 @@ Full notes: `lit_notes_open/deep_5_microscopy_qc.md`.
   - Cellpose 4 cannot load cyto3, so cyto3 needs its own environment.
   - StarDist is a poor fit for phase-contrast whole cells.
   - Cellpose-SAM inference has been profiled on a 12 GB card; an M1 path exists.
+  - **Spike (2026-09-29):** Cellpose-SAM and micro-SAM run at 0.13–1.6 s per image using ≤4.4 GB of GPU memory. **CellSAM runs** (DeepCell key obtained), but it is also SAM-based and zero-shot bimodal on LIVECell. micro-SAM's AMG default thresholds return zero masks, so use AIS. **RQ2 still needs a non-SAM model** (Cellpose3 `cyto3`, in its own env).
 - **Visualization.** Error map overlaid on images; attribute small multiples; model × model error-consistency matrix; a triage list ranked by each QC signal, linked to image crops.
   - *Why:* the claim is about **which instances** fail and **whether failures co-occur**. Aggregate F1 hides exactly that.
 - **Evaluation.**
@@ -231,13 +247,23 @@ Full notes: `lit_notes_open/deep_2_tsfm_va.md`.
 - **Evidence for the gap.**
   - TIME (ICML 2026) stratifies statically by 7 features. EXPRTS and Kang 2017 cover pre-TSFM instance spaces. mTSeer (lab) asks for "more features… more models… expanded instance-level evaluation".
   - Jander et al. (Aug 2026) request "in vivo validation".
-  - Pilot (SYNTHESIS, provisional): about 66% of error variance is within a single series across windows. Chronos-2 and TimesFM-2.5 differ by more than 25% on about 32% of windows.
-- **Reproduce.** TIME's pattern-level results from released outputs (pandas, about 3 h), plus a local Chronos-2 rerun on 2–3 tasks.
+  - **Pilot, redone 2026-09-29 with the correct name-based join (SYNTHESIS):**
+    - The within-series share of window-level error variance is **0.66 by MASE but 0.45 by CRPS**.
+    - Chronos-2 and TimesFM-2.5 differ by more than 25% on 31.8% of windows (MASE) or 27.7% (CRPS).
+    - The original pilot's feature correlations are **void**.
+  - **Partial overlap found 2026-09-29: Wang et al., arXiv 2606.18367** (traffic). It stratifies per-window errors by regime and shows aggregates hide transition-window failures. **So drop any "first to show aggregates hide failures" claim.** Lead with *predicting* failure from context features across TIME, plus the in-vivo test of Jander's modes.
+- **Reproduce.** TIME's pattern-level results from released outputs (pandas, about 3 h), plus a local Chronos-2 rerun on 2–3 tasks. **Done in the spike:** TIME Tables 4–5 reproduced within 0.1%.
+- **Implementation rule.** Always join by `(dataset_id, series_name, variate_name)`, never by row position.
 - **MVP.** Classical baselines, context features, failure labels, variance decomposition, a leave-dataset-out failure predictor, and 5 linked views. **No TSFM inference needed:** TIME-Output releases per-window predictions for 30 models under Apache-2.0.
 - **Stronger version.** The in-vivo dose-response test; a context-length what-if probe; GIFT-Eval replication.
 - **Viz.** Failure-regime map, conditional-error small multiples, leaderboard-flip matrix, window drilldown, held-out slice table.
 - **Evaluation.** Variance shares (with CRPS and a noise floor); ΔAUROC ≥ 0.03; held-out slice lift ≥ 1.5×; dose-response CIs.
-- **Risk.** Features may explain little of window-level failure. The pilot shows |ρ| ≤ 0.26, and a July 2026 impossibility result argues against spectral features. A null result is still reportable. The field moves weekly.
+- **Risk.** Features may explain little of window-level failure.
+  - With the corrected join, the strongest single-feature correlations are about |ρ| ≈ 0.21 (seasonal strength, entropy).
+  - A July 2026 impossibility result argues against spectral features.
+  - H1 (most variance is within series) holds for MASE but not for CRPS, so pre-register H1 per metric.
+  - Chronos-2 vs Chronos-Bolt is **not** a valid noise floor; use seed or sample reruns.
+  - A null result is still reportable. The field moves weekly, and the novelty margin is thinner after Wang et al.
 - **12b.** Fit **High** · upside **Medium** · technical **Low–Med** · data **Low** · viz **Low–Med** · evaluation **High**.
 
 ### 5.3 D4: Zoobot vs. volunteer disagreement (astronomy)
@@ -257,6 +283,9 @@ Full notes: `lit_notes_open/deep_4_astro_zoobot.md`.
 - **Viz.** A Calibrate-style reliability view for *soft, multi-question* labels (Calibrate handles hard binary labels only, which is the hook); an image grid linked to vote distributions; attribution overlays with masks; slice views.
 - **Evaluation.** PIT and coverage tests with pre-registered thresholds (RQ-A); pointing-game/IoU against masks **vs. a brightness baseline** (RQ-B).
 - **Risk (in-lab).** Visagreement's authors list adapting the tool to **image** data as near-future work (FACT, full text). RQ-B (attribution agreement on galaxy images) is therefore both a welcome extension and a possible in-lab scoop. Ask Silva.
+- **Spike (2026-09-29): PASS.** Fine-tuning takes 3 s per epoch on an A10. The GZ3D mask aligns with its Legacy Survey cutout to about 1 px.
+  - Bar masks cover pixels 30× brighter than the cutout mean, so **the brightness baseline is mandatory**.
+  - Use Legacy Survey cutouts as model input, because GZ3D images have the MaNGA hexagon drawn on them.
 - **Risk.** **Brightness confound.** Bars are central and bright, so attributions must beat a light-profile baseline. There is also scoop risk from the Walmsley/Masters/Spindler group (who own the data), and a ZooBot:3D segmentation model now exists. RQ-A alone is incremental.
 - **12b.** Fit **High** · upside **Medium** (RQ-B → ML4PS / VIS short) · technical **Medium** · data **Low** · viz **Low–Med** · evaluation **High** (RQ-A) / Med-High (RQ-B).
 
@@ -267,7 +296,9 @@ Full notes: `lit_notes_open/deep_3_llm_judges.md`.
 - **Gap.** LLM Comparator (TVCG 2025, archived) is single-judge. The 2026 statistical papers (Coin Flip, Geometry EMNLP 2026, Nine Judges) each cover one layer. VIS 2025/26 and about 55 citers of LLM Comparator show no multi-judge VA (FACT).
 - **Reproduce.** Zheng et al. Table 5 **exactly**: 66/85/63/81%, from CC-BY-4.0 data (1.4 MB, 961 cells with ≥2 votes).
 - **Evaluation.** Planted P1–P3 must be flagged in the top 3 with BH q < 0.05; a null control must produce no flags.
-- **Compute.** About 13 GPU-h (MVP) to 36–46 GPU-h (full), unattended; unmeasured.
+- **Compute (measured 2026-09-29).** On one L40S (46 GB), both judges fit in GPU memory at once: qwen3.6:27b at about 70 tok/s, serial only; gpt-oss:20b at 113 tok/s with 4 parallel requests. **The minimum run (3,844 calls) takes about 4.7 h.** On the shared lab server it would take about 30 h for one judge.
+  - Note: the cluster used `qwen3.6:27b`, and your GPU box has `qwen3.8:27b`. Pick one and stick with it.
+- **Reproduction done in the spike:** MT-Bench agreement reproduced exactly (66.0 / 84.6 / 63.0 / 81.0%).
 - **Education stretch.** ASAP 7/8 or PERSUADE 2.0, including a DIF (differential item functioning) slice.
 - **Risk.** "Not novel", since it is structurally Visagreement-for-judges, and scoop risk from PAIR, KAIST and IBM. Also (FACT, full text) Visagreement's authors list adapting the tool to **text** data as "a challenge we intend to address in the near future". Ask Silva whether that is in progress.
 - **12b.** Fit **High** · upside **Medium** · technical **Low–Med** · data **Low** · viz **Medium** · evaluation **High**.
@@ -287,7 +318,7 @@ Full notes: `lit_notes_open/deep_1_tile2net_segrel.md`.
 ### 5.6 Soccer C1 and C2 (round 1)
 Full notes: `lit_notes/`, plus `lit_notes/round1_soccer_review.md` §11.
 
-- **C1: physics-anchored evaluation of explanation disagreement for xG.** Does cross-method or cross-model disagreement flag explanations that violate shot geometry (mirror invariance, iso-distance arcs, monotonicity)? It extends Visagreement's open question. FACT, full text: its Case Study 1 found "no definitive correlation" between disagreement and explanation quality, but quality was measured only by the proxy metrics sensitivity and infidelity. SYNTHESIS: a GT-based test of that relationship is still open, and soccer geometry could supply one. Data: StatsBomb open. Risk: every method may simply agree on distance/angle. 12b: fit Excellent · upside Moderate (my earlier "Moderate–High" was generous; it is on par with D2) · technical Low–Mod · data Low · viz Moderate · evaluation Med–High.
+- **C1: physics-anchored evaluation of explanation disagreement for xG.** Does cross-method or cross-model disagreement flag explanations that violate shot geometry (mirror invariance, iso-distance arcs, monotonicity)? It extends Visagreement's open question. FACT, full text: its Case Study 1 found "no definitive correlation" between disagreement and explanation quality, but quality was measured only by the proxy metrics sensitivity and infidelity. SYNTHESIS: a GT-based test of that relationship is still open, and soccer geometry could supply one. **Narrowed 2026-09-29:** Cefis & Carpita 2024 already compare xG explanations across models *globally* (Spearman ρ on SHAP and RGE rankings). So the claim must be *local, per-shot* disagreement against physics GT. Data: StatsBomb open. Risk: every method may simply agree on distance/angle. 12b: fit Excellent · upside Moderate (my earlier "Moderate–High" was generous; it is on par with D2) · technical Low–Mod · data Low · viz Moderate · evaluation Med–High.
 - **C2: split-regime dependence of soccer explanations (VAEP, xG).** Holding features fixed, how do calibration and SHAP change across random, by-match and leave-one-tournament-out splits? Gap: Davis 2024 gives no explanation protocol; Peters 2026 covers feature leakage only. Risk: a null result for xG. 12b: fit Very good · upside Moderate · technical Low · data Low · viz Low–Mod · evaluation High.
 
 ### 5.7 Strong scan-level options (not deep-dived; treat as provisional)
@@ -331,15 +362,17 @@ A condensed list. Full columns (RQ, data, method, viz, evaluation, limitations, 
 | D5 | Zenk et al., failure detection benchmark (MedIA 2024) | Method template; image-level, radiology only | F |
 | D5 | NeurIPS22 CellSeg (Ma et al., Nature Methods 2024); Cellpose-SAM (bioRxiv 2025); micro-SAM (Nature Methods 2025); CellSAM | Reproduction targets and models | F/A |
 | D5 | MARC (arXiv 2609.13665, 2026); SEG (bioRxiv 2023); Chen & Murphy (MBoC 2023) | Consensus-based QC; admits reinforcement risk | F |
+| D5 | **RBQE (arXiv 2609.10495, 2026)** | Closest precedent: two-model agreement for polyp failure detection (image-level) | A (verified) |
 | D2 | TIME (ICML 2026); mTSeer (CHI 2021, lab); EXPRTS (arXiv); Kang et al. (IJF 2017) | Prior art and reproduction target | F |
 | D2 | Jander et al., Causal analysis for TSFMs (arXiv 2026); *The Spectrum Is Not Enough* (arXiv 2026) | Named open question; main risk | F/A |
+| D2 | **Wang et al. (arXiv 2606.18367, 2026)** | Partial overlap: per-window regime stratification (traffic) | A (verified) |
 | D4 | Walmsley et al., GZ DECaLS (MNRAS 2022); GZ DESI (2023); Zoobot (JOSS 2023); Walmsley 2020 | Reproduction targets; what's already done | F |
 | D4 | Masters et al., GZ3D (2021); Bhambra et al. (2022) | Masks; closest attribution work | F |
 | D4 | Baan et al. 2022 (calibration to human disagreement); Singh et al. 2025/26 | General-ML baseline; open small-N problem | F |
 | D3 | LLM Comparator (TVCG 2025); Zheng et al. MT-Bench (NeurIPS 2023); EvalGen (UIST 2024) | Targets and prior VA | F |
 | D3 | Coin Flip Judge (arXiv 2026, single author); Geometry of LLM-as-Judge (EMNLP 2026); Nine Judges (arXiv 2026); Sunkavalli essay audit (arXiv 2026) | What's already known | F |
 | D1 | Tile2Net (CEUS 2023); Calibrate (TVCG 2023); PathwayBench (arXiv 2024); Prophet (arXiv 2024); Gupta et al. (NeurIPS 2023) | Targets and neighbours | F |
-| Soccer C1 | Visagreement (TVCG 2025); MOUNTAINEER (TVCG 2024); Krishna et al. disagreement (TMLR 2024); Tsai et al. (arXiv 2026); PassAI (IEEE Access 2025) | Prior art; the 0/25 local-agreement finding | F/A |
+| Soccer C1 | Visagreement (TVCG 2025); MOUNTAINEER (TVCG 2024); Krishna et al. disagreement (TMLR 2024); Tsai et al. (arXiv 2026); PassAI (IEEE Access 2025); **Cefis & Carpita (*Statistics* 2024; read in full: global-only cross-model concordance)** | Prior art; the 0/25 local-agreement finding | F/A |
 | Soccer C2 | Davis et al. (Machine Learning 2024); Peters et al. (RQES 2026) | Methodology gap | F/A |
 | General | Nauta et al. (ACM CSUR 2023); Jeon et al., "Stop Misusing t-SNE and UMAP" (VIS 2026); Atzberger et al. (VIS 2024) | Framing | A/F |
 
@@ -376,10 +409,10 @@ A condensed list. Full columns (RQ, data, method, viz, evaluation, limitations, 
 
 | Candidate | Evidence of gap | Closest prior work | Public data/code | Reproduction target | Minimum viable extension | Eval clarity | Viz fit | Solo feasibility | Main failure mode | Evidence still needed |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **D5 Cell-seg QC** | BISCUIT assumption untested; reviewer question unanswered; Zenk is image-level, radiology only | BISCUIT, SEG, MARC, Zenk, NeurIPS22 | LIVECell (NC), NeurIPS22 (NC-ND); repos open; CellSAM key | NeurIPS22 per-modality F1; Cellpose-SAM LIVECell number | Error taxonomy + consistency matrix (MVP) → within-image QC AUROC + simulated triage | **High** | High | Good (~40 h) | Agreement = difficulty only | Nonato/Miranda/Bertini dblp; BISCUIT/MARC citers; micro-SAM validation set |
-| **D2 TSFM regimes** | TIME is static; pilot variance share; Jander requests in-vivo | TIME, mTSeer, EXPRTS | TIME-Output Apache-2.0 | TIME pattern tables; Chronos-2 rerun | Classical baselines + context features + leave-dataset-out predictor | **High** | High | **Very good** | Features explain little | Row order; CRPS pilot; weekly scoop check |
+| **D5 Cell-seg QC** | BISCUIT assumption untested; reviewer question unanswered; Zenk is image-level, radiology only | BISCUIT, SEG, MARC, Zenk, NeurIPS22 | LIVECell (NC), NeurIPS22 (NC-ND); repos open; CellSAM key | NeurIPS22 per-modality F1; Cellpose-SAM LIVECell number | Error taxonomy + consistency matrix (MVP) → within-image QC AUROC + simulated triage | **High** | High | Good (~40 h) | Agreement = difficulty only | ✔ dblp, citers and Tuning checked (2026-09-29). Still needed: a non-SAM model (cyto3); a Public-Test run; cite RBQE |
+| **D2 TSFM regimes** | TIME is static; pilot variance share; Jander requests in-vivo | TIME, mTSeer, EXPRTS | TIME-Output Apache-2.0 | TIME pattern tables; Chronos-2 rerun | Classical baselines + context features + leave-dataset-out predictor | **High** | High | **Very good** | Features explain little; thinner novelty (Wang et al.) | ✔ row order fixed, CRPS pilot done. Still needed: weekly scoop check |
 | **D4 Zoobot** | Aggregate noise floor only; no GZ3D attribution study | GZ DESI/DECaLS, Bhambra 2022, Baan 2022 | GZ DESI CC-BY-NC-SA; GZ3D DR17; Zoobot GPL | GZ DESI Fig. 5; DECaLS Fig. 19 | Small-N decomposed calibration (+ GZ3D attribution) | High / Med-High | High | Good | Brightness confound; scoop | ZooBot:3D paper; Walmsley group 2026 output |
-| **D3 LLM judges** | No multi-judge × human VA | LLM Comparator, Visagreement, Coin Flip | MT-Bench CC-BY-4.0 | Zheng Table 5 exact | Decomposition views + planted biases + null | **High** | High | Good | "Not novel" / scoop | Throughput test; CHI/IUI 2026 sweep |
+| **D3 LLM judges** | No multi-judge × human VA | LLM Comparator, Visagreement, Coin Flip | MT-Bench CC-BY-4.0 | Zheng Table 5 exact | Decomposition views + planted biases + null | **High** | High | Good | "Not novel" / scoop | ✔ reproduction exact, throughput measured (~4.7 h). Still needed: CHI/IUI 2026 sweep |
 | **D1 Tile2Net** | No calibration or attribution among citers; SegNetVis has neither | Tile2Net, Calibrate, PathwayBench | NYC open; BSD-3/MIT | Tile2Net Table 4; Calibrate curve | Stratified pixel calibration (+ oracle ablation) | High / Med | High | Good (~30–40 h) | Vectorizer dominates; install | Held-out boroughs; softmax spike |
 | **Soccer C1** | 0/25 local-agreement studies | Visagreement, MOUNTAINEER | StatsBomb open | Visagreement on xG MLP | Semantic perturbations + disagreement-predicts-violation | Med-High | High | Good | Trivial agreement | Cefis & Carpita full text |
 | **Soccer C2** | No split-only study | Davis 2024, Peters 2026 | StatsBomb + Wyscout | socceraction VAEP | 3 regimes × 5 seeds, SHAP change | **High** | Med-High | **Very good** | Null for xG | Peters full text |
