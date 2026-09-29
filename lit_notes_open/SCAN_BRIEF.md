@@ -7,7 +7,7 @@ You are doing a **cheap, skeptical broad scan** of one slice of possible researc
 - Course: DS-GA 3001 *Visualization for Machine Learning*, taught by Prof. **Claudio Silva** (NYU VIDA; frequent co-authors are L. G. Nonato and Fabio Miranda).
 - **About 40 hours total** (3–4 h/week).
 - Milestones: 4-page proposal due **Oct 20, 2026**; 1-page update Nov 3; final 8-page report plus presentation Dec 1–14.
-- The course requires the student to **reproduce prior work AND extend it**, and to demo both.
+- ~~The course requires the student to **reproduce prior work AND extend it**~~. **Corrected 2026-09-29:** the syllabus says "reproduce prior work **or** implement a proposed research idea", then "demonstrate both the prior work, and your final research project". Reproduction is optional; a small one is still recommended as validation.
 - Priorities, in order:
   1. A good grade, meaning feasible and low-risk.
   2. A plausible path to a workshop or conference paper for PhD applications.
