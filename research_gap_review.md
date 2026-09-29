@@ -30,7 +30,7 @@
 7. [Load-bearing literature by candidate](#7-load-bearing-literature-by-candidate)
 8. [Tempting but bad choices](#8-tempting-but-bad-choices)
 9. [Side-by-side comparison (12a evidence / 12b risk–reward)](#9-side-by-side-comparison)
-10. [Ranking (requested)](#10-ranking-requested)
+10. [Ranking: top 5](#10-ranking-top-5-updated-2026-09-29-after-the-spikes)
 11. [What you should verify yourself](#11-what-you-should-verify-yourself)
 12. [Next steps before Oct 20](#12-next-steps-before-oct-20)
 13. [Appendix: corrections, the other system's report, AI-use disclosure](#13-appendix)
