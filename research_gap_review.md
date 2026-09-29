@@ -28,25 +28,64 @@
 - **Front end:** **Silva confirmed JS/D3 is not required.** Streamlit/Plotly is fine, as long as the topic fits the class.
 - **Oct 6** lecture is the project discussion. Pitch there.
 
-## 3. Top 5 ranking
+## 3. Rankings: two views
 
-**Weights:** (1) grade safety, (2) publication path, (3) your interests as the tie-breaker. Details are in `research_gap_details.md` §10.
+There are **two rankings** over the same evidence:
+- **3a (grade-first):** safest path to a strong course project.
+- **3b (ambitious):** best shot at a paper with Silva continuing as advisor after Dec 14.
 
-| # | Candidate | Why it is here | Main risk |
-|---|---|---|---|
-| **1** | **D5: Do cell-segmentation models make the same mistakes, and does their agreement flag bad cells without ground truth?** (microscopy) | Objective (ground truth exists); answers an **unanswered peer-reviewer question**; no lab overlap; uses your segmentation skills; the spike shows the question is live | The result could be trivial: agreement might just track image difficulty. Needs one non-SAM model |
-| **2** | **D2: Where do time-series foundation models fail, window by window?** | **Lowest execution risk:** the benchmark already publishes all model outputs, so no model runs are needed; clear pass/fail tests | Novelty got thinner after the spikes; a null result is plausible |
-| **3** | **D4: Does Zoobot's uncertainty (and its explanations) match where Galaxy Zoo volunteers disagree?** (astronomy) | Your interest; the most distinctive story; the spike was easy | Brightness confound; Silva's lab plans an image extension of Visagreement |
-| **4** | **D3: Why do LLM judges disagree with each other and with humans?** (LLM; education optional) | Exact reproduction; objective planted-bias test; the run takes only about 4.7 h | Modest novelty; the lab plans a text extension; big labs are close |
-| **5** | **Soccer C1: Do xG explanation methods disagree per shot, and does disagreement flag physics-violating explanations?** | Soccer motivation; easy open data; the gap survived the check against Cefis & Carpita | Every method might simply agree on distance/angle |
+Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are in §4 and in `research_gap_details.md` §5 and §9.
+
+**Field key:**
+- **Upside:** research and publication potential if things go reasonably well.
+- **Grade safety:** probability of a solid course deliverable.
+- **Difficulty:** technical and implementation difficulty for you.
+- **Compute:** GPU and disk burden.
+- **Viz burden:** front-end effort.
+- **Scoop risk:** chance someone publishes it first.
+- **Silva fit:** how naturally it connects to the instructor's work.
+- **Interest:** your stated interests.
+
+### 3a. Grade-first top 5 (safest path to a strong course project)
+
+| # | Candidate | Upside | Grade safety | Difficulty | Compute | Viz burden | Data risk | Scoop risk | Silva fit | Interest | Main risk |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **1** | **D5:** do cell-segmentation models share mistakes, and does agreement flag bad cells without GT? (microscopy) | Med (High if shared-error result holds) | **High** | Med | Low (<2 s/img) | Low–Med | Low–Med (NC licenses) | **Low** (0 citers; RBQE partial) | High (tests Visagreement's conjecture) | High (your segmentation skills) | Agreement may just track difficulty |
+| **2** | **D2:** where do time-series foundation models fail, window by window? | Med | **High** | Low–Med | **None** (released outputs) | Low–Med | Low | Med–High (fast field; Wang et al.) | Med–High (mTSeer) | Low | Thin novelty; a null result is plausible |
+| **3** | **D4:** Zoobot uncertainty and explanations vs. volunteer disagreement (astronomy) | Med (High if RQ-B works) | Med–High | Med | Low (3 s/epoch) | Low–Med | Low (NC-SA + code-release clause) | Med (data owners; lab image extension) | High (Calibrate, Visagreement) | **High** (astronomy) | Brightness confound |
+| **4** | **D3:** why LLM judges disagree with each other and with humans | Med− | **High** | Low–Med | Med (~4.7 h, 32 GB of models) | Med | Low | **High** (PAIR/KAIST/IBM; lab text extension) | Med–High | Med | "Not novel enough" |
+| **5** | **Soccer C1:** per-shot xG explanation disagreement vs. physics | Med | Med–High | Low–Med | Low | Med | Low | Low–Med | High (Visagreement) | **High** (soccer) | Methods may simply agree on distance/angle; not spiked |
 
 **Honorable mentions:**
-- **D1 Tile2Net** (the default project): the best instructor fit, but crowded, and its install was untested.
-- **Soccer C2** (split-regime explanations): the safest soccer option, but the visualization plays only a supporting role.
-- **EO spatial-shift diagnosis** and **tabular-FM context attribution:** promising, but scan-level only.
-- **Rashomon/multiplicity visualization for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity. It was previously penalized for having "no reproduction target", which no longer counts against it once reproduction is optional. It is higher-upside, but carries more compute and multi-seed risk (details §6).
+- **D1 Tile2Net** (the default project): best Silva fit, but crowded and install untested.
+- **Soccer C2**: the safest soccer option, but the visualization plays a supporting role.
+- **EO spatial-shift diagnosis** and **tabular-FM context attribution**: scan-level only.
 
-**For Oct 6:** pitch **#1 plus one or two of #2–#4**. Let Silva's answers break the tie (§6).
+### 3b. Ambitious top 5 (best shot at a paper; Fall 2028 PhD cycle)
+
+**Target timeline:**
+1. A strong course deliverable by **Dec 14, 2026**.
+2. Silva advises the extension, **Jan–spring 2027**.
+3. Submit in **spring or summer 2027**.
+4. A decision by about **fall 2027**, before your **Dec 2027** applications.
+
+**Strategy:** every option keeps a **grade-safe floor**, finished by the Nov 3 update, so a failed ambitious half still yields a strong project and a reportable negative result.
+
+| # | Ambitious version | Upside | Grade safety (with floor) | Difficulty | Compute | Extra hours vs. 40 | Scoop risk | Floor if it fails | Paper needs (post-course) | Plausible venues (verify deadlines) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **1** | **D5 full:** a correlated-error audit across 4+ models (incl. non-SAM) and 2–3 held-out datasets, plus GT-free triage evaluated by simulated inspection | **Med–High** | Med–High | Med–High | Low–Med | +25–35 h | Low | Error taxonomy + consistency matrix on LIVECell | A third dataset; κ with CIs across model lineages; optional biologist feedback | CVPR/MICCAI microscopy workshops; IEEE VIS short; ISBI |
+| **2** | **D4 RQ-B:** does *human* ambiguity predict *explanation* unreliability? (GZ3D masks, beating a brightness baseline) | **Med–High** (the most distinctive story) | Med | Med–High | Low | +25–35 h | Med (data owners; lab image extension) | Small-N calibration audit (RQ-A) | Several morphology questions; comparison vs. ZooBot:3D | NeurIPS ML4PS; RAS Techniques & Instruments (rolling); VIS short |
+| **3** | **Rashomon/multiplicity VA for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity (pairs naturally with D5) | Med–High | Med− | **High** | Med (10–20 seeds; about a day on the L40S) | +30–40 h | Low–Med | Seed-variance maps on one dataset | A link to annotation ambiguity; a second dataset | VIS short; CVPR/ICCV workshops; the VIS Uncertainty workshop |
+| **4** | **D2-max:** the in-vivo test of Jander's TSFM failure modes, plus failure *prediction* on held-out datasets | Med | High | Med | None–Low | +20–30 h | **Med–High** | Variance decomposition + a failure predictor | A second benchmark (GIFT-Eval); a dose-response analysis | ICLR TSFM workshops; IEEE VIS short; IJF |
+| **5** | **Soccer C1 full:** per-shot disagreement across methods and models on several tournaments, checked against physics ground truth | Med (smaller venues, higher acceptance odds) | Med–High | Med | Low | +20–25 h | Low–Med | Global + semantic-perturbation analysis on one tournament | Several tournaments; a Rashomon set of xG models | MLSA @ ECML-PKDD; JQAS; J. Sports Analytics |
+
+**Dropped from the ambitious view:** D3, because of crowded scoop exposure from big labs, and D1, because it is the default project and classmates overlap.
+
+**The biggest lever for a paper is not the topic.** It is asking Silva on Oct 6 whether he would advise an extension if the course result is strong. #1, #2 and #5 can each be pitched as "a rigorous, GT-based test of your lab's Visagreement conjecture", which makes his involvement natural.
+
+**For Oct 6:**
+- **Grade-first:** pitch #1 plus one or two of 3a's #2–#4.
+- **Ambitious:** lead with **D5**, and offer **D4 RQ-B** as the higher-risk, more distinctive alternative.
 
 ## 4. The candidates in one screen each
 
@@ -133,6 +172,7 @@
 - Whether extending his lab's tools is welcome (Calibrate, Visagreement, mTSeer).
 - **Whether Visagreement's planned image/text extension is already in progress.** This matters for D4 and D3.
 - Confirm your solo status.
+- **Whether he would advise a paper extension after Dec 14** if the course result is strong (you are targeting Fall 2028 PhD applications).
 - *(Optional, quick confirm)* **"Demonstrate both the prior work, and your final research project":** your reading (2026-09-29) is that you demo whichever path you chose. Nothing in the plan depends on this.
 - *Only if D1:* which NYC areas Tile2Net was trained on.
 

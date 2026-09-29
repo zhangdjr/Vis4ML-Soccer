@@ -444,6 +444,8 @@ These ratings are qualitative, and each has its reason in §5. No overall score 
 
 ## 10. Ranking: top 5 (updated 2026-09-29, after the spikes)
 
+> **See also:** `research_gap_review.md` §3. It has this grade-first ranking with extra fields (upside, difficulty, compute, scoop risk, Silva fit), plus an **ambitious / publication-first ranking (3b)** for the Fall 2028 PhD cycle.
+
 **Weights:** (1) **grade safety**, meaning feasibility, evaluation clarity and low setup risk; (2) **publication path**, meaning a named open question and no scoop; (3) **your interests** as the tie-breaker. The spike results (§12) are factored in.
 
 | Rank | Candidate | Why it is here | Main risk | What would move it |
