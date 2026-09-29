@@ -2,7 +2,7 @@
 
 **For:** a fresh Claude Code session running **on the GPU box (4× RTX 11 GB) or on the HPC cluster.** It has no access to the previous session's memory, so everything it needs is in this file.
 **Context to read first:**
-- `research_gap_review.md`, §1, §5.1–5.3, §10 and §11.
+- `research_gap_review.md` (short version), then `research_gap_details.md` §5, §10, §11.
 - The deep dives are optional background: `lit_notes_open/deep_5_microscopy_qc.md`, `deep_2_tsfm_va.md`, `deep_4_astro_zoobot.md`, `deep_3_llm_judges.md`.
 
 ## ⚠️ Update 2026-09-29: running on the HPC cluster (GPU box unreachable)
@@ -24,7 +24,7 @@
 - **HPC only:** compute nodes may lack internet. Download on the login node, then run GPU jobs via SLURM (`srun --gres=gpu:1 ...`). Ask the user for partition and account names if needed.
 - **Never download full datasets.** Use the subsets named below.
 - **Ask the user before:** anything over 2 GB in a single download, installing system packages, or submitting SLURM jobs longer than 1 h.
-- **Write results to `spike_results/*.md`** in the repo: one file per spike, with the commands run, numbers, pass/fail, and time spent. At the end, add a summary to `research_gap_review.md` §12 as a "Spike results" subsection, and update §10 if a spike fails.
+- **Write results to `spike_results/*.md`** in the repo: one file per spike, with the commands run, numbers, pass/fail, and time spent. At the end, add a summary to `research_gap_details.md` §12 as a "Spike results" subsection, and update §10 if a spike fails.
 - **Do not commit or push** unless the user asks.
 - **Credits:** the user wants to use their remaining credits well. Prefer doing work directly over spawning many sub-agents. Use at most 2 sub-agents, and only for the literature checks in Part B.
 
@@ -76,7 +76,7 @@
 ---
 
 ## Part B: verification checks (literature and data; any machine with internet)
-Label findings FACT / SYNTHESIS. Append them to `research_gap_review.md` §11 as "Verified on <date>".
+Label findings FACT / SYNTHESIS. Append them to `research_gap_details.md` §11 as "Verified on <date>".
 
 1. **dblp sweeps**, 2023–2026, for Claudio T. Silva, Luis Gustavo Nonato, Fabio Miranda, Brian Barr, Enrico Bertini. Try `https://dblp.org/search/publ/api?q=author%3A<Name>%3A&h=1000&format=json` via curl with a normal User-Agent (the web UI blocked bots). Grep the results for: cell, microscopy, segmentation, galaxy, astronomy, forecast, time series, judge, LLM, calibration. **Report any overlap** with D5, D2, D4 or D3.
 2. **D5 scoop check.** Citers of BISCUIT (doi 10.12688/f1000research.171889.1) and MARC (arXiv 2609.13665), and any 2025–26 paper testing "correlated errors" between generalist segmenters. Also: was NeurIPS22 CellSeg *Tuning* used as micro-SAM's validation set? Check the micro-SAM paper and repo.
@@ -85,7 +85,7 @@ Label findings FACT / SYNTHESIS. Append them to `research_gap_review.md` §11 as
 5. **License recheck** for anything the project would publish under: LIVECell, NeurIPS22 CellSeg, GZ DESI (its code-release clause), TIME data.
 
 ## Things only the user can do (list them at the end if still open)
-- ~~Visagreement full text~~: done 2026-09-29. Takeaways are in `research_gap_review.md` §13.2.
-- ~~Get Cefis & Carpita 2024~~: done 2026-09-29. Global SHAP/RGE rank concordance only; C1's local gap survives (`research_gap_review.md` §11).
+- ~~Visagreement full text~~: done 2026-09-29. Takeaways are in `research_gap_details.md` §13.2.
+- ~~Get Cefis & Carpita 2024~~: done 2026-09-29. Global SHAP/RGE rank concordance only; C1's local gap survives (`research_gap_details.md` §11).
 - **Ask Silva or the TA, only if D1 (Tile2Net) is chosen:** which NYC areas Tile2Net was trained on. Evaluating calibration on training areas would look falsely good.
 - **Create a DeepCell API key**, if CellSAM is wanted for D5.
