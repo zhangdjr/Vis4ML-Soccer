@@ -92,11 +92,14 @@
 3. **The defensible gaps are narrow, measurable ones:** an untested assumption, a named future-work item, or a finding that aggregate leaderboards hide. That is why research upside tops out at **Medium** for grade-safe designs (§6 explains the higher-upside versions).
 4. **Seven candidates survive deep review** (§5). There are also two strong scan-level options: EO spatial-shift diagnosis and tabular-FM context attribution. NFL tracking is **ruled out**: the Big Data Bowl terms forbid use outside the contest.
 
-**My current ranking** (you asked; details in §10):
-1. **D5, ground-truth-free QC for generalist cell segmentation.**
-2. **D2, window-level failure regimes of time-series foundation models.**
+**My current top 5** (details in §10):
+1. **D5:** ground-truth-free QC for generalist cell segmentation (microscopy).
+2. **D2:** window-level failure regimes of time-series foundation models.
+3. **D4:** Zoobot vs. volunteer disagreement (astronomy; the most distinctive, higher-upside story).
+4. **D3:** decomposing LLM-judge disagreement.
+5. **Soccer C1:** local, physics-anchored explanation disagreement for xG.
 
-The **interest-driven alternative is D4** (Zoobot / Galaxy Zoo, astronomy).
+Honorable mentions: D1 (Tile2Net, the default project) and Soccer C2.
 
 **Feasibility spikes (2026-09-29): all four passed** (D5, D2, D3, D4; D1 skipped), and the ranking is unchanged. Two corrections came out of them:
 - D2's novelty claim is narrower because of Wang et al. 2606.18367.
@@ -437,30 +440,28 @@ These ratings are qualitative, and each has its reason in §5. No overall score 
 
 ---
 
-## 10. Ranking (requested)
+## 10. Ranking: top 5 (updated 2026-09-29, after the spikes)
 
-This ranking weights your stated order: **grade first, then publication**, with 3–4 h/week. Your interests break ties. It supersedes my earlier top-2 (D2, D3), because D5 and D4 were not reviewed yet at that point.
+**Weights:** (1) **grade safety**, meaning feasibility, evaluation clarity and low setup risk; (2) **publication path**, meaning a named open question and no scoop; (3) **your interests** as the tie-breaker. The spike results (§12) are factored in.
 
-1. **D5: cross-model agreement as ground-truth-free cell-segmentation QC.**
-   - Every result is checked against GT, so evaluation is objective.
-   - The motivation is a **specific, citable, unanswered reviewer question**.
-   - No instructor overlap was found, and it uses your strongest skill.
-   - It has a clean floor: an error taxonomy plus a consistency matrix by Nov 3.
-   - Risks: three model environments, and a possibly trivial "agreement = difficulty" result, which the design is built to detect.
-2. **D2: window-level failure regimes of time-series foundation models.**
-   - The **lowest execution risk** of anything reviewed: released per-window outputs mean no inference for the MVP, and it runs on a laptop.
-   - The criteria are pre-registered and falsifiable, and it has a named open question plus a lab hook (mTSeer).
-   - Weakness: none of your interest domains, and a real chance the result is null.
+| Rank | Candidate | Why it is here | Main risk | What would move it |
+|---|---|---|---|---|
+| **1** | **D5: cross-model agreement as ground-truth-free cell-segmentation QC** (microscopy) | Objective GT-based evaluation; a **specific, unanswered reviewer question** (BISCUIT); no lab overlap (dblp-verified); your strongest skill; **the spike passed** (both models run in <2 s per image, and early κ = 0.52 with 113 silent failures says the question is live) | "Agreement = difficulty" triviality; still needs a non-SAM model (cyto3); must cite RBQE | ↓ if cyto3 won't run or Public-Test shows no structure; ↑ if Silva likes the "test the Visagreement conjecture" pitch |
+| **2** | **D2: window-level failure regimes of time-series foundation models** | **Lowest execution risk** (released outputs, no inference, TIME reproduced within 0.1%); pre-registered, falsifiable criteria; lab hook (mTSeer) | **Novelty thinner after the spikes** (Wang et al. overlap; H1 fails for CRPS; features \|ρ\| ≈ 0.2, so a null result is plausible); none of your interest domains | ↓ if the weekly scoop check finds window-level failure *prediction* on TIME; a close call with #3 and #4 |
+| **3** | **D4: Zoobot vs. volunteer disagreement** (astronomy) | Your interest; **the spike passed easily** (3 s per epoch; GZ3D masks align to about 1 px); RQ-B (explanations vs. human ambiguity on GZ3D masks) is the **most distinctive story** of any candidate | The brightness confound is real (bar pixels 30× brighter); RQ-A alone is incremental; **Visagreement's authors plan an image extension** (possible in-lab scoop); the data owners could scoop RQ-B | ↑ above D2 if Silva says the image extension is not in progress and you want the higher-upside path |
+| **4** | **D3: decomposing LLM-judge disagreement** (LLM; education option) | **Exact reproduction** (MT-Bench 66.0 / 84.6 / 63.0 / 81.0%); planted-bias evaluation with a null control is objective; **the minimum run is now about 4.7 h** on an L40S (not 13–46 h) | Novelty is "integration + validation"; it is structurally Visagreement-for-judges; **Visagreement's authors plan a text extension**; PAIR/KAIST/IBM could ship it first | ↑ if you value the LLM portfolio and Silva confirms no in-lab text work |
+| **5** | **Soccer C1: local, physics-anchored explanation disagreement for xG** | Your soccer motivation; trivial data access (StatsBomb open); the gap **survived** Cefis & Carpita (their comparison is global-only); ties to Visagreement's Case Study 1 (quality was measured only by proxies) | Every method may simply agree on distance/angle, giving a trivial result; Visagreement/MOUNTAINEER overlap needs careful framing; no spike was run | ↑ if soccer matters more to you than domain novelty |
 
-**If you'd rather follow interest:**
-- **D4 (astronomy)** is the pick. Its higher-upside half (GZ3D attribution vs. ambiguity) has the most distinctive story of all the candidates.
-- **D1** is the pick if maps and instructor buy-in matter most.
+**Honorable mentions:**
+- **D1 (Tile2Net):** the best instructor alignment (the default project), but it has the most classmate overlap and its install spike was skipped. It jumps into the top 3 only if Silva strongly prefers the default project.
+- **Soccer C2 (split-regime explanations):** the safest soccer option with the clearest evaluation, but the visualization plays a supporting role.
+- **EO spatial-shift diagnosis** and **tabular-FM context attribution:** promising, but only scan-level, not deep-dived or spiked.
 
-**What would change this:**
-- A failed week-1 spike: D5's three environments won't install, or D2's row ordering is wrong and features must be recomputed. Swap in the next candidate.
-- Silva's feedback on Oct 6. For example, a strong preference for the default project moves D1 up.
+**How to use this on Oct 6:** pitch **#1 plus one or two of #2–#4**. For example: D5 (safest strong), D2 (lowest risk) and D4 (your interest). Then let Silva's answers on the Visagreement image/text extension and on lab-tool extensions break the tie.
 
-**Update 2026-09-29 (spikes, §12):** no spike failed, and the ranking is unchanged. D5's environment installed and its measurement works. D2's row ordering *was* wrong in the old pilot, but a name-based join fixes it without recomputing features, and TIME's numbers reproduce. D2's novelty claim is narrower after Wang et al. (§11).
+**Update history:**
+- The earlier top 2 were D2 then D3 (before D4 and D5 were reviewed), then D5 then D2 (after the round-3 deep dives).
+- After the spikes (2026-09-29), D5 stays #1. D2 stays #2, but with a thinner margin. D3 rises in feasibility but not in novelty.
 
 ---
 
