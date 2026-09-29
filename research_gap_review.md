@@ -81,6 +81,21 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 | **4** | **D2-max:** the in-vivo test of Jander's TSFM failure modes, plus failure *prediction* on held-out datasets | Med | High | Med | None–Low | +20–30 h | **Med–High** | Variance decomposition + a failure predictor | A second benchmark (GIFT-Eval); a dose-response analysis | ICLR TSFM workshops; IEEE VIS short; IJF |
 | **5** | **Soccer C1 full:** per-shot disagreement across methods and models on several tournaments, checked against physics ground truth | Med (smaller venues, higher acceptance odds) | Med–High | Med | Low | +20–25 h | Low–Med | Global + semantic-perturbation analysis on one tournament | Several tournaments; a Rashomon set of xG models | MLSA @ ECML-PKDD; JQAS; J. Sports Analytics |
 
+**Novelty checks on the ambitious versions (2026-09-29; details in `lit_notes_open/check_d5_error_hierarchy.md` and `check_d4_ambiguity_explanations.md`):**
+- **D5 ambitious: partly falsified, and the core survives.**
+  - *Done for classification:* Gontijo-Lopes et al. (ICLR 2022, full text) show that errors decorrelate from seeds → hyperparameters → architecture → objective → data.
+  - *Partly done for segmentation*, but only per image and with at most 2–3 levels: RBQE; Kirscher et al. 2026 (read in full: seed vs CV-fold ensembles, image-level, semantic segmentation, no error-correlation metric, no microscopy); Zenk 2024.
+  - **Open:** *per-cell* error consistency (κ with bootstrap CIs) across seed → fine-tuned → shared-SAM-backbone → non-SAM → different-data pairs, linked to agreement-QC AUROC and silent failures.
+  - The paper hook is where segmentation **departs** from the classification ordering, e.g. SAM-sharing pairs behaving like seed copies.
+  - Must-cite: Gontijo-Lopes 2022, Geirhos 2020 (error consistency), Klein 2025, Saxena 2024, RBQE, Kirscher 2026, Zenk 2024.
+- **D4 ambitious: partly falsified, and the core survives.**
+  - *Done:* the **model's own** uncertainty predicts explanation unreliability (Mikriukov et al. 2026, Saporta 2022 / CheXlocalize, Bhatt et al.). Jukić 2023 finds saliency agreement is *higher* on model-ambiguous inputs, so **test two-sided**.
+  - **Open (weak negative evidence, because search was throttled):** *human* vote entropy as the predictor, **beyond** model uncertainty. The galaxy angle is strong for three reasons:
+    - GZ3D gives label *and* spatial disagreement. That is rare but not unique; LIDC-IDRI and Gleason19 also have both.
+    - Zoobot is trained on vote counts, which makes this the strictest version of the test.
+    - Brightness gives a built-in baseline that attributions must beat.
+- **Next:** two small cluster spikes (B1 for D5, B2 for D4) in `NEXT_SESSION_TASKS_2.md`. The full D4 version will need approval for a **17.5 GB** GZ DESI download; the spike does not.
+
 **The combined D5 + Rashomon idea (SPECULATION, strongest ambitious framing; cheap with the cluster):**
 - Measure *where* segmentation errors stop being shared, along a hierarchy of disagreement: same model with different seeds → fine-tuned variants → different architectures (SAM vs non-SAM) → different training data.
 - This turns D5's "are errors correlated?" into **"at what level do errors become independent, and so when is agreement-based QC trustworthy?"**
