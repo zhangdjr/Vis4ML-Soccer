@@ -15,7 +15,7 @@
 
 ## 1. The short story
 
-- **The goal:** a project that gets a **good grade first** and could become a **workshop or short paper** second. It has to fit about 40 hours of solo work, use open data only, and follow the course's reproduce-then-extend format.
+- **The goal:** a project that gets a **good grade first** and could become a **workshop or short paper** second. It has to fit about 40 hours of solo work and use open data only.
 - **What we did:** three literature rounds with 19 agents, covering soccer, about 20 open-topic areas, and 5 science domains. Seven areas got deep dives. Then feasibility spikes ran on the HPC cluster, and all four passed.
 - **The main lesson:** Silva's lab has already published the obvious idea in most Vis-for-ML areas. Examples include explanation-disagreement tools (Visagreement, MOUNTAINEER), calibration (Calibrate), forecasting visualization (mTSeer), and the default Tile2Net project. The winning move is to **extend one of their tools on a question their papers leave open.**
 - **The gaps that are left are narrow and measurable:** an assumption nobody has tested, or a failure that leaderboards average away. That is why realistic upside tops out at a **workshop or VIS short paper**, which fits a course project.
@@ -23,7 +23,8 @@
 ## 2. Course facts that matter
 
 - **Deadlines:** 4-page proposal **Oct 20**; 1-page update Nov 3; presentations Dec 1 and 8; 8-page report (IEEE VIS format) **Dec 14**. The project is 45% of the grade.
-- **Format:** you must reproduce prior work and extend it, and demo both. Solo is allowed.
+- **Format (syllabus, verbatim):** "reproduce prior work **or** implement a proposed research idea of your choosing". It also says: "demonstrate both the prior work, and your final research project, to the class". Solo is allowed.
+  - **Correction (2026-09-29):** earlier versions of this review read that as "reproduce **and** extend". That reading was stronger than the text. A reproduction is **not strictly required**. Every candidate below still includes a small one, because it validates your pipeline and gives you "prior work" to demonstrate. Treat it as optional polish. Ask Silva what "demonstrate the prior work" means (§6).
 - **Front end:** **Silva confirmed JS/D3 is not required.** Streamlit/Plotly is fine, as long as the topic fits the class.
 - **Oct 6** lecture is the project discussion. Pitch there.
 
@@ -43,6 +44,7 @@
 - **D1 Tile2Net** (the default project): the best instructor fit, but crowded, and its install was untested.
 - **Soccer C2** (split-regime explanations): the safest soccer option, but the visualization plays only a supporting role.
 - **EO spatial-shift diagnosis** and **tabular-FM context attribution:** promising, but scan-level only.
+- **Rashomon/multiplicity visualization for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity. It was previously penalized for having "no reproduction target", which no longer counts against it once reproduction is optional. It is higher-upside, but carries more compute and multi-seed risk (details §6).
 
 **For Oct 6:** pitch **#1 plus one or two of #2–#4**. Let Silva's answers break the tie (§6).
 
@@ -131,6 +133,7 @@
 - Whether extending his lab's tools is welcome (Calibrate, Visagreement, mTSeer).
 - **Whether Visagreement's planned image/text extension is already in progress.** This matters for D4 and D3.
 - Confirm your solo status.
+- **What "demonstrate the prior work" means:** a reproduction, or just presenting the papers you build on?
 - *Only if D1:* which NYC areas Tile2Net was trained on.
 
 **Optional:** ask the TA for last year's project list; skim BISCUIT's open reviews, which are the D5 hook.

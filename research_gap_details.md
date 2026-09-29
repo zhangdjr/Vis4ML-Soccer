@@ -43,7 +43,7 @@
 
 ### 0.1 Constraints used throughout
 - **Solo**, with about **40 h total** (3–4 h/week). The **4-page proposal is due Oct 20**; the 1-page update Nov 3; the **8-page report Dec 14**; presentations Dec 1 and 8.
-- The course requires you to **reproduce prior work and extend it**, and to demo both.
+- **Course format:** "reproduce prior work **or** implement a proposed research idea", then demonstrate the prior work and the project. **Correction 2026-09-29:** earlier text said reproduce *and* extend, which is stronger than the syllabus. Reproduction is optional; candidates keep a small one as validation.
 - **Data:** openly downloadable only. No credentialed or NDA data.
 - **Compute:** MacBook M1 Pro (32 GB); a SLURM cluster; a 4 × 11 GB RTX box running Ollama (`qwen3.8:27b`, `gpt-oss-20b`, and others). Activation-level work is realistic only for ≤2–4B models. There may be no paid LLM API.
 - **Skills:** strong in ML, PyTorch, CV and segmentation; moderate in NLP and statistics; **weak in JS/D3**. So Streamlit/Plotly/Jupyter linked views are preferred.
@@ -118,7 +118,7 @@ FACT, from ctsilva.github.io/2026-VisML-CDS, its syllabus and the default-projec
 | Item | Detail |
 |---|---|
 | Weight | Project = 45% of the grade: proposal 10%, update 10%, final 25% |
-| Type | "Reproduce prior work or implement a proposed research idea"; demo both |
+| Type | "Reproduce prior work **or** implement a proposed research idea"; demonstrate "both the prior work, and your final research project". **Either is allowed.** Earlier rounds over-read this as "and extend" (corrected 2026-09-29) |
 | Team | 2–3 expected, **solo allowed**; team formation was Sept 15 (confirm solo status) |
 | Deliverables | 4-page proposal (Oct 20); 1-page update (Nov 3); 8-page report in "conference paper format, e.g., IEEE VIS" (Dec 14); GitHub repo; 3–5 min demo video (default project) |
 | AI policy | Allowed; disclose AI-generated parts |
@@ -171,7 +171,7 @@ FACT unless marked. Barr (Capital One) and Bertini (ex-NYU, now Northeastern) co
 | CV eval | Segmentation calibration VA | merged → D1/D4 | Calibrate → pixels |
 | CV eval | Segmentation label-error triage | ◐ | Cleanlab product demo overlap |
 | CV eval | Slice discovery for segmentation | ◐ | Check VibE's scope |
-| CV eval | Rashomon/multiplicity for segmentation | higher-upside (§6) | No single reproduction target |
+| CV eval | Rashomon/multiplicity for segmentation | higher-upside (§6) | No single reproduction target. That is **no longer a penalty**, since reproduction is optional (2026-09-29) |
 | CV eval | Concept-based explanations | ✗ | Saturated |
 | Time series | TSFM window-level failure regimes (D2) | ✅ | TIME did static pattern stratification; window-level and in-vivo are open |
 | TDA | Mapper for explanations | ✗ | The lab's line through 2026; no public code |
@@ -339,7 +339,7 @@ Full notes: `lit_notes/`, plus `lit_notes/round1_soccer_review.md` §11.
 ## 6. Higher-upside tier
 
 **Why grade-safe designs top out at Medium (SYNTHESIS).**
-- **Constraints cap the ceiling.** High upside usually needs a new method, a user study, big data, or being first in a fast area. All of those conflict with a solo 40 h, open-data, reproduce-first project.
+- **Constraints cap the ceiling.** High upside usually needs a new method, a user study, big data, or being first in a fast area. All of those conflict with a solo 40 h, open-data project.
 - **The open gaps are narrow.** They are integration or measurement gaps.
 - **I rated upside as expected value, including null-result risk.**
 
@@ -351,7 +351,7 @@ Full notes: `lit_notes/`, plus `lit_notes/round1_soccer_review.md` §11.
 | **D5 full: correlated-error audit + GT-free triage** | D5 | Shows BISCUIT-style QC fails for same-lineage models, and a QC signal beats attribute baselines within images | Agreement may be trivial; 3 environments | Medium-High (the taxonomy MVP is a floor) |
 | **D2-max: in-vivo test as the headline** | D2 | Synthetic TSFM failure modes confirmed on real benchmarks, with held-out regimes | A null result is likely-ish | Medium-High (MVP needs no inference) |
 | **D1-max: probabilistic gap triage + routability repair** | D1 | Calibrated bottleneck confidence repairs networks and improves PathwayBench traversability | Plumbing, GPU install | Medium |
-| **Rashomon / multiplicity VA for segmentation** | scan_4 | The first VA of seed-level disagreement for segmentation, tied to annotation ambiguity | No single reproduction target (course rule); multi-seed training | Low-Medium |
+| **Rashomon / multiplicity VA for segmentation** | scan_4 | The first VA of seed-level disagreement for segmentation, tied to annotation ambiguity | Multi-seed training compute. ("No reproduction target" no longer counts against it, since reproduction is optional) | Medium |
 | **D3 + education DIF** | D3 | Local LLM graders' subgroup bias at equal quality, which the 2026 audit lists as out of reach | Licensing, local-model rating reliability | Medium |
 | **Tabular-FM context attribution** | scan_9 | The first VA/faithfulness study of which context rows drive TabPFN predictions | Fast-moving; not deep-verified | Medium-Low |
 
