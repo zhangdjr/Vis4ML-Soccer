@@ -208,3 +208,11 @@ That gives 4 methods × 5 seeds × 1,500 galaxies ≈ 30k maps. SPECULATION: a f
   - QuEMAT (2025): interpretable annotator-tendency modeling; it explains annotators and does not test explanation reliability.
 - **Jukić 2023:** 1 Scholar citer, Vidhanaarachchi et al., "Interpreting what Attention Mechanisms Know in Language Models: A Systematic Review" (IEEE Trans., 2026). An NLP attention-interpretability review; not a threat.
 - **Updated verdict:** D4 RQ-B remains open, with **moderate-to-good** evidence.
+
+### Addendum 3 (2026-09-30): cross-check by 3 external LLM runs (user-run), verified by the lead reviewer
+- **All 3 runs: APPEARS OPEN.** Two framed the novelty as the *human-ambiguity increment beyond model uncertainty* (Mikriukov 2026 is the main framing threat), the same as this note.
+- **New papers raised, checked:**
+  - "What Can We Learn from Inter-Annotator Variability in Skin Lesion Segmentation?", arXiv 2508.09381 (Abhishek, Kawahara, Hamarneh). It links inter-annotator agreement to malignancy and predicts IAA from images. The saliency is **only illustrative, with no reliability test. Not a threat.**
+  - Wang 2025 ("Reliability Fallacy", hate speech), "Disagreeing Rationales" 2605.31563, and soft-label entropy papers (2511.14117, 2605.24773): NLP, or uncertainty-only. Not threats.
+- **New validity risk (raised by one run; adopted): mask–ambiguity confound.** GZ3D masks are also volunteer-drawn, so galaxies with ambiguous votes may have noisier masks. Then "ambiguity predicts worse localization" could reflect mask quality rather than explanation reliability.
+  - **Mitigation:** add **mask consensus** (number of drawers, pixel-level agreement of the drawn masks) as a covariate or stratifier. Report results on a high-consensus subset. Rely more on the mask-free outcomes: cross-method and cross-seed agreement, and deletion faithfulness.

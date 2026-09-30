@@ -181,3 +181,13 @@ Low–Medium (SYNTHESIS).
 - RBQE (Sep 2026) and "Lost in the Folds" (May 2026) show that segmentation groups are *actively* moving toward "which diversity makes agreement QC work". DKFZ in particular has the nnU-Net ensemble infrastructure to add an architecture level quickly.
 - The microscopy, per-instance, SAM-lineage version is not visible in any of the three communities checked: medical failure detection, bio-image tooling, and model papers.
 - **Re-check before Nov 3:** arXiv "error consistency segmentation"; new citations of RBQE and of Gontijo-Lopes that involve segmentation.
+
+---
+
+## Addendum (2026-09-30): cross-check by 3 external LLM runs (user-run), verified by the lead reviewer
+- **All 3 runs agree:** the claim is **appears open / partly done**, the same verdict as this note. The surviving wording should say "in cell instance segmentation" and "as a function of model relatedness".
+- **New papers they raised, checked (ABSTRACT level):**
+  - **"In search of truth: Evaluating concordance of AI-based anatomy segmentation models", arXiv 2512.15921.** Six CT anatomy segmenters (TotalSegmentator v1.5 and v2.6, Auto3DSeg, MOOSE, MultiTalent, CADS) are compared without GT, with structure-wise agreement. No error-correlation or relatedness hierarchy; semantic segmentation. **Not a threat. Cite it** as a precedent for GT-free concordance.
+  - **"Segmentation quality assessment by automated detection of erroneous surface regions", Comput. Biol. Med. 2023** (PMC10563140). It explicitly handles ensemble base models that "largely agree on mistakes". **Not a threat, but the "agree-and-wrong" phenomenon is already known.** D5 must frame silent failures as *quantified across the hierarchy*, not as a discovery. Cite it.
+  - "Detecting Silent Failures in Rare Tumor Segmentation" (Springer 2026): single-model QC. Tangential; cite for terminology.
+- **Caution:** one run labeled Kirscher 2026 as MICCAI 2026. We only verified it as arXiv. Treat the venue as unverified.
