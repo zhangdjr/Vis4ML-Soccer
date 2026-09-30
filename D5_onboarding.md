@@ -357,6 +357,14 @@ About 3–4 h/week × 11 weeks ≈ 35–45 hours, enough for Floor + Core. GPU w
 
 ## 9. Risks and mitigations
 
+> **Pre-mortem and kill tests:** `PREREG_D5.md` §4 lists seven concrete ways D5 could fail later (K1–K7), each with the test that checks it *now* and the rule for when to drop or reframe the idea. The three oversights the pilot had not yet tested:
+> - **K2:** shared errors might just be *hard or mislabeled cells*. Tested with a difficulty-controlled κ.
+> - **K3:** the family effect might come from *shared preprocessing* (cyto3's auto-diameter).
+> - **K4/K5:** accuracy-gap and threshold artifacts.
+>
+> Round 3 on the cluster (`NEXT_SESSION_TASKS_3.md`) runs all of these plus the held-out replication.
+
+
 | Risk | How likely | Mitigation |
 |---|---|---|
 | **The lineage result doesn't replicate on held-out data** | Medium | It is still a finding either way: "in-distribution vs held-out error consistency differs". Pre-register so a null is reportable |
@@ -443,6 +451,8 @@ A suggested structure and page budget. It follows a conference-proposal shape, w
 | What | Where |
 |---|---|
 | This onboarding doc | `D5_onboarding.md` |
+| **Pre-registration + kill criteria** (hypotheses fixed before the held-out run) | `PREREG_D5.md` |
+| Round-3 cluster brief (kill tests, held-out replication, pitch figure) | `NEXT_SESSION_TASKS_3.md` |
 | The D5 deep dive (full paper table, leakage quotes, detailed design, hour budget) | `lit_notes_open/deep_5_microscopy_qc.md` |
 | Novelty check for the hierarchy framing (must-cites, experiment sketch) | `lit_notes_open/check_d5_error_hierarchy.md` |
 | Spike write-ups | `spike_results/A1_microscopy_seg.md`, `spike_results/B1_d5_hierarchy.md` |
