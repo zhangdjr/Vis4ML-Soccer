@@ -1,0 +1,8 @@
+{
+ "best_ref": "msam_ais_l",
+ "best_flow": "flow_error[cpsam_ft0]",
+ "top2_refs": [
+  "msam_ais_l",
+  "cyto3"
+ ]
+}
