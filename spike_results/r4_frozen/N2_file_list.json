@@ -1,0 +1,1002 @@
+[
+{
+"file_name": "A172_Phase_C7_1_00d04h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 80
+},
+{
+"file_name": "A172_Phase_C7_1_00d20h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 116
+},
+{
+"file_name": "A172_Phase_C7_1_01d16h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 220
+},
+{
+"file_name": "A172_Phase_C7_1_01d16h00m_2.tif",
+"cell_type": "A172",
+"n_ann": 257
+},
+{
+"file_name": "A172_Phase_C7_1_01d20h00m_3.tif",
+"cell_type": "A172",
+"n_ann": 270
+},
+{
+"file_name": "A172_Phase_C7_1_02d00h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 361
+},
+{
+"file_name": "A172_Phase_C7_1_02d00h00m_4.tif",
+"cell_type": "A172",
+"n_ann": 265
+},
+{
+"file_name": "A172_Phase_C7_1_02d04h00m_2.tif",
+"cell_type": "A172",
+"n_ann": 368
+},
+{
+"file_name": "A172_Phase_C7_1_02d04h00m_3.tif",
+"cell_type": "A172",
+"n_ann": 283
+},
+{
+"file_name": "A172_Phase_C7_1_02d08h00m_3.tif",
+"cell_type": "A172",
+"n_ann": 315
+},
+{
+"file_name": "A172_Phase_C7_1_02d12h00m_4.tif",
+"cell_type": "A172",
+"n_ann": 342
+},
+{
+"file_name": "A172_Phase_C7_1_03d00h00m_2.tif",
+"cell_type": "A172",
+"n_ann": 391
+},
+{
+"file_name": "A172_Phase_C7_1_03d00h00m_4.tif",
+"cell_type": "A172",
+"n_ann": 425
+},
+{
+"file_name": "A172_Phase_C7_2_00d12h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 93
+},
+{
+"file_name": "A172_Phase_C7_2_00d12h00m_2.tif",
+"cell_type": "A172",
+"n_ann": 96
+},
+{
+"file_name": "A172_Phase_C7_2_00d20h00m_3.tif",
+"cell_type": "A172",
+"n_ann": 104
+},
+{
+"file_name": "A172_Phase_C7_2_00d20h00m_4.tif",
+"cell_type": "A172",
+"n_ann": 81
+},
+{
+"file_name": "A172_Phase_C7_2_01d04h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 164
+},
+{
+"file_name": "A172_Phase_C7_2_01d04h00m_3.tif",
+"cell_type": "A172",
+"n_ann": 139
+},
+{
+"file_name": "A172_Phase_C7_2_01d08h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 181
+},
+{
+"file_name": "A172_Phase_C7_2_01d16h00m_4.tif",
+"cell_type": "A172",
+"n_ann": 134
+},
+{
+"file_name": "A172_Phase_C7_2_02d12h00m_4.tif",
+"cell_type": "A172",
+"n_ann": 319
+},
+{
+"file_name": "A172_Phase_C7_2_02d16h00m_2.tif",
+"cell_type": "A172",
+"n_ann": 436
+},
+{
+"file_name": "A172_Phase_C7_2_02d16h00m_4.tif",
+"cell_type": "A172",
+"n_ann": 325
+},
+{
+"file_name": "A172_Phase_C7_2_02d20h00m_1.tif",
+"cell_type": "A172",
+"n_ann": 520
+},
+{
+"file_name": "BT474_Phase_D3_1_00d16h00m_3.tif",
+"cell_type": "BT474",
+"n_ann": 162
+},
+{
+"file_name": "BT474_Phase_D3_1_01d00h00m_4.tif",
+"cell_type": "BT474",
+"n_ann": 135
+},
+{
+"file_name": "BT474_Phase_D3_1_01d04h00m_1.tif",
+"cell_type": "BT474",
+"n_ann": 124
+},
+{
+"file_name": "BT474_Phase_D3_1_01d16h00m_4.tif",
+"cell_type": "BT474",
+"n_ann": 141
+},
+{
+"file_name": "BT474_Phase_D3_1_03d00h00m_3.tif",
+"cell_type": "BT474",
+"n_ann": 217
+},
+{
+"file_name": "BT474_Phase_D3_1_03d04h00m_1.tif",
+"cell_type": "BT474",
+"n_ann": 188
+},
+{
+"file_name": "BT474_Phase_D3_1_03d16h00m_2.tif",
+"cell_type": "BT474",
+"n_ann": 280
+},
+{
+"file_name": "BT474_Phase_D3_1_04d04h00m_2.tif",
+"cell_type": "BT474",
+"n_ann": 305
+},
+{
+"file_name": "BT474_Phase_D3_1_04d12h00m_2.tif",
+"cell_type": "BT474",
+"n_ann": 443
+},
+{
+"file_name": "BT474_Phase_D3_1_04d16h00m_1.tif",
+"cell_type": "BT474",
+"n_ann": 219
+},
+{
+"file_name": "BT474_Phase_D3_1_04d16h00m_4.tif",
+"cell_type": "BT474",
+"n_ann": 266
+},
+{
+"file_name": "BT474_Phase_D3_1_05d00h00m_1.tif",
+"cell_type": "BT474",
+"n_ann": 256
+},
+{
+"file_name": "BT474_Phase_D3_2_00d12h00m_1.tif",
+"cell_type": "BT474",
+"n_ann": 122
+},
+{
+"file_name": "BT474_Phase_D3_2_01d00h00m_4.tif",
+"cell_type": "BT474",
+"n_ann": 144
+},
+{
+"file_name": "BT474_Phase_D3_2_01d12h00m_4.tif",
+"cell_type": "BT474",
+"n_ann": 144
+},
+{
+"file_name": "BT474_Phase_D3_2_01d16h00m_4.tif",
+"cell_type": "BT474",
+"n_ann": 190
+},
+{
+"file_name": "BT474_Phase_D3_2_02d00h00m_1.tif",
+"cell_type": "BT474",
+"n_ann": 195
+},
+{
+"file_name": "BT474_Phase_D3_2_02d12h00m_3.tif",
+"cell_type": "BT474",
+"n_ann": 143
+},
+{
+"file_name": "BT474_Phase_D3_2_02d16h00m_1.tif",
+"cell_type": "BT474",
+"n_ann": 190
+},
+{
+"file_name": "BT474_Phase_D3_2_02d16h00m_3.tif",
+"cell_type": "BT474",
+"n_ann": 145
+},
+{
+"file_name": "BT474_Phase_D3_2_03d16h00m_3.tif",
+"cell_type": "BT474",
+"n_ann": 245
+},
+{
+"file_name": "BT474_Phase_D3_2_04d12h00m_3.tif",
+"cell_type": "BT474",
+"n_ann": 284
+},
+{
+"file_name": "BT474_Phase_D3_2_04d12h00m_4.tif",
+"cell_type": "BT474",
+"n_ann": 226
+},
+{
+"file_name": "BT474_Phase_D3_2_04d16h00m_2.tif",
+"cell_type": "BT474",
+"n_ann": 134
+},
+{
+"file_name": "BT474_Phase_D3_2_04d16h00m_3.tif",
+"cell_type": "BT474",
+"n_ann": 195
+},
+{
+"file_name": "BV2_Phase_A4_1_00d04h00m_2.tif",
+"cell_type": "BV2",
+"n_ann": 90
+},
+{
+"file_name": "BV2_Phase_A4_1_00d08h00m_4.tif",
+"cell_type": "BV2",
+"n_ann": 130
+},
+{
+"file_name": "BV2_Phase_A4_1_00d12h00m_2.tif",
+"cell_type": "BV2",
+"n_ann": 112
+},
+{
+"file_name": "BV2_Phase_A4_1_00d20h00m_3.tif",
+"cell_type": "BV2",
+"n_ann": 162
+},
+{
+"file_name": "BV2_Phase_A4_1_00d20h00m_4.tif",
+"cell_type": "BV2",
+"n_ann": 190
+},
+{
+"file_name": "BV2_Phase_A4_1_02d00h00m_3.tif",
+"cell_type": "BV2",
+"n_ann": 627
+},
+{
+"file_name": "BV2_Phase_A4_1_02d04h00m_3.tif",
+"cell_type": "BV2",
+"n_ann": 1424
+},
+{
+"file_name": "BV2_Phase_A4_1_02d12h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 1043
+},
+{
+"file_name": "BV2_Phase_A4_1_02d12h00m_4.tif",
+"cell_type": "BV2",
+"n_ann": 1131
+},
+{
+"file_name": "BV2_Phase_A4_2_00d00h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 2
+},
+{
+"file_name": "BV2_Phase_A4_2_00d00h00m_4.tif",
+"cell_type": "BV2",
+"n_ann": 53
+},
+{
+"file_name": "BV2_Phase_A4_2_00d16h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 165
+},
+{
+"file_name": "BV2_Phase_A4_2_00d16h00m_2.tif",
+"cell_type": "BV2",
+"n_ann": 97
+},
+{
+"file_name": "BV2_Phase_A4_2_01d08h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 413
+},
+{
+"file_name": "BV2_Phase_A4_2_01d08h00m_2.tif",
+"cell_type": "BV2",
+"n_ann": 240
+},
+{
+"file_name": "BV2_Phase_A4_2_01d08h00m_4.tif",
+"cell_type": "BV2",
+"n_ann": 273
+},
+{
+"file_name": "BV2_Phase_A4_2_01d20h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 797
+},
+{
+"file_name": "BV2_Phase_A4_2_02d08h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 930
+},
+{
+"file_name": "BV2_Phase_A4_2_02d08h00m_3.tif",
+"cell_type": "BV2",
+"n_ann": 1118
+},
+{
+"file_name": "BV2_Phase_A4_2_02d08h00m_4.tif",
+"cell_type": "BV2",
+"n_ann": 861
+},
+{
+"file_name": "BV2_Phase_A4_2_02d12h00m_2.tif",
+"cell_type": "BV2",
+"n_ann": 1119
+},
+{
+"file_name": "BV2_Phase_A4_2_02d12h00m_3.tif",
+"cell_type": "BV2",
+"n_ann": 1501
+},
+{
+"file_name": "BV2_Phase_A4_2_02d12h00m_4.tif",
+"cell_type": "BV2",
+"n_ann": 1123
+},
+{
+"file_name": "BV2_Phase_A4_2_02d16h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 1735
+},
+{
+"file_name": "BV2_Phase_A4_2_02d20h00m_1.tif",
+"cell_type": "BV2",
+"n_ann": 1586
+},
+{
+"file_name": "Huh7_Phase_A12_1_01d04h00m_4.tif",
+"cell_type": "Huh7",
+"n_ann": 42
+},
+{
+"file_name": "Huh7_Phase_A12_1_01d08h00m_2.tif",
+"cell_type": "Huh7",
+"n_ann": 77
+},
+{
+"file_name": "Huh7_Phase_A12_1_01d16h00m_1.tif",
+"cell_type": "Huh7",
+"n_ann": 153
+},
+{
+"file_name": "Huh7_Phase_A12_1_02d00h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 46
+},
+{
+"file_name": "Huh7_Phase_A12_1_02d04h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 51
+},
+{
+"file_name": "Huh7_Phase_A12_1_02d12h00m_1.tif",
+"cell_type": "Huh7",
+"n_ann": 104
+},
+{
+"file_name": "Huh7_Phase_A12_1_02d20h00m_1.tif",
+"cell_type": "Huh7",
+"n_ann": 124
+},
+{
+"file_name": "Huh7_Phase_A12_1_03d00h00m_4.tif",
+"cell_type": "Huh7",
+"n_ann": 52
+},
+{
+"file_name": "Huh7_Phase_A12_2_00d00h00m_2.tif",
+"cell_type": "Huh7",
+"n_ann": 25
+},
+{
+"file_name": "Huh7_Phase_A12_2_00d00h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 79
+},
+{
+"file_name": "Huh7_Phase_A12_2_00d08h00m_2.tif",
+"cell_type": "Huh7",
+"n_ann": 41
+},
+{
+"file_name": "Huh7_Phase_A12_2_00d16h00m_2.tif",
+"cell_type": "Huh7",
+"n_ann": 42
+},
+{
+"file_name": "Huh7_Phase_A12_2_01d04h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 64
+},
+{
+"file_name": "Huh7_Phase_A12_2_01d12h00m_2.tif",
+"cell_type": "Huh7",
+"n_ann": 47
+},
+{
+"file_name": "Huh7_Phase_A12_2_02d04h00m_1.tif",
+"cell_type": "Huh7",
+"n_ann": 46
+},
+{
+"file_name": "Huh7_Phase_A12_2_02d04h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 55
+},
+{
+"file_name": "Huh7_Phase_A12_2_02d08h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 56
+},
+{
+"file_name": "Huh7_Phase_A12_2_02d12h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 56
+},
+{
+"file_name": "Huh7_Phase_A12_2_02d12h00m_4.tif",
+"cell_type": "Huh7",
+"n_ann": 56
+},
+{
+"file_name": "Huh7_Phase_A12_2_02d20h00m_2.tif",
+"cell_type": "Huh7",
+"n_ann": 46
+},
+{
+"file_name": "Huh7_Phase_A12_2_02d20h00m_4.tif",
+"cell_type": "Huh7",
+"n_ann": 61
+},
+{
+"file_name": "Huh7_Phase_A12_2_03d12h00m_1.tif",
+"cell_type": "Huh7",
+"n_ann": 51
+},
+{
+"file_name": "Huh7_Phase_A12_2_03d12h00m_3.tif",
+"cell_type": "Huh7",
+"n_ann": 50
+},
+{
+"file_name": "Huh7_Phase_A12_2_03d20h00m_1.tif",
+"cell_type": "Huh7",
+"n_ann": 46
+},
+{
+"file_name": "Huh7_Phase_A12_2_03d20h00m_2.tif",
+"cell_type": "Huh7",
+"n_ann": 43
+},
+{
+"file_name": "MCF7_Phase_H4_1_00d00h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 126
+},
+{
+"file_name": "MCF7_Phase_H4_1_00d08h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 93
+},
+{
+"file_name": "MCF7_Phase_H4_1_00d08h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 170
+},
+{
+"file_name": "MCF7_Phase_H4_1_00d12h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 199
+},
+{
+"file_name": "MCF7_Phase_H4_1_01d08h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 212
+},
+{
+"file_name": "MCF7_Phase_H4_1_01d08h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 351
+},
+{
+"file_name": "MCF7_Phase_H4_1_02d00h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 455
+},
+{
+"file_name": "MCF7_Phase_H4_1_02d04h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 417
+},
+{
+"file_name": "MCF7_Phase_H4_1_02d08h00m_2.tif",
+"cell_type": "MCF7",
+"n_ann": 637
+},
+{
+"file_name": "MCF7_Phase_H4_1_02d08h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 505
+},
+{
+"file_name": "MCF7_Phase_H4_1_02d16h00m_1.tif",
+"cell_type": "MCF7",
+"n_ann": 622
+},
+{
+"file_name": "MCF7_Phase_H4_1_03d08h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 768
+},
+{
+"file_name": "MCF7_Phase_H4_1_03d16h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 1196
+},
+{
+"file_name": "MCF7_Phase_H4_2_00d04h00m_2.tif",
+"cell_type": "MCF7",
+"n_ann": 157
+},
+{
+"file_name": "MCF7_Phase_H4_2_00d04h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 138
+},
+{
+"file_name": "MCF7_Phase_H4_2_00d20h00m_1.tif",
+"cell_type": "MCF7",
+"n_ann": 147
+},
+{
+"file_name": "MCF7_Phase_H4_2_01d00h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 207
+},
+{
+"file_name": "MCF7_Phase_H4_2_01d12h00m_2.tif",
+"cell_type": "MCF7",
+"n_ann": 398
+},
+{
+"file_name": "MCF7_Phase_H4_2_01d16h00m_1.tif",
+"cell_type": "MCF7",
+"n_ann": 348
+},
+{
+"file_name": "MCF7_Phase_H4_2_01d20h00m_3.tif",
+"cell_type": "MCF7",
+"n_ann": 333
+},
+{
+"file_name": "MCF7_Phase_H4_2_02d00h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 698
+},
+{
+"file_name": "MCF7_Phase_H4_2_02d12h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 932
+},
+{
+"file_name": "MCF7_Phase_H4_2_02d16h00m_2.tif",
+"cell_type": "MCF7",
+"n_ann": 982
+},
+{
+"file_name": "MCF7_Phase_H4_2_03d04h00m_4.tif",
+"cell_type": "MCF7",
+"n_ann": 1246
+},
+{
+"file_name": "MCF7_Phase_H4_2_03d12h00m_2.tif",
+"cell_type": "MCF7",
+"n_ann": 1487
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_00d08h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 214
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_00d12h00m_3.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 192
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_00d16h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 209
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_00d20h00m_2.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 227
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_01d04h00m_3.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 334
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_01d08h00m_2.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 357
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_02d00h00m_2.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 564
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_02d04h00m_4.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 516
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_02d08h00m_3.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 672
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_02d12h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 675
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_02d12h00m_4.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 720
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_03d00h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 922
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_03d04h00m_4.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 1266
+},
+{
+"file_name": "SHSY5Y_Phase_A10_1_03d08h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 1251
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_00d00h00m_3.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 109
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_00d08h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 113
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_00d12h00m_3.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 145
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_00d16h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 133
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_00d16h00m_3.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 145
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_01d00h00m_3.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 181
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_01d00h00m_4.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 106
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_01d16h00m_1.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 248
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_01d16h00m_2.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 318
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_02d12h00m_2.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 536
+},
+{
+"file_name": "SHSY5Y_Phase_A10_2_03d00h00m_4.tif",
+"cell_type": "SHSY5Y",
+"n_ann": 421
+},
+{
+"file_name": "SKOV3_Phase_E4_1_00d04h00m_3.tif",
+"cell_type": "SKOV3",
+"n_ann": 59
+},
+{
+"file_name": "SKOV3_Phase_E4_1_01d12h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 176
+},
+{
+"file_name": "SKOV3_Phase_E4_1_01d12h00m_4.tif",
+"cell_type": "SKOV3",
+"n_ann": 125
+},
+{
+"file_name": "SKOV3_Phase_E4_1_01d20h00m_3.tif",
+"cell_type": "SKOV3",
+"n_ann": 161
+},
+{
+"file_name": "SKOV3_Phase_E4_1_02d12h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 328
+},
+{
+"file_name": "SKOV3_Phase_E4_1_02d12h00m_2.tif",
+"cell_type": "SKOV3",
+"n_ann": 279
+},
+{
+"file_name": "SKOV3_Phase_E4_1_02d16h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 344
+},
+{
+"file_name": "SKOV3_Phase_E4_2_00d04h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 59
+},
+{
+"file_name": "SKOV3_Phase_E4_2_00d04h00m_3.tif",
+"cell_type": "SKOV3",
+"n_ann": 52
+},
+{
+"file_name": "SKOV3_Phase_E4_2_00d12h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 80
+},
+{
+"file_name": "SKOV3_Phase_E4_2_00d16h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 79
+},
+{
+"file_name": "SKOV3_Phase_E4_2_01d04h00m_2.tif",
+"cell_type": "SKOV3",
+"n_ann": 133
+},
+{
+"file_name": "SKOV3_Phase_E4_2_01d08h00m_2.tif",
+"cell_type": "SKOV3",
+"n_ann": 145
+},
+{
+"file_name": "SKOV3_Phase_E4_2_01d08h00m_4.tif",
+"cell_type": "SKOV3",
+"n_ann": 122
+},
+{
+"file_name": "SKOV3_Phase_F4_1_00d04h00m_4.tif",
+"cell_type": "SKOV3",
+"n_ann": 47
+},
+{
+"file_name": "SKOV3_Phase_F4_1_00d08h00m_3.tif",
+"cell_type": "SKOV3",
+"n_ann": 62
+},
+{
+"file_name": "SKOV3_Phase_F4_1_00d16h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 91
+},
+{
+"file_name": "SKOV3_Phase_F4_1_02d04h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 197
+},
+{
+"file_name": "SKOV3_Phase_F4_1_02d12h00m_3.tif",
+"cell_type": "SKOV3",
+"n_ann": 216
+},
+{
+"file_name": "SKOV3_Phase_F4_2_00d08h00m_1.tif",
+"cell_type": "SKOV3",
+"n_ann": 78
+},
+{
+"file_name": "SKOV3_Phase_F4_2_00d20h00m_3.tif",
+"cell_type": "SKOV3",
+"n_ann": 78
+},
+{
+"file_name": "SKOV3_Phase_F4_2_01d12h00m_2.tif",
+"cell_type": "SKOV3",
+"n_ann": 112
+},
+{
+"file_name": "SKOV3_Phase_F4_2_01d12h00m_3.tif",
+"cell_type": "SKOV3",
+"n_ann": 133
+},
+{
+"file_name": "SKOV3_Phase_F4_2_01d20h00m_2.tif",
+"cell_type": "SKOV3",
+"n_ann": 157
+},
+{
+"file_name": "SKOV3_Phase_F4_2_02d04h00m_2.tif",
+"cell_type": "SKOV3",
+"n_ann": 169
+},
+{
+"file_name": "SkBr3_Phase_G3_1_00d00h00m_2.tif",
+"cell_type": "SkBr3",
+"n_ann": 207
+},
+{
+"file_name": "SkBr3_Phase_G3_1_00d08h00m_4.tif",
+"cell_type": "SkBr3",
+"n_ann": 200
+},
+{
+"file_name": "SkBr3_Phase_G3_1_00d12h00m_3.tif",
+"cell_type": "SkBr3",
+"n_ann": 183
+},
+{
+"file_name": "SkBr3_Phase_G3_1_00d16h00m_3.tif",
+"cell_type": "SkBr3",
+"n_ann": 187
+},
+{
+"file_name": "SkBr3_Phase_G3_1_01d04h00m_4.tif",
+"cell_type": "SkBr3",
+"n_ann": 261
+},
+{
+"file_name": "SkBr3_Phase_G3_1_01d16h00m_1.tif",
+"cell_type": "SkBr3",
+"n_ann": 303
+},
+{
+"file_name": "SkBr3_Phase_G3_1_02d00h00m_1.tif",
+"cell_type": "SkBr3",
+"n_ann": 381
+},
+{
+"file_name": "SkBr3_Phase_G3_1_02d12h00m_2.tif",
+"cell_type": "SkBr3",
+"n_ann": 477
+},
+{
+"file_name": "SkBr3_Phase_G3_1_03d04h00m_3.tif",
+"cell_type": "SkBr3",
+"n_ann": 410
+},
+{
+"file_name": "SkBr3_Phase_G3_1_03d08h00m_4.tif",
+"cell_type": "SkBr3",
+"n_ann": 500
+},
+{
+"file_name": "SkBr3_Phase_G3_1_03d12h00m_1.tif",
+"cell_type": "SkBr3",
+"n_ann": 531
+},
+{
+"file_name": "SkBr3_Phase_G3_1_03d12h00m_3.tif",
+"cell_type": "SkBr3",
+"n_ann": 436
+},
+{
+"file_name": "SkBr3_Phase_G3_2_00d04h00m_3.tif",
+"cell_type": "SkBr3",
+"n_ann": 226
+},
+{
+"file_name": "SkBr3_Phase_G3_2_00d08h00m_2.tif",
+"cell_type": "SkBr3",
+"n_ann": 197
+},
+{
+"file_name": "SkBr3_Phase_G3_2_00d16h00m_2.tif",
+"cell_type": "SkBr3",
+"n_ann": 233
+},
+{
+"file_name": "SkBr3_Phase_G3_2_00d16h00m_4.tif",
+"cell_type": "SkBr3",
+"n_ann": 228
+},
+{
+"file_name": "SkBr3_Phase_G3_2_00d20h00m_1.tif",
+"cell_type": "SkBr3",
+"n_ann": 267
+},
+{
+"file_name": "SkBr3_Phase_G3_2_01d00h00m_2.tif",
+"cell_type": "SkBr3",
+"n_ann": 249
+},
+{
+"file_name": "SkBr3_Phase_G3_2_01d04h00m_3.tif",
+"cell_type": "SkBr3",
+"n_ann": 314
+},
+{
+"file_name": "SkBr3_Phase_G3_2_01d16h00m_2.tif",
+"cell_type": "SkBr3",
+"n_ann": 319
+},
+{
+"file_name": "SkBr3_Phase_G3_2_02d08h00m_4.tif",
+"cell_type": "SkBr3",
+"n_ann": 371
+},
+{
+"file_name": "SkBr3_Phase_G3_2_02d16h00m_1.tif",
+"cell_type": "SkBr3",
+"n_ann": 501
+},
+{
+"file_name": "SkBr3_Phase_G3_2_02d20h00m_1.tif",
+"cell_type": "SkBr3",
+"n_ann": 526
+},
+{
+"file_name": "SkBr3_Phase_G3_2_03d04h00m_1.tif",
+"cell_type": "SkBr3",
+"n_ann": 1159
+},
+{
+"file_name": "SkBr3_Phase_G3_2_03d08h00m_4.tif",
+"cell_type": "SkBr3",
+"n_ann": 506
+}
+]
