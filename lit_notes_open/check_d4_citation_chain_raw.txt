@@ -1,0 +1,51 @@
+
+## Peterson2019 CIFAR-10H: Human Uncertainty Makes Classification More Robust (2019) cited_by=188 [W2969769592]
+   scanned 187 citers; 4 mention (explanation-terms AND ambiguity-terms):
+   - 2023 | Human Uncertainty in Concept-Based AI Systems | https://doi.org/10.1145/3600211.3604692
+   - 2023 | Chained Deep Learning Using Generalized Cross-Entropy for Multiple Annotators Classification | https://doi.org/10.3390/s23073518
+   - 2023 | A Soft Label Method for Medical Image Segmentation with Multirater Annotations | https://doi.org/10.1155/2023/1883597
+   - 2021 | Human Uncertainty Inference via Deterministic Ensemble Neural Networks | https://doi.org/10.1609/aaai.v35i7.16735
+
+## Jukic2023 saliency disagreement: Lexicon-Based Methods for Sentiment Analysis (2011) cited_by=3306 [W2084046180]
+   scanned 3304 citers; 5 mention (explanation-terms AND ambiguity-terms):
+   - 2025 | Emotion in Context: Human and AI Perspectives on the Affective Landscape of Severance | https://doi.org/10.1007/s41701-025-00220-6
+   - 2024 | Positivity Bias and Cultural Differences in Acquiring Haihao in Chinese as a Second Language | https://doi.org/10.3390/languages9120379
+   - 2022 | Fine-grained, aspect-based sentiment analysis on economic and financial lexicon | https://doi.org/10.1016/j.knosys.2022.108781
+   - 2021 | Statistical learning approaches to sentiment analysis in the Nigerian banking context | https://doi.org/10.7190/shu-thesis-00471
+   - 2014 | Extracting and Attributing Quotes in Text and Assessing them as Opinions | https://openalex.org/W1565344961
+
+## Saporta2022 CheXlocalize: Benchmarking saliency methods for chest X-ray interpretation (2022) cited_by=242 [W4304083970]
+   scanned 243 citers; 4 mention (explanation-terms AND ambiguity-terms):
+   - 2024 | Simulating clinical features on chest radiographs for medical image exploration and CNN explainability using a style-based generative adversarial autoencoder | https://doi.org/10.1038/s41598-024-75886-0
+   - 2024 | Reporting radiographers’ interaction with Artificial Intelligence—How do different forms of AI feedback impact trust and decision switching? | https://doi.org/10.1371/journal.pdig.0000560
+   - 2023 | Saliency Map and Deep Learning in Binary Classification of Brain Tumours | https://doi.org/10.3390/s23094543
+   - 2023 | Feature Interpretation Using Generative Adversarial Networks (FIGAN): A Framework for Visualizing a CNN’s Learned Features | https://doi.org/10.1109/access.2023.3236575
+
+## Bhatt2021 uncertainty transparency: Uncertainty as a Form of Transparency: Measuring, Communicating, and Using Uncertainty (2021) cited_by=224 [W3183398589]
+   scanned 224 citers; 5 mention (explanation-terms AND ambiguity-terms):
+   - 2025 | Uncertainty-Aware Predictive Process Monitoring in Healthcare: Explainable Insights into Probability Calibration for Conformal Prediction | https://doi.org/10.3390/app15147925
+   - 2024 | Evaluating Search System Explainability with Psychometrics and Crowdsourcing | https://doi.org/10.1145/3626772.3657796
+   - 2023 | Human Uncertainty in Concept-Based AI Systems | https://doi.org/10.1145/3600211.3604692
+   - 2022 | Learning to Explain Selectively: A Case Study on Question Answering | https://doi.org/10.18653/v1/2022.emnlp-main.573
+   - 2022 | Connecting Algorithmic Research and Usage Contexts: A Perspective of Contextualized Evaluation for Explainable AI | https://doi.org/10.1609/hcomp.v10i1.21995
+
+## Slack2021 reliable post hoc: Reliable Post hoc Explanations: Modeling Uncertainty in Explainability (2020) cited_by=23 [W3177950445]
+   scanned 23 citers; 2 mention (explanation-terms AND ambiguity-terms):
+   - 2023 | The Disagreement Problem in Explainable Machine Learning: A Practitioner's Perspective | https://doi.org/10.21203/rs.3.rs-2963888/v1
+   - 2022 | Conceptual challenges for interpretable machine learning | https://doi.org/10.1007/s11229-022-03485-5
+
+## Collins2022 soft labels: Eliciting and Learning with Soft Labels from Every Annotator (2022) cited_by=28 [W4306694236]
+   scanned 28 citers; 3 mention (explanation-terms AND ambiguity-terms):
+   - 2026 | Identifying Social Group Mentions in Online Political Discussions: Ambiguity, Subjectivity, and Label Variation | https://doi.org/10.23919/jsc.2026.0006
+   - 2023 | Human Uncertainty in Concept-Based AI Systems | https://doi.org/10.1145/3600211.3604692
+   - 2023 | Confidence Contours: Uncertainty-Aware Annotation for Medical Semantic Segmentation | https://doi.org/10.1609/hcomp.v11i1.27559
+
+## Uma2021 learning from disagreement: Learning from Disagreement: A Survey (2021) cited_by=143 [W4200444669]
+   scanned 140 citers; 4 mention (explanation-terms AND ambiguity-terms):
+   - 2026 | Identifying Social Group Mentions in Online Political Discussions: Ambiguity, Subjectivity, and Label Variation | https://doi.org/10.23919/jsc.2026.0006
+   - 2025 | SHAP-RC: A Framework for Explaining Annotator Disagreement in Sexism Detection | https://doi.org/10.1007/978-3-032-08333-3_10
+   - 2024 | Human-annotated rationales and explainable text classification: a survey | https://doi.org/10.3389/frai.2024.1260952
+   - 2023 | Ecologically Valid Explanations for Label Variation in NLI | https://doi.org/10.18653/v1/2023.findings-emnlp.712
+
+## Mikriukov2026: Who needs explanation and when? Juggling explainable AI and user epistemic uncertainty (2022) cited_by=83 [W4224241499]
+   scanned 83 citers; 0 mention (explanation-terms AND ambiguity-terms):

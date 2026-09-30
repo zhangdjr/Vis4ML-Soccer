@@ -160,3 +160,42 @@ That gives 4 methods × 5 seeds × 1,500 galaxies ≈ 30k maps. SPECULATION: a f
 - *Informative positive:* H_h (or residualized H_h) has a partial coefficient whose CI excludes 0 for ΔAUPRC or agreement, after the controls.
 - *Informative negative:* epistemic dominates and H_h adds nothing ("reliability is a model property, not a data property").
 - *Empty:* ΔAUPRC ≈ 0; then the brightness finding is the main result.
+
+---
+
+## Addendum (2026-09-30 00:10 UTC): retry after the rate limits reset
+
+**Why the first check was weak:**
+- Semantic Scholar returned HTTP 429 on every call.
+- The OpenAlex daily quota was exhausted, and its keyword search was noisy.
+- dblp was blocked.
+- So citation chaining, the strongest test here, was not done.
+
+**Retry, done directly by the lead reviewer:**
+
+1. **OpenAlex citation chaining** (quota reset at midnight UTC). I scanned **every citer** of 6 seed works and kept those whose title or abstract mentions explanation terms (saliency, attribution, Grad-CAM, explanation, interpretability) **and** ambiguity terms (disagree, ambiguous, soft label, annotator, inter-rater, vote, crowd). About 850 citers in total:
+
+   | Seed work | Citers scanned |
+   |---|---|
+   | Peterson 2019 (CIFAR-10H) | 187 |
+   | Saporta 2022 (CheXlocalize) | 243 |
+   | Bhatt 2021 | 224 |
+   | Slack 2021 | 23 |
+   | Collins 2022 (soft labels from every annotator) | 28 |
+   | Uma 2021 (learning from disagreement) | 140 |
+
+   Raw output: `check_d4_citation_chain_raw.txt`.
+
+   **FACT: none of the 22 flagged papers tests whether human label ambiguity predicts post-hoc explanation reliability.** The closest are:
+   - Collins et al., AIES 2023, "Human Uncertainty in Concept-Based AI Systems": concept-bottleneck models, not post-hoc attributions.
+   - "Confidence Contours" (HCOMP 2023): annotation, not explanation.
+   - SHAP-RC 2025: *explains* annotator disagreement; it does not test explanation reliability.
+
+   Two seeds (Jukić 2023; Mikriukov 2026, titled "Uncertainty Gating for Cost-Aware XAI") were mismatched or rate-limited. They are covered by web search below.
+2. **6 targeted web searches:** soft labels + saliency reliability; CIFAR-10H + attribution; inter-rater variability + Grad-CAM; human label uncertainty + attribution disagreement; Galaxy Zoo + saliency; follow-ups to Jukić 2023. None found a direct test.
+3. **Two new September 2026 preprints were found and checked (abstract level):**
+   - **Singh & Pakrashi, arXiv 2609.34506 (28 Sep 2026):** model uncertainty vs human ambiguity on CIFAR-10H and FER+ (ρ = 0.24–0.55). **No explanations.** It is relevant to D4's *safe* half (RQ-A) as a general-ML reference; cite it.
+   - **Schmid et al., arXiv 2609.17753:** uncertainty mapping of label ambiguity (medical, Fazekas score). **No explanation or saliency test.**
+
+**Updated verdict (SYNTHESIS):** the D4 RQ-B claim ("human vote entropy predicts attribution unreliability beyond model uncertainty") **remains open**. Evidence strength goes from *weak* to **moderate**. Still not covered: Semantic Scholar and Google Scholar citation graphs.
+- **Suggested user check (about 10 min):** on Google Scholar, open "Cited by" for CIFAR-10H (Peterson 2019) and for Jukić 2023, and search within the citing articles for "saliency" or "attribution".
