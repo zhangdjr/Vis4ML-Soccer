@@ -161,3 +161,10 @@ Public-Test predictions from two models existed at this point, but only their ru
    | round/yeast-like cell clusters | 7 |
    | phase-contrast cultured cells | 5 |
 3. **micro-SAM AMG thresholds**, tuned on 40 LIVECell train-A images over a 5 × 5 grid: pred_iou 0.7, stability 0.8. Train F1@0.5 = 0.40, so AMG remains weak.
+
+### Amendment 3: exploratory H3 sensitivities (2026-09-30, after LC200 results, **before** any Public-Test statistic)
+**Motivation.** On LC200 (secondary), the H3 correlation between pair κ and mean QC AUROC may be driven by accuracy gaps. The less accurate model's errors are easy to flag with a stronger partner, and such pairs also have lower κ. For Cellpose-SAM's own errors, the directional AUROC barely changed with the reference model.
+**Added as exploratory analyses (not confirmatory; H3 itself is unchanged):**
+- ρ(κ/κ_max, mean AUROC);
+- ρ(κ, AUROC) with the pair's more accurate model as the target;
+- ρ(κ, AUROC) with the target fixed to Cellpose-SAM across its references.
