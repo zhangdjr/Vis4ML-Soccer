@@ -191,3 +191,75 @@ Several findings are genuinely reportable:
 > *"Error consistency between cell segmenters is high in-distribution and collapses out of distribution. What predicts shared failures there is shared training distribution and weights, not a shared foundation-model pretraining. Cross-model agreement is a strong QC signal, but no better than the model's own flow-error signal. A same-family reference triages the best model's errors as well as a cross-family one."*
 
 Pre-register accuracy-matched κ as a primary analysis, and add the same-checkpoint contrast (micro-SAM ViT-B vs ViT-L).
+
+---
+
+## Lead-reviewer notes (2026-09-30, Mac session, after reading C1–C5)
+
+**1. "Out of distribution" is the wrong label for Public-Test (FACT, from `D5_onboarding.md` §6.2 leakage table).**
+- Cellpose-SAM (616 images) and micro-SAM `vit_b_lm` were trained on **NeurIPS22 Training**. Public-Test is a held-out *split* of a distribution they saw, not a shifted one. cyto3's use is unconfirmed.
+- It is truly OOD only for the LIVECell-only models (own U-Nets, `livecell_cp3`). Their accuracy drops to 0.38–0.47 there.
+- So the "OOD collapse" (0.78 → 0.33) is really a **LIVECell vs NeurIPS22 contrast**, and it is confounded with error rate. Cellpose-SAM's error rate is 25% on LIVECell and 5% on Public-Test.
+- SYNTHESIS: a more likely reading is "rare residual errors are model-specific; common errors on crowded images are shared", not "distribution shift decorrelates errors".
+- **Fix:**
+  - Say "held-out test split", never "OOD", for the generalists.
+  - Make controlled shift come from **own-trained models**, where we control the training data: the leave-one-cell-type-out probe (§6.1). That is the only clean OOD test available.
+
+**2. K4 depends on the metric. A margin-free measure disagrees with κ/κ_max (exploratory, post hoc).**
+- κ and κ/κ_max both depend on the two models' error rates. The **odds ratio of joint error** (equivalently Yule's Q, the diversity measure from Kuncheva & Whitaker 2003) does not.
+- Recomputed from the rounded rates in this file (a rough back-of-envelope, not the cluster data):
+
+  | | OR (Q), cpsam vs cyto3 | OR (Q), cpsam vs micro-SAM |
+  |---|---|---|
+  | Public-Test | **16.8** (0.89) | **5.6** (0.70) |
+  | LC200 | **95** (0.98) | **23** (0.92) |
+
+- So the family ordering survives a margin-free measure on **both** datasets, including LC200, where κ/κ_max said +0.02.
+- **This does not overturn K4.** The pre-registered rule says report H1 as accuracy-confounded, and we do.
+- It shows the crux is **definitional**: when a weaker model makes *extra* errors, is that "being worse" or "failing differently"? κ/κ_max treats it as the first; the odds ratio as the second.
+- **Next pre-registration:**
+  - Make log-OR, with image-bootstrap CIs, a co-primary measure.
+  - Add a design-based check: shift Cellpose-SAM's operating point (`cellprob_threshold`) to match micro-SAM's error rate, then recompute κ.
+
+**3. One mechanism explains all three "bad" results (H3 reversal, K6, H4 ≈ flow error) (SYNTHESIS, testable).**
+- Disagreement flags a target error only if the reference is *right* there. It raises a false alarm wherever the *reference* is wrong.
+- So a reference's QC value ≈ its **independence** (1 − P(ref wrong | target wrong)) traded off against its **own error rate**.
+- On Public-Test, cyto3 (error 0.108, overlap 0.60) beats micro-SAM (0.148, 0.46) for top-5% triage. It has fewer false alarms despite sharing more errors, which is K6.
+- For a strong target, the references are weaker, so their false alarms dominate. That is the H3 reversal.
+- This turns the triggered kill tests into the result. It also answers Bankhead's BISCUIT question directly: independence matters, but only net of reference accuracy.
+- Test: across all target–reference pairs, does a two-term model (reference error rate, conditional overlap) predict AUROC and recall@5% better than κ alone?
+- **Prior art to check before claiming it:**
+  - Platanios et al. (UAI 2014, "Estimating accuracy from unlabeled data");
+  - agreement-on-the-line (Baek et al. NeurIPS 2022; Saxena et al. NeurIPS 2024, already in `check_d5_error_hierarchy.md`);
+  - Kuncheva & Whitaker 2003.
+
+**4. H3 on Public-Test is basically two clusters** (`fig_kappa_vs_auroc.png`, right panel).
+- ρ = −0.30 comes from seed/L1 pairs (κ > 0.8, AUROC 0.75–0.80) against everything else.
+- Among the cross-model pairs (κ < 0.4) there is no negative trend; the livecell_cp3 pairs sit at κ ≈ 0 with *lower* AUROC.
+- So "less related → better QC" on held-out data reduces to "a different model beats a seed copy". Say that plainly.
+
+**5. The K2 pass on Public-Test is weak evidence.**
+- The attribute difficulty model has AUROC 0.50–0.57 for the Cellpose models, so stratifying by it is nearly a no-op.
+- The informative control is image × CellSAM error (+0.10 [0.02, 0.19]), and that one is post hoc.
+- Next time, pre-register the external-model consensus control, for example leave-pair-out errors of the remaining models.
+
+**6. Pitch figure.**
+- `fig_kappa_by_level.png` has 9 groups, and the livecell_cp3 pairs at κ ≈ 0 read as "same family = unrelated". For Oct 6, cut to 5 groups:
+  - seeds;
+  - fine-tunes;
+  - cpsam vs cyto3;
+  - cpsam vs micro-SAM;
+  - micro-SAM vs CellSAM.
+- Label the right-hand group "shared SAM pretraining (ViT-L vs ViT-B)".
+
+**Net (reviewer).**
+- Agree with the verdict: safe as a course project, and retire "family, not encoder".
+- **But the round-3 suggested headline over-claims in the other direction** in two ways:
+  - "out of distribution" (see note 1);
+  - "a shared foundation-model backbone does not predict shared failures". The only pair that truly shares a ViT-B checkpoint is the *most* consistent cross-family pair.
+- Recommended framing: **"What makes a good reference for agreement-based QC of cell segmentation?"**
+  - Error dependence (κ, OR) across a relatedness hierarchy;
+  - reference accuracy;
+  - the model's own confidence;
+  - measured per cell on held-out data, with a triage and adjudication tool.
+- The relatedness hierarchy becomes one input to the QC question, not the headline.

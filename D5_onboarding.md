@@ -253,6 +253,10 @@ Full details are in `spike_results/C1–C5`. Pre-registration: `PREREG_D5.md`. A
   3. **Cellpose-SAM is ViT-L; micro-SAM and CellSAM are ViT-B.** The ViT-B pair is the most consistent cross-family pair (0.39).
   4. `flow_threshold=0` raises Cellpose-SAM's LIVECell recall from 0.75 to 0.83.
   5. The LIVECell test json lists 52 files twice with different annotations.
+- **Reviewer corrections (Mac session, 2026-09-30; details at the end of `C1_heldout_replication.md`):**
+  - Public-Test is a held-out *split*, **not OOD**, for Cellpose-SAM and micro-SAM, which were trained on NeurIPS22 Training. Read "surprise 1" as LIVECell vs NeurIPS22, confounded with error rate (25% vs 5%). Clean OOD needs own-trained models (the leave-one-cell-type-out probe).
+  - A margin-free odds ratio still favors family on both datasets: roughly 17 vs 6 on Public-Test and 95 vs 23 on LC200. So K4 is partly a metric-definition question. Report log-OR alongside κ.
+  - One mechanism, reference *independence* traded off against reference *accuracy*, explains K6, the H3 reversal and H4. Suggested new headline question: **"What makes a good reference for agreement-based QC?"**
 - **Implication for the proposal:** pre-register the accuracy-matched analysis as primary, alongside raw κ and κ/κ_max. Rename L2 "shared SAM pretraining". Add a same-checkpoint contrast (micro-SAM ViT-B vs ViT-L). Frame RQ3 as "agreement vs the model's own signals", not "agreement vs nothing".
 
 ---
