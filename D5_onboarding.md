@@ -484,6 +484,8 @@ A suggested structure and page budget. It follows a conference-proposal shape, w
 | This onboarding doc | `D5_onboarding.md` |
 | **Pre-registration + kill criteria** (hypotheses fixed before the held-out run) | `PREREG_D5.md` |
 | Round-3 cluster brief (kill tests, held-out replication, pitch figure) | `NEXT_SESSION_TASKS_3.md` |
+| Round-4 cluster brief (reference-QC question, new held-out set N1, ViT-L contrast, controlled shift) | `NEXT_SESSION_TASKS_4.md`, `PREREG_D5.md` Part B |
+| Scoop check, first pass | `spike_results/K7_scoop_check.md` |
 | The D5 deep dive (full paper table, leakage quotes, detailed design, hour budget) | `lit_notes_open/deep_5_microscopy_qc.md` |
 | Novelty check for the hierarchy framing (must-cites, experiment sketch) | `lit_notes_open/check_d5_error_hierarchy.md` |
 | Spike write-ups | `spike_results/A1_microscopy_seg.md`, `spike_results/B1_d5_hierarchy.md` |
