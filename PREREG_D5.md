@@ -99,3 +99,51 @@ The confirmatory dataset, the IoU > 0.5 primary threshold, the exclusion rules, 
 
 ## Amendments
 *(Dated entries only. Each gives what changed, why, and whether it was made before or after seeing held-out results.)*
+
+### Amendment 1: operational definitions (2026-09-29, **before** any Public-Test model output existed)
+Written by the round-3 cluster session while the Public-Test images were still downloading. No model had been run on Public-Test at commit time. These entries fill gaps in §1–§4 and do not change any confirmatory threshold.
+1. **GT format.**
+   - LIVECell GT is painted into label images, large cells first, the same format as Public-Test.
+   - B1 used overlapping polygon masks; the E40 overlap is used to check that this change makes no material difference.
+   - The < 20 px exclusion applies to both datasets.
+2. **Input preprocessing** (identical for all models):
+   - Each channel is scaled to uint8 between its 1st and 99.8th percentiles. A 3-channel image with identical channels is treated as 2-D.
+   - Cellpose-SAM and micro-SAM receive RGB when present. cyto3, `livecell_cp3`, CellSAM and our own U-Nets receive the channel mean, since they are grayscale-default (`channels=[0,0]`).
+   - micro-SAM runs tiled (tile 1024, halo 256) on images with a side over 1536 px.
+3. **Model roster.**
+   - Primary models for κ: `cpsam`, `cpsam_ft_s1–3`, `cyto3` (auto diameter), `livecell_cp3` (given cyto3's auto diameter), `msam_ais`, `cellsam`.
+   - Used only in their named tests: GT-median-diameter variants (K3), `msam_amg` (H5), and `cpsam` with `flow_threshold=0` (QC signals).
+   - Error rate > 0.6 on a dataset excludes a model from that dataset's κ comparisons (§1).
+   - **If a model needed for H1 is excluded, H1 counts as "not testable", which K1 treats as falsified.**
+4. **H2.**
+   - Cross-model pairs are pairs of models from different releases. Seed–seed pairs, `cpsam`-vs-its-fine-tune pairs, and setting variants of the same model are not cross-model pairs.
+   - Supported if, for **every** seed pair, the CI of κ(seed pair) − κ(cross pair) excludes 0 for every cross pair.
+   - p for Holm is the largest of the individual p (intersection–union).
+5. **H3.** Pair QC AUROC is the mean of the two directional within-image AUROCs, meaning agreement ranks model a's errors and model b's errors. Pairs are all pairs of primary models that pass the exclusion. The statistic is Spearman ρ with the image bootstrap. The directional version is reported as secondary.
+6. **H4.**
+   - The cross-family reference for Cellpose-SAM is chosen by its AUROC on **LIVECell (LC200)**, never on Public-Test. Cross-family means a non-Cellpose model that passes the exclusion.
+   - Flow-error baseline: whichever of two variants has the higher Public-Test AUROC. This is deliberately generous to the baseline. The variants are:
+     - (i) the flow error of the default-output instance;
+     - (ii) the flow error of the best-overlapping instance in the `flow_threshold=0` output.
+   - A GT cell where the signal's model has no overlapping instance gets that signal's most-suspicious value. This applies to agreement and flow error alike.
+   - Attribute-only baseline: logistic regression on log area, local density, touching fraction and contrast, fit on Cellpose-SAM's errors on LIVECell train subset A (200 images).
+   - Also reported, as sensitivities:
+     - (a) an attribute model cross-fitted on Public-Test (5-fold, grouped by image);
+     - (b) AUROC restricted to cells where Cellpose-SAM has an overlapping instance. This is the deployable QC case.
+   - Holm p-values come from the bootstrap: p = 2·min(P(Δ* ≤ 0), P(Δ* ≥ 0)), with a floor of 1/B. For H4, Δ = agreement − best baseline, and the +0.05 point-estimate requirement still applies.
+7. **Cell attributes** (from GT and the preprocessed grayscale image):
+   - area and equivalent diameter d;
+   - local density: the number of other GT centroids within 2d;
+   - touching fraction: the share of boundary pixels 4-adjacent to another GT cell;
+   - contrast: |mean inside − mean of a 3-px outer ring| / (ring std + 1).
+8. **C3 / K2.**
+   - Per model, an attribute-only logistic error model, cross-fitted with 5-fold image-grouped folds on each test set. The pair's difficulty is the mean of the two models' predictions, binned into deciles.
+   - **Primary: the pooled stratified κ** = Σ_s n_s(p_o,s − p_e,s) / Σ_s n_s(1 − p_e,s), where p_o,s and p_e,s are the observed and chance agreement within bin s. Also reported: the size-weighted mean of within-bin κ.
+   - Null: each model's error vector permuted within bins, 1,000×.
+   - Exploratory: strata = image, and strata = image × difficulty tercile.
+9. **K4 accuracy-matched subset:** images where |acc(cpsam) − acc(msam_ais)| ≤ 0.05 **and** |acc(cpsam) − acc(cyto3)| ≤ 0.05.
+10. **H5 error types.** From the IoU > 0.5 taxonomy:
+    - miss indicator: status = miss;
+    - merge/split indicator: status ∈ {merge, split};
+    - κ is computed over all cells.
+11. **K6 triage.** Rank all GT cells in a dataset by −agreement with the chosen reference, breaking ties at random. Report the recall of Cellpose-SAM errors in the top 5%, with an image-bootstrap CI.
