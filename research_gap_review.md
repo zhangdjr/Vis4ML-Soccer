@@ -127,7 +127,11 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 - **Spike (PASS):**
   - Both models run in under 2 s per image.
   - Early signal from 8 images: error κ = 0.52 (κ is chance-corrected agreement), 80% of errors shared, 113 silent failures.
-- **Still needed:** a non-SAM model (Cellpose3 `cyto3`), and a run on **NeurIPS22 Public-Test**, the clean held-out set. LIVECell test is in-distribution for these models.
+- **Spike round 2 (B1, PASS):**
+  - 3 fine-tune seeds, plus cyto3 and livecell_cp3, on 40 images (10,292 cells).
+  - Per-cell κ: seeds **0.92** > checkpoint variant 0.88 > **SAM vs non-SAM (both Cellpose lineage) 0.79** > **SAM vs SAM (Cellpose-SAM vs micro-SAM) 0.58** [0.52, 0.62].
+  - So **shared lineage, not the shared SAM encoder, predicts shared errors**; H-mono is not supported. Agreement-QC AUROC rises as κ falls.
+- **Still needed:** a run on **NeurIPS22 Public-Test**, the clean held-out set. LIVECell test is in-distribution for all models except CellSAM.
 - **Details:** `research_gap_details.md` §5.1; `lit_notes_open/deep_5_microscopy_qc.md`; `spike_results/A1_microscopy_seg.md`.
 
 ### #2 D2: Window-level failure regimes of time-series foundation models
@@ -149,6 +153,10 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 - **Why it is open:** the Zoobot papers report only an aggregate "noise floor", and nobody has compared galaxy-CNN explanations against GZ3D masks (FACT, verified).
 - **Reproduce:** Galaxy Zoo DESI Fig. 5 and Galaxy Zoo DECaLS Fig. 19.
 - **Spike (PASS):** 3 s per epoch; masks align to about 1 px. Bar pixels are 30× brighter than the image mean, so any explanation test **must beat a brightness baseline**.
+- **Spike round 2 (B2, PASS with a red flag):**
+  - 100 GZ3D galaxies with independent votes, 3 seeds, 4 attribution methods.
+  - **Brightness alone localizes bar masks better** (median AUPRC 0.83 vs 0.29–0.44). Attributions beat it on only 10–17% of galaxies and add just +0.005 to +0.02 over a light-profile model.
+  - Human vote entropy *raises* method agreement (as in Jukić), but this vanishes after controlling for model uncertainty. There is one uncorrected hint that ambiguity lowers the gain over the light profile (partial ρ −0.27).
 - **Details:** `research_gap_details.md` §5.3; `lit_notes_open/deep_4_astro_zoobot.md`; `spike_results/A4_zoobot_gz.md`.
 
 ### #4 D3: Decomposing LLM-judge disagreement

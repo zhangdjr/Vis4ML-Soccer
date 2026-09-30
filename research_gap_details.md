@@ -598,6 +598,25 @@ What this changes (SYNTHESIS):
   - 1.7 GB of CellSAM weights, 1.7 GB of other weights, and 0.44 GB of data.
   - Easy cuts: `ollama/models` (30 GB) if D3 is dropped; `envs/d5` if D5 is dropped.
 
+
+### Spike round 2 (2026-09-29, ambitious versions of D5 and D4; details in `spike_results/B1_d5_hierarchy.md` and `B2_d4_ambiguity.md`)
+
+| Spike | Verdict | Key numbers |
+|---|---|---|
+| **B1 D5 error hierarchy** | **PASS (feasible); first signal contradicts H-mono** | 3 Cellpose-SAM fine-tune seeds (30 min each, one L40S each; seeds vary data order + augmentation, after fixing cellpose's per-epoch `np.random.seed`). cyto3 and livecell_cp3 via a 2 MB cellpose-3 overlay (livecell_cp3 is still downloadable). 8 models on 40 LIVECell test images (10,292 cells). **Per-cell κ [95% image-bootstrap CI]:** seed–seed **0.92** [0.90, 0.93] > cpsam vs its fine-tune 0.88 > cyto3 vs livecell_cp3 0.84 > **cpsam vs cyto3 (SAM vs non-SAM, same Cellpose lineage) 0.79** > micro-SAM vs cyto3 0.61 ≈ **cpsam vs micro-SAM (both SAM) 0.58** [0.52, 0.62]. The ordering holds after κ/κ_max. Agreement-QC AUROC rises as κ falls (0.71 for seeds → 0.75–0.85 for cross-lineage pairs); silent failures fall from 166 to 67 per 1,000 cells. **In-distribution caveat:** every model except CellSAM saw LIVECell train. |
+| **B2 D4 ambiguity vs explanations** | **PASS (feasible), with a RED FLAG** | 100 GZ3D galaxies pre-matched (MaNGA drpall × Zenodo GZ DECaLS/DESI vote catalogues, 66 MB; no 17.5 GB download). Legacy Survey DR10 cutouts on the GZ3D field; masks WCS-aligned, orientation verified 100/100. Zoobot bar head, 3 seeds on `tiny` (13–25 s each; ρ(model, volunteer bar fraction) = 0.68). IG / SmoothGrad / Grad-CAM / occlusion in 3 min. **Brightness alone localizes the volunteer bar mask with median AUPRC 0.83; attributions reach 0.29–0.44 and beat brightness on only 10–17% of galaxies.** Over a light-profile model they add +0.005 to +0.02 AUPRC. Human vote entropy correlates *positively* with cross-method agreement (ρ +0.24, as in Jukić), but this vanishes after controlling for model uncertainty. The one surviving hint: partial ρ(H_h, ΔAUPRC) = −0.27 [−0.47, −0.04], n = 79, uncorrected over 13 tests. |
+
+What this changes (SYNTHESIS):
+- **D5 ambitious stays the lead, with a sharper hook.** The "shared SAM encoder → shared errors" story (H-mono) is *not* what the data show. **Shared lineage (objective, recipe, training data) predicts shared errors; the backbone does not.** That is a clean, reportable deviation, and it answers the Bankhead/BISCUIT question in an unexpected direction.
+  - The proposal should pre-register **both** H-mono and H-lineage.
+  - A held-out dataset (NeurIPS22 Public-Test, range-readable, so no 2.9 GB download) is the must-have next step.
+  - Estimate: about 18–20 h.
+- **D4 ambitious is feasible but riskier than thought.** The measurable effect sits *on top of* a dominant brightness signal.
+  - The primary outcome must be the gain over a light-profile model.
+  - The first signal is one uncorrected hint, and the direction of the agreement effect is opposite to the naive hypothesis (as Jukić warned).
+  - Estimate: about 21–24 h. The 17.5 GB download is needed only for a stronger model, not for the question.
+- **Recommended pitch for Oct 6:** lead with **D5 ambitious** (H-mono vs H-lineage); offer **D4 RQ-B** as the higher-risk alternative, with the brightness-dominance result stated up front.
+
 ---
 
 ## 13. Appendix
