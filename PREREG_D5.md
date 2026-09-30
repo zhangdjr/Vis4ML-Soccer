@@ -147,3 +147,17 @@ Written by the round-3 cluster session while the Public-Test images were still d
     - merge/split indicator: status ∈ {merge, split};
     - κ is computed over all cells.
 11. **K6 triage.** Rank all GT cells in a dataset by −agreement with the chosen reference, breaking ties at random. Report the recall of Cellpose-SAM errors in the top 5%, with an image-bootstrap CI.
+
+### Amendment 2: data handling (2026-09-29, before any Public-Test or LC200 statistic was computed)
+Public-Test predictions from two models existed at this point, but only their runtimes had been looked at.
+1. **LIVECell duplicates.** The LIVECell test json lists **52 files twice**, under different image ids with **disjoint** annotation sets (e.g. 64 + 54 polygons, none shared). Four of the 198 unique LC200 files are affected. They are **excluded**, so **LC200 = 194 images**. B1's E40 included 2 of these files with only one of the two annotation sets.
+2. **Public-Test modality** was labelled by eye from a thumbnail montage (SYNTHESIS; no metadata ships with the data). These are the groups for K5:
+
+   | Group | Images |
+   |---|---|
+   | fluorescence | 12 |
+   | stained brightfield smears | 18 |
+   | phase-contrast bacteria | 8 |
+   | round/yeast-like cell clusters | 7 |
+   | phase-contrast cultured cells | 5 |
+3. **micro-SAM AMG thresholds**, tuned on 40 LIVECell train-A images over a 5 × 5 grid: pred_iou 0.7, stability 0.8. Train F1@0.5 = 0.40, so AMG remains weak.
