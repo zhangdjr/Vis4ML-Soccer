@@ -270,3 +270,14 @@ Written after the N2 inference outputs existed but **before any N2 statistic was
 6. **R7:** `cellprob_threshold` is swept on N1, coarse grid first (1–6), then refined until the error rate is within 0.01 of micro-SAM `vit_b_lm`'s. If no threshold gets within 0.01, the closest one is reported and labelled as such.
 7. **Failure handling:** if a model returns no prediction for an image (e.g. one CellSAM failure on N2), every GT cell in that image counts as an error for that model, as in round 3.
 8. **Leakage-map correction:** Cellpose-SAM v1 used **504** NeurIPS22 training images. The 616 in `D5_onboarding.md` §6.2 is LynSec.
+
+### Amendment 6: secondary R1 variants (2026-09-30, **after** the D1 dry run on round-3 data and N2, **before** N1 is chosen or downloaded)
+**Why.** The D1 dry run shows that recall@5% has a ceiling of min(1, 0.05 / e_t), where e_t is the target's error rate. On LC200 (e_t ≈ 0.25 for the Cellpose models) every reference gives recall between 0.13 and 0.18, against a ceiling of 0.20. Pooled across targets, R1's outcome then mostly tracks each target's error rate, not reference quality.
+
+**What stays the same.** The confirmatory R1 (pooled leave-one-target-out Spearman on raw recall@5%, Holm) is **unchanged**.
+
+**Added as secondary, reported uncorrected:**
+1. **R1-norm:** the same test on recall@5% / min(1, 0.05 / e_t).
+2. **R1-within:** the same leave-one-target-out predictions, scored by the mean within-target Spearman (for recall@5% and for AUROC).
+
+**Interpretation rule, fixed now.** If confirmatory R1 and R1-within disagree, D6 reports the disagreement and does not pick the favourable one.
