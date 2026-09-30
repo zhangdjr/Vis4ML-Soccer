@@ -63,9 +63,10 @@
    - Cross-method rank agreement: Spearman over pixels, or top-k IoU.
    - Mask localization: pointing game, or energy inside the volunteer mask. Compare it against a **light-profile baseline**, i.e. the same metric computed on the image-brightness map. Report the "gain over brightness".
    - Volunteer vote entropy for that question.
+   - **Mask consensus**: number of GZ3D drawers for that mask, plus pixel-level agreement of the drawings (the FITS layers are volunteer counts). This is a control for the mask–ambiguity confound: ambiguous galaxies may just have noisier masks.
    - Model uncertainty: predictive entropy, and seed spread if multiple seeds exist.
 6. **First signal:**
-   - Spearman ρ between human entropy and each explanation metric, with and without controlling for model uncertainty (a partial correlation is fine).
+   - Spearman ρ between human entropy and each explanation metric, with and without controlling for model uncertainty **and mask consensus** (a partial correlation is fine). Also report the mask-free outcomes (cross-method and cross-seed agreement) separately.
    - **Two-sided.** Jukić 2023 found *higher* agreement on ambiguous inputs.
 7. **Pass criteria:**
    - The pipeline runs on 100 galaxies.
