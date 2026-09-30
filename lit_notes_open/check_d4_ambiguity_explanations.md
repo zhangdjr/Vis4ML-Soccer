@@ -199,3 +199,12 @@ That gives 4 methods × 5 seeds × 1,500 galaxies ≈ 30k maps. SPECULATION: a f
 
 **Updated verdict (SYNTHESIS):** the D4 RQ-B claim ("human vote entropy predicts attribution unreliability beyond model uncertainty") **remains open**. Evidence strength goes from *weak* to **moderate**. Still not covered: Semantic Scholar and Google Scholar citation graphs.
 - **Suggested user check (about 10 min):** on Google Scholar, open "Cited by" for CIFAR-10H (Peterson 2019) and for Jukić 2023, and search within the citing articles for "saliency" or "attribution".
+
+### Addendum 2 (2026-09-30): Google Scholar check by the user
+- **CIFAR-10H (Peterson 2019), about 504 Scholar citers.** The user searched within citing articles, title-restricted to saliency / attribution / explanation(s) / explainable / interpretability. **4 hits, none a threat:**
+  - Boyd, Bowyer & Czajka 2022: human saliency used as training supervision. Tangential; could be cited.
+  - An ECG XAI paper (2026): unrelated.
+  - SalfMix (2021): augmentation, unrelated.
+  - QuEMAT (2025): interpretable annotator-tendency modeling; it explains annotators and does not test explanation reliability.
+- **Jukić 2023:** 1 Scholar citer (title not yet recorded).
+- **Updated verdict:** D4 RQ-B remains open, with **moderate-to-good** evidence.
