@@ -241,3 +241,32 @@ Nothing below changes a confirmatory definition or verdict. Results are in `spik
 - **R1 falsified** → drop "what makes a good reference" as the headline. Report the per-cell taxonomy + QC comparison (floor), plus the round-3 descriptive findings.
 - **R2 falsified on N1** → the family effect was Public-Test-specific. Report it as such.
 - **R3 and R4 are mechanism claims.** Failing either removes that claim, not the project.
+
+## Part B amendments
+
+### Amendment 5: round-4 operational definitions (2026-09-30, **before** N1 is chosen or downloaded, and **before** any R4 statistic)
+Written after the N2 inference outputs existed but **before any N2 statistic was inspected**, except that the pipeline logs print model accuracies. No confirmatory definition in B1–B5 is changed.
+1. **Which "Cellpose-SAM" (FACT, from the installed code).**
+   - cellpose 4.2.1.1 (installed since round 3) defaults to `cpsam_v2`: `MODEL_NAMES = ["cpsam_v2", "cpdino", "cpdino-vitb", "cpsam"]`, `pretrained_model="cpsam_v2"`.
+   - So **every round-3 "Cellpose-SAM" result is v2** (the June 2026 release). The April 2025 v1 is `cpsam`.
+   - In Part B, "Cellpose-SAM" means v2 (code name `cpsam`, for continuity). v1 (`cpsam_v1`) is a pre-declared sensitivity for R2/R3.
+   - v2's training data is undocumented (see `spike_results/D0_n1_choice.md`).
+2. **Exploratory models.** CellposeDINO (`cpdino`, DINOv3 ViT-L; `cpdino_b`, ViT-B) was added after Part B. It is **exploratory only**: it is excluded from the confirmatory R1 roster and reported as "R1 with exploratory models". Its dinov3 code sits in a separate overlay (`envs/dinov3_overlay`); `envs/d5` is unchanged.
+3. **R4 design details** (N3 folds frozen in commit 92a3130):
+   - **Second architecture:** micro-SAM UNETR/AIS initialised from vanilla SAM `vit_b` (SA-1B only), 8,000 iterations, lr 5e-5.
+   - **Seeds:** 3 per architecture per fold. The brief said 2 U-Nets and 1–2 micro-SAM; the third seed was added to give the seed-pair baseline more than one pair per architecture, before any R4 statistic.
+   - **Timed-out runs:** three micro-SAM runs hit the time limit on an L4 GPU. They were retrained from scratch with identical settings; the partial checkpoints were set aside, not used.
+   - **Statistic:** Δ(a,b) = log-OR on N2 images of the 7 training types − log-OR on N2 images of the held-out type. R4 = mean over folds of [mean Δ over cross-architecture pairs − mean Δ over seed pairs], equal fold weight.
+   - **Bootstrap:** images resampled within cell type (B = 1000).
+   - **Verdict:** supported if R4 > 0 with the CI excluding 0; falsified if R4 ≤ 0 (the rule used for R1). κ-based Δ is secondary.
+   - **Exclusion:** a model is excluded if its overall N2 error rate is > 0.6.
+   - Code: `work/r4/r4_R4.py`.
+4. **Holm.** One-sided bootstrap p-values:
+   - R1: (b) − (a) > 0;
+   - R2 and R3: log-OR difference > 0;
+   - R4: the statistic above > 0.
+   - Holm at family-wise α = 0.05 across these four. A hypothesis is "supported" only if it meets its own B3 rule **and** survives Holm.
+5. **R5/R6 choices come from N2.** The best single reference (by AUROC for Cellpose-SAM errors, excluding the fine-tune seeds and v1), the top-2 references and the best flow-error variant are chosen on N2. They are written to `work/r4/out/n2/choices.json` before N1 inference.
+6. **R7:** `cellprob_threshold` is swept on N1, coarse grid first (1–6), then refined until the error rate is within 0.01 of micro-SAM `vit_b_lm`'s. If no threshold gets within 0.01, the closest one is reported and labelled as such.
+7. **Failure handling:** if a model returns no prediction for an image (e.g. one CellSAM failure on N2), every GT cell in that image counts as an error for that model, as in round 3.
+8. **Leakage-map correction:** Cellpose-SAM v1 used **504** NeurIPS22 training images. The 616 in `D5_onboarding.md` §6.2 is LynSec.
