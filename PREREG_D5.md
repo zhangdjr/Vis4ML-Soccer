@@ -168,3 +168,15 @@ Public-Test predictions from two models existed at this point, but only their ru
 - ρ(κ/κ_max, mean AUROC);
 - ρ(κ, AUROC) with the pair's more accurate model as the target;
 - ρ(κ, AUROC) with the target fixed to Cellpose-SAM across its references.
+
+### Amendment 4: deviations and post-hoc items (2026-09-30, **after** the Public-Test results)
+Nothing below changes a confirmatory definition or verdict. Results are in `spike_results/C1–C5`.
+1. **Post-hoc exploratory K2 control.** Strata = image × CellSAM error, with CellSAM as an external "hard for everyone" proxy. It was added because the attribute-only difficulty model turned out weak on Public-Test (within-image AUROC 0.50–0.57 for the Cellpose models). It is labelled exploratory everywhere.
+2. **Factual correction to the H1 framing.**
+   - Cellpose-SAM uses **SAM ViT-L**; micro-SAM `vit_b_lm` and CellSAM use **SAM ViT-B**, as the installed code shows.
+   - So the H1 comparison pair shares SAM *pretraining*, not an encoder checkpoint. H1's verdict is reported as tested, but it is relabelled "shared SAM pretraining" in figures.
+   - **Candidate hypothesis for the next pre-registration:** same encoder checkpoint → higher κ. Tests: micro-SAM `vit_b_lm` vs `vit_l_lm`; micro-SAM vs CellSAM; accuracy-matched.
+3. **Operational deviations.**
+   - The Public-Test SAM job was cancelled after micro-SAM AIS and AMG had finished. CellSAM was rerun on its own with identical code.
+   - LIVECell train-A inference ran Cellpose-SAM defaults only, since the `flow_threshold=0` output is not needed for the attribute fit.
+   - For LC200 (secondary), the H4 reference is selected on LC200 itself, as the code comments state; the Public-Test reference is still chosen on LC200, as pre-registered.
