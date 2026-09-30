@@ -180,3 +180,64 @@ Nothing below changes a confirmatory definition or verdict. Results are in `spik
    - The Public-Test SAM job was cancelled after micro-SAM AIS and AMG had finished. CellSAM was rerun on its own with identical code.
    - LIVECell train-A inference ran Cellpose-SAM defaults only, since the `flow_threshold=0` output is not needed for the attribute fit.
    - For LC200 (secondary), the H4 reference is selected on LC200 itself, as the code comments state; the Public-Test reference is still chosen on LC200, as pre-registered.
+
+---
+
+# Part B. Round-4 pre-registration: reframed question (2026-09-30, written **after** round-3 results, **before** any round-4 data exists)
+
+**Why Part B exists.** Round 3 used up Public-Test as a confirmatory set, and its findings motivate a new question: **"What makes a good reference model for agreement-based QC of cell segmentation?"**
+- Everything below was *generated* from round-3 data.
+- It is confirmatory only on **new** data, defined in B1, that no round-3 analysis touched.
+- Re-analyses of Public-Test or LC200 with the new measures are labelled **exploratory**.
+
+## B1. Confirmatory data (fixed now; chosen before any model is run on it)
+- **N1: a new held-out dataset.** The round-4 session picks one using these rules, in this order, and **commits the choice and its reasons before running any model on it**:
+  - labeled 2-D light-microscopy *instance* masks (cells or nuclei; cells preferred);
+  - public, with a license that allows analysis;
+  - ≤ 2 GB for the needed part;
+  - **not** in the training or validation data of Cellpose-SAM (v1 and v2), cyto3, micro-SAM `vit_b_lm`/`vit_l_lm` or CellSAM, as far as their papers and model cards say. Record the evidence per model;
+  - prefer a release after April 2025 (after Cellpose-SAM's training);
+  - ≥ 1,500 GT cells after exclusions.
+  - If nothing qualifies, use **NeurIPS22 Tuning** (101 images) and label every micro-SAM result "model-selection-exposed".
+- **N2: fresh LIVECell test images.** 200 test images **disjoint from LC200 and E40**, stratified 25 per type, with duplicate files excluded (Amendment 2). This is in-distribution; it confirms in-distribution claims on unseen images.
+- **N3: controlled shift.** Own-trained models on LIVECell leave-one-cell-type-out folds (B3 R4).
+- Exclusions, matching (Hungarian, IoU > 0.5; sweeps at 0.3 and 0.7), preprocessing and the image bootstrap are all as in Part A §1 and Amendment 1.
+
+## B2. Measures (fixed now)
+- **Error dependence**, per pair. Report all three:
+  - **log odds ratio (log-OR) of joint error**: margin-free, and **co-primary** with κ. Add 0.5 to every cell of the 2×2 table if any cell is 0;
+  - κ;
+  - κ/κ_max.
+- **Reference QC value**, per *directed* pair (target t, reference r):
+  - within-image AUROC of −agreement(t, r) for t's errors;
+  - recall of t's errors in the top 5% of cells (K6 definition).
+- **Reference descriptors:**
+  - e_r = r's error rate;
+  - o = P(r wrong | t wrong), the conditional overlap;
+  - f = P(r wrong | t right), the false-alarm source.
+
+## B3. Confirmatory hypotheses (Holm across R1–R4)
+- **R1: reference accuracy and independence jointly predict QC value.**
+  - Across all directed pairs on N1 (every target that passes the > 0.6 error-rate exclusion), predict recall@5% with:
+    - (a) κ alone;
+    - (b) the two-term model {f, o}.
+  - Both are linear, evaluated by leave-one-target-out cross-validated Spearman.
+  - **Supported** if (b) − (a) ≥ 0.10 and the image-bootstrap CI excludes 0.
+  - **Falsified** if (b) − (a) ≤ 0.
+- **R2: the family effect is margin-free.** log-OR(Cellpose-SAM, cyto3) − log-OR(Cellpose-SAM, micro-SAM `vit_b_lm`) > 0 on N1, with the CI excluding 0.
+- **R3: a shared SAM checkpoint raises error dependence.**
+  - log-OR(Cellpose-SAM, micro-SAM `vit_l_lm`) − log-OR(Cellpose-SAM, micro-SAM `vit_b_lm`) > 0 on N1. The first pair shares SAM ViT-L initialization; the second shares only the SAM pretraining family.
+  - Also report it on the accuracy-matched subset and at matched operating points (B4).
+- **R4: distribution shift decorrelates cross-architecture errors more than seed errors** (N3, own models).
+  - Define Δ = log-OR(in-type test) − log-OR(held-out-type test). Test Δ(cross-architecture pairs) − Δ(seed pairs) > 0, pooled over folds, with the CI excluding 0.
+
+## B4. Secondary (reported, uncorrected)
+- **R5, H4 follow-up:** a cross-fitted logistic combination of agreement + Cellpose-SAM flow error beats each alone by ≥ 0.02 AUROC on N1.
+- **R6, multi-reference:** the mean agreement over ≥ 2 references beats the best single reference chosen on N2.
+- **R7, operating-point matching:** shift Cellpose-SAM's `cellprob_threshold` until its N1 error rate matches micro-SAM's (within 0.01). Recompute H1/R2.
+- **R8, external-consensus difficulty control** (replaces the weak attribute model): strata = image × the number of *other* models (not in the pair) that miss the cell.
+
+## B5. Kill / reframe rules
+- **R1 falsified** → drop "what makes a good reference" as the headline. Report the per-cell taxonomy + QC comparison (floor), plus the round-3 descriptive findings.
+- **R2 falsified on N1** → the family effect was Public-Test-specific. Report it as such.
+- **R3 and R4 are mechanism claims.** Failing either removes that claim, not the project.
