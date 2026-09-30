@@ -206,5 +206,5 @@ That gives 4 methods × 5 seeds × 1,500 galaxies ≈ 30k maps. SPECULATION: a f
   - An ECG XAI paper (2026): unrelated.
   - SalfMix (2021): augmentation, unrelated.
   - QuEMAT (2025): interpretable annotator-tendency modeling; it explains annotators and does not test explanation reliability.
-- **Jukić 2023:** 1 Scholar citer (title not yet recorded).
+- **Jukić 2023:** 1 Scholar citer, Vidhanaarachchi et al., "Interpreting what Attention Mechanisms Know in Language Models: A Systematic Review" (IEEE Trans., 2026). An NLP attention-interpretability review; not a threat.
 - **Updated verdict:** D4 RQ-B remains open, with **moderate-to-good** evidence.
