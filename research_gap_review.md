@@ -52,9 +52,9 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 | # | Candidate | Upside | Grade safety | Difficulty | Compute (your setup effort) | Viz burden | Data risk | Scoop risk | Silva fit | Interest | Main risk |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **1** | **D5:** do cell-segmentation models share mistakes, and does agreement flag bad cells without GT? (microscopy) | Med (High if shared-error result holds) | **High** | Med | Low (<2 s/img) | Low–Med | Low–Med (NC licenses) | **Low** (0 citers; RBQE partial) | High (tests Visagreement's conjecture) | High (your segmentation skills) | Agreement may just track difficulty |
+| **1** | **D5:** do cell-segmentation models share mistakes, and does agreement flag bad cells without GT? (microscopy) | **Med–High** (B1: "lineage, not encoder" is a real departure hook) | **High** | Med | Low (<2 s/img; seeds 30 min each) | Low–Med | Low–Med (NC licenses) | **Low** (0 citers; RBQE partial) | High (tests Visagreement's conjecture) | High (your segmentation skills) | In-distribution so far (needs NeurIPS22 Public-Test); "lineage" still confounds objective, decoder and data |
 | **2** | **D2:** where do time-series foundation models fail, window by window? | Med | **High** | Low–Med | **None** (released outputs) | Low–Med | Low | Med–High (fast field; Wang et al.) | Med–High (mTSeer) | Low | Thin novelty; a null result is plausible |
-| **3** | **D4:** Zoobot uncertainty and explanations vs. volunteer disagreement (astronomy) | Med (High if RQ-B works) | Med–High | Med | Low (3 s/epoch) | Low–Med | Low (NC-SA + code-release clause) | Med (data owners; lab image extension) | High (Calibrate, Visagreement) | **High** (astronomy) | Brightness confound |
+| **3** | **D4:** Zoobot uncertainty and explanations vs. volunteer disagreement (astronomy) | Med (RQ-B signal weak in B2; RQ-A safe) | Med–High | Med | Low (3 s/epoch) | Low–Med | Low (NC-SA + code-release clause) | Med (data owners; lab image extension) | High (Calibrate, Visagreement) | **High** (astronomy) | Brightness dominates mask localization (B2 red flag) |
 | **4** | **D3:** why LLM judges disagree with each other and with humans | Med− | **High** | Low–Med | Med (~4.7 h, 32 GB of models) | Med | Low | **High** (PAIR/KAIST/IBM; lab text extension) | Med–High | Med | "Not novel enough" |
 | **5** | **Soccer C1:** per-shot xG explanation disagreement vs. physics | Med | Med–High | Low–Med | Low | Med | Low | Low–Med | High (Visagreement) | **High** (soccer) | Methods may simply agree on distance/angle; not spiked |
 
@@ -75,11 +75,28 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 | # | Ambitious version | Upside | Grade safety (with floor) | Difficulty | Compute | Extra hours vs. 40 | Scoop risk | Floor if it fails | Paper needs (post-course) | Plausible venues (verify deadlines) |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **1** | **D5 full:** a correlated-error audit across 4+ models (incl. non-SAM) and 2–3 held-out datasets, plus GT-free triage evaluated by simulated inspection. **With the cluster, it can add seed-level ensembles** (see the D5 + Rashomon note below) | **Med–High** (High with the combined version) | Med–High | Med–High | Low | +25–35 h | Low | Error taxonomy + consistency matrix on LIVECell | A third dataset; κ with CIs across model lineages; optional biologist feedback | CVPR/MICCAI microscopy workshops; IEEE VIS short; ISBI |
-| **2** | **D4 RQ-B:** does *human* ambiguity predict *explanation* unreliability? (GZ3D masks, beating a brightness baseline) | **Med–High** (the most distinctive story) | Med | Med–High | Low | +25–35 h | Med (data owners; lab image extension) | Small-N calibration audit (RQ-A) | Several morphology questions; comparison vs. ZooBot:3D | NeurIPS ML4PS; RAS Techniques & Instruments (rolling); VIS short |
-| **3** | **Rashomon/multiplicity VA for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity (pairs naturally with D5) | Med–High | Med | High (training pipeline) | **Low** (10–20 seeds = one overnight run on the cluster) | +30–40 h | Low–Med | Seed-variance maps on one dataset | A link to annotation ambiguity; a second dataset | VIS short; CVPR/ICCV workshops; the VIS Uncertainty workshop |
+| **1** | **D5 full:** a correlated-error audit across 4+ models (incl. non-SAM) and 2–3 held-out datasets, plus GT-free triage evaluated by simulated inspection. **With the cluster, it can add seed-level ensembles** (see the D5 + Rashomon note below) | **Med–High → High** if the lineage result replicates on held-out data (B1) | Med–High | Med–High | Low | **+18–20 h** (B1 built the pipeline) | Low | Error taxonomy + consistency matrix on LIVECell | A third dataset; κ with CIs across model lineages; optional biologist feedback | CVPR/MICCAI microscopy workshops; IEEE VIS short; ISBI |
+| **2** | **D4 RQ-B:** does *human* ambiguity predict *explanation* unreliability? (GZ3D masks, beating a brightness baseline) | **Med** (down from Med–High after B2: brightness dominates; the signal is weak) | Med− | Med–High | Low | +21–24 h | Med (data owners; lab image extension) | Small-N calibration audit (RQ-A) | Several morphology questions; comparison vs. ZooBot:3D | NeurIPS ML4PS; RAS Techniques & Instruments (rolling); VIS short |
+| **3** | **(Merged into #1 after B1, which built the seed pipeline and the seed level.)** **Rashomon/multiplicity VA for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity (pairs naturally with D5) | Med–High | Med | High (training pipeline) | **Low** (10–20 seeds = one overnight run on the cluster) | +30–40 h | Low–Med | Seed-variance maps on one dataset | A link to annotation ambiguity; a second dataset | VIS short; CVPR/ICCV workshops; the VIS Uncertainty workshop |
 | **4** | **D2-max:** the in-vivo test of Jander's TSFM failure modes, plus failure *prediction* on held-out datasets | Med | High | Med | None–Low | +20–30 h | **Med–High** | Variance decomposition + a failure predictor | A second benchmark (GIFT-Eval); a dose-response analysis | ICLR TSFM workshops; IEEE VIS short; IJF |
 | **5** | **Soccer C1 full:** per-shot disagreement across methods and models on several tournaments, checked against physics ground truth | Med (smaller venues, higher acceptance odds) | Med–High | Med | Low | +20–25 h | Low–Med | Global + semantic-perturbation analysis on one tournament | Several tournaments; a Rashomon set of xG models | MLSA @ ECML-PKDD; JQAS; J. Sports Analytics |
+
+**Round-2 spike verdict (2026-09-30; lead-reviewer review of `spike_results/B1_*` and `B2_*`):**
+- **D5 got stronger.** Per-cell κ: seeds 0.92 > checkpoint variant 0.88 > SAM vs non-SAM *within the Cellpose family* 0.79 > SAM vs SAM *across groups* (Cellpose-SAM vs micro-SAM) 0.58. So the shared SAM encoder does **not** make errors alike (FACT, in-distribution, 40 images).
+  - *Caveat (SYNTHESIS):* "lineage" still bundles the **objective and instance-decoding step** (flow fields vs SAM decoding), the training data and the recipe.
+  - Sharpen the claim with cheap contrasts:
+    - **micro-SAM AIS vs AMG:** same encoder and weights, different decoding.
+    - Cellpose-SAM vs cyto3 (same flow decoding, different encoder) is already done: 0.79.
+    - κ **by error type** (merge/split vs miss).
+  - Then replicate on held-out **NeurIPS22 Public-Test** before claiming anything.
+  - Agreement-QC AUROC rises as κ falls (0.71 → 0.78, up to 0.85 when cpsam agreement flags micro-SAM's errors), which is the QC consequence the story needs.
+- **D4 got weaker, but it is not settled.** Brightness localizes bar masks better than any attribution (AUPRC 0.83 vs 0.29–0.44); attributions add only +0.005 to +0.02 over a light-profile model. The one "beyond model uncertainty" hint (partial ρ −0.27) is weak for three reasons:
+  - (i) B2 ran **before** the mask-consensus control was added, so that hint is uncontrolled.
+  - (ii) The model is weak (`tiny`, 5 epochs, MAE 0.14).
+  - (iii) 13 tests, and none survives a Holm correction.
+  - *Possible pivot (SPECULATION):* ambiguous galaxies get **more** agreement between methods but **less** informative attributions. So "explanation agreement is a misleading quality signal under human ambiguity", which connects directly to Visagreement's conjecture.
+  - The full version needs a stronger model (the 17.5 GB download or a streamed subset), mask consensus as a covariate, about 1,000 galaxies, and a pre-registered ΔAUPRC outcome.
+- **A shared theme to pitch:** both projects ask **"when is agreement a trustworthy signal of correctness?"** D5 asks it about agreement between models; D4 asks it about agreement between explanation methods.
 
 **Novelty checks on the ambitious versions (2026-09-29, cross-checked 2026-09-30 by 3 external LLM runs, all agreeing; details in `lit_notes_open/check_d5_error_hierarchy.md` and `check_d4_ambiguity_explanations.md`):**
 - **D5 ambitious: partly falsified, and the core survives.**
@@ -108,7 +125,8 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 **For Oct 6:**
 - **Grade-first:** pitch #1 plus one or two of 3a's #2–#4.
-- **Ambitious:** lead with **D5**, and offer **D4 RQ-B** as the higher-risk, more distinctive alternative.
+- **Ambitious (updated after round 2):** lead with **D5**, framed as *"What makes segmentation models fail together: the shared encoder, the decoding objective, or the training data? And when does that break agreement-based QC?"* Pre-register the hypotheses.
+- Offer **D4** as the higher-risk alternative. **State the brightness finding up front**, and mention the "agreement is misleading under ambiguity" pivot.
 
 ## 4. The candidates in one screen each
 

@@ -93,3 +93,13 @@ The code's automatic level labels put "cpsam vs cyto3" and "micro-SAM vs cyto3" 
 | Three figures (κ by level; AUROC vs κ; silent failures by level) plus a triage view | 4 |
 | Write-up | 3 |
 | Buffer | 2–3 |
+
+## Lead-reviewer notes (2026-09-30)
+- The "lineage, not encoder" reading is supported, but **"lineage" bundles four things**: the objective and instance-decoding step (flow fields + dynamics vs SAM decoding), the training data, the recipe, and the group.
+  - Cheap contrasts to separate them (SYNTHESIS):
+    - **micro-SAM AIS vs AMG:** same encoder and weights, different decoding.
+    - Cellpose-SAM vs cyto3: same flow decoding, different encoder. Already in the table: 0.79.
+    - **κ by error type:** merges and splits are decoder-driven; misses may be encoder- or data-driven.
+- The accuracy gap (micro-SAM 0.65 vs about 0.75) is handled by κ/κ_max. Keep reporting both, and add an **accuracy-matched** subset analysis (already in the effort table).
+- **Do not claim anything publicly until it replicates on NeurIPS22 Public-Test.** All non-CellSAM models saw LIVECell train.
+- Pre-register the hypotheses (H-mono, H-decoder, H-data) and the κ ordering before the held-out run.

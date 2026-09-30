@@ -103,3 +103,9 @@ SYNTHESIS (n ≈ 100; 13 correlations; **nothing survives a Holm correction**):
 - **Mask quality may fall with ambiguity** (confound #1 in the check note): fewer or less consistent drawers on borderline bars. The ΔAUPRC hint could partly be mask noise. The full version needs the number of drawers and a spatial-ambiguity score as covariates.
 - Galaxies without a ≥3-drawer bar mask (20) enter only the agreement analyses.
 - The cutout scale is fixed by the GZ3D field (52″), not Zoobot's size-adaptive DESI crops, so there is some domain shift from the training images.
+
+## Lead-reviewer notes (2026-09-30)
+- **Commit order:** this spike ran from the brief *before* the mask-consensus control was added (commit 146c50b). The only "beyond model uncertainty" hint (partial ρ −0.27 for ΔAUPRC) is therefore **not** controlled for mask consensus. Add drawer count and pixel-level drawing agreement as covariates in any rerun.
+- **Weak-model caveat:** the head was trained on `tiny` for 5 epochs (MAE 0.14). Poor localization may partly reflect the model, not the question. A stronger model (the 17.5 GB download, or streamed or Legacy-cutout training) is needed before concluding anything.
+- **Multiplicity:** 13 correlations, none surviving Holm. Treat everything here as hypothesis-generating only.
+- **Pivot worth pre-registering (SPECULATION):** "cross-method agreement *rises* with human ambiguity while informativeness (ΔAUPRC over the light profile) *falls*". That would mean explanation agreement is a misleading quality signal under ambiguity, which connects to Visagreement's disagreement–quality conjecture.
