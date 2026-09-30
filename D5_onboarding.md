@@ -228,6 +228,33 @@ These are preliminary: feasibility spikes, not results. Scripts and outputs are 
 - seeds vary data order only (no from-scratch seeds yet);
 - the off-the-shelf levels change several things at once.
 
+### 4.3 Round 3: pre-registered kill tests, held-out replication (2026-09-30)
+Full details are in `spike_results/C1–C5`. Pre-registration: `PREREG_D5.md`. Amendments 1–3 were committed before any Public-Test statistic was computed.
+- **Held-out set:** NeurIPS22 Public-Test, 50 images and 6,040 cells across 5 modalities. Secondary: LC200, 194 LIVECell test images.
+- **Confirmatory results:**
+  - **H1 supported:** κ(Cellpose-SAM, cyto3) 0.33 > κ(Cellpose-SAM, micro-SAM) 0.17, also after κ/κ_max.
+  - **H2 supported:** seeds 0.91–0.93.
+  - **H3 supported:** ρ = −0.30.
+  - **H4 inconclusive:** agreement ≈ Cellpose's own flow error; both ≫ attributes.
+- **Kill tests:**
+
+  | Test | Result |
+  |---|---|
+  | K1 | passed |
+  | K2 (hard cells) | passed, with a weak difficulty model on Public-Test |
+  | K3 (diameter) | passed |
+  | **K4 (accuracy)** | **triggered**: no H1 effect on the 20 accuracy-matched images; κ/κ_max gap only +0.02 on LIVECell |
+  | K5 | passed, but the effect sits in 2 of 5 modalities |
+  | **K6 (practical)** | **triggered**: a same-family reference triages Cellpose-SAM's errors as well or better |
+
+- **Surprises:**
+  1. Out of distribution, cross-model κ collapses (0.78 → 0.33) while seeds stay at 0.92.
+  2. LIVECell-only models fail together out of distribution (κ 0.73–0.84).
+  3. **Cellpose-SAM is ViT-L; micro-SAM and CellSAM are ViT-B.** The ViT-B pair is the most consistent cross-family pair (0.39).
+  4. `flow_threshold=0` raises Cellpose-SAM's LIVECell recall from 0.75 to 0.83.
+  5. The LIVECell test json lists 52 files twice with different annotations.
+- **Implication for the proposal:** pre-register the accuracy-matched analysis as primary, alongside raw κ and κ/κ_max. Rename L2 "shared SAM pretraining". Add a same-checkpoint contrast (micro-SAM ViT-B vs ViT-L). Frame RQ3 as "agreement vs the model's own signals", not "agreement vs nothing".
+
 ---
 
 ## 5. Research questions and hypotheses

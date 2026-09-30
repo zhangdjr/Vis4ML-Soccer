@@ -617,6 +617,21 @@ What this changes (SYNTHESIS):
   - Estimate: about 21–24 h. The 17.5 GB download is needed only for a stronger model, not for the question.
 - **Recommended pitch for Oct 6:** lead with **D5 ambitious** (H-mono vs H-lineage); offer **D4 RQ-B** as the higher-risk alternative, with the brightness-dominance result stated up front.
 
+### Spike round 3 (2026-09-30, D5 pre-registered kill tests; details in `spike_results/C1–C5`, pre-registration in `PREREG_D5.md` + Amendments 1–4)
+
+| Task | Verdict | Key numbers |
+|---|---|---|
+| **C1 held-out replication** (NeurIPS22 Public-Test, 50 images, 6,040 cells; range-read 253 MB of `Testing.zip`) | **H1 ✓, H2 ✓, H3 ✓, H4 inconclusive; K1 passed** | Accuracy: Cellpose-SAM 0.95, cyto3 0.89, micro-SAM 0.85, CellSAM 0.72, livecell_cp3 0.47. **κ(cpsam, cyto3) 0.33 vs κ(cpsam, micro-SAM) 0.17: diff +0.16 [0.09, 0.25]; κ/κ_max +0.19 [0.06, 0.32]**; Holm p 0.004. Seeds 0.91–0.93. ρ(κ, QC AUROC) −0.30 [−0.41, −0.14], but it **reverses (+0.23)** when the target is the pair's stronger model. H4: agreement AUROC 0.898 vs Cellpose flow error (`flow_threshold=0`) 0.885, Δ +0.01 [−0.04, 0.07]. On LC200 (194 images; secondary) H4 is **falsified** (0.74 vs 0.84). |
+| **C2 robustness** | K3 ✓, K5 ✓ (heterogeneous), **K4 triggered, K6 triggered** | GT-median diameter doesn't remove the effect: κ 0.35. **Accuracy-matched subset (20 images): H1 diff −0.03 [−0.13, 0.21]**. On LC200 the κ/κ_max gap is only +0.02. The raw effect sits in the modalities where micro-SAM is weak (phase-contrast cultured cells, bacteria), and is ≈ 0 in brightfield. Top-5% triage: a same-family reference (cyto3) finds **5.7 pp more** Cellpose-SAM errors than a cross-family one (micro-SAM). |
+| **C3 difficulty null (K2)** | **passed** | H1 diff after decile stratification +0.17 [0.09, 0.25]; by image +0.14; image × tercile +0.17; image × CellSAM error (exploratory) +0.10 [0.02, 0.19]. The permutation-null κ is about 0.02. The attribute error model is weak on Public-Test (AUROC 0.50–0.57). |
+| **C4 mechanism** | H5 partly; H6 supported (small) | Merge/split κ: cpsam–cyto3 0.25 > cpsam–micro-SAM 0.09, but micro-SAM AIS vs AMG (same weights) 0.35. From-scratch U-Nets (5 × 17–39 min): seeds 0.86 vs disjoint data 0.825 (+0.035 [0.030, 0.041]). Out of distribution, the LIVECell-only models fail *together* (κ 0.73–0.84). |
+| **C5 pitch figure** | done | `spike_results/fig_kappa_by_level.png`, `fig_kappa_vs_auroc.png` |
+
+What this changes (SYNTHESIS):
+- **D5 is still the lead, and still safe as a course project.** The floor results replicate on held-out data: the seed hierarchy, the error taxonomy, and agreement-QC ≫ attribute baselines.
+- **But "family, not encoder" should not be the headline.** It passes its pre-registered test, but it is accuracy-confounded (K4), modality-dependent, and mislabelled: Cellpose-SAM uses ViT-L while micro-SAM uses ViT-B. A stronger, better-supported headline: **"error consistency is high in-distribution and collapses out of distribution. Shared training distribution, not a shared foundation backbone, predicts shared failures there. And agreement-based QC is only as good as the model's own flow-error signal."**
+- **Newly opened question:** the only same-encoder cross-family pair (micro-SAM vs CellSAM, both ViT-B) is the most consistent cross-family pair on Public-Test (κ 0.39). A narrow H-mono may hold; test micro-SAM `vit_b_lm` vs `vit_l_lm`.
+
 ---
 
 ## 13. Appendix
