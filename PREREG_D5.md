@@ -1,6 +1,6 @@
 # D5 Pre-registration: hypotheses, analysis plan, and kill criteria
 
-**Status:** written and committed **2026-09-30, before** any held-out (NeurIPS22 Public-Test) data was analysed. The git commit timestamp is the record. Changes after that date go in the "Amendments" section at the bottom, dated, with a reason. Earlier text is never silently edited.
+**Status:** written and committed **2026-09-29 23:05 EDT (2026-09-30 UTC), before** any held-out (NeurIPS22 Public-Test) data was analysed. The git commit timestamp is the record. Changes after that date go in the "Amendments" section at the bottom, dated, with a reason. Earlier text is never silently edited.
 
 **Why pre-register?** Writing down in advance what counts as support or failure makes a positive result credible and a negative result publishable. It also stops us from choosing, after the fact, the analysis that looks best.
 
