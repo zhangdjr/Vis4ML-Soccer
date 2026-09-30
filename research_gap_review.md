@@ -81,13 +81,13 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 | **4** | **D2-max:** the in-vivo test of Jander's TSFM failure modes, plus failure *prediction* on held-out datasets | Med | High | Med | None–Low | +20–30 h | **Med–High** | Variance decomposition + a failure predictor | A second benchmark (GIFT-Eval); a dose-response analysis | ICLR TSFM workshops; IEEE VIS short; IJF |
 | **5** | **Soccer C1 full:** per-shot disagreement across methods and models on several tournaments, checked against physics ground truth | Med (smaller venues, higher acceptance odds) | Med–High | Med | Low | +20–25 h | Low–Med | Global + semantic-perturbation analysis on one tournament | Several tournaments; a Rashomon set of xG models | MLSA @ ECML-PKDD; JQAS; J. Sports Analytics |
 
-**Novelty checks on the ambitious versions (2026-09-29; details in `lit_notes_open/check_d5_error_hierarchy.md` and `check_d4_ambiguity_explanations.md`):**
+**Novelty checks on the ambitious versions (2026-09-29, cross-checked 2026-09-30 by 3 external LLM runs, all agreeing; details in `lit_notes_open/check_d5_error_hierarchy.md` and `check_d4_ambiguity_explanations.md`):**
 - **D5 ambitious: partly falsified, and the core survives.**
   - *Done for classification:* Gontijo-Lopes et al. (ICLR 2022, full text) show that errors decorrelate from seeds → hyperparameters → architecture → objective → data.
   - *Partly done for segmentation*, but only per image and with at most 2–3 levels: RBQE; Kirscher et al. 2026 (read in full: seed vs CV-fold ensembles, image-level, semantic segmentation, no error-correlation metric, no microscopy); Zenk 2024.
   - **Open:** *per-cell* error consistency (κ with bootstrap CIs) across seed → fine-tuned → shared-SAM-backbone → non-SAM → different-data pairs, linked to agreement-QC AUROC and silent failures.
   - The paper hook is where segmentation **departs** from the classification ordering, e.g. SAM-sharing pairs behaving like seed copies.
-  - Must-cite: Gontijo-Lopes 2022, Geirhos 2020 (error consistency), Klein 2025, Saxena 2024, RBQE, Kirscher 2026, Zenk 2024.
+  - Must-cite: Gontijo-Lopes 2022, Geirhos 2020 (error consistency), Klein 2025, Saxena 2024, RBQE, Kirscher 2026, Zenk 2024, **arXiv 2512.15921** (GT-free concordance of 6 CT segmenters), and **Comput. Biol. Med. 2023** (ensembles that "largely agree on mistakes"). So frame silent failures as *quantified across the hierarchy*, not as newly discovered.
 - **D4 ambitious: partly falsified, and the core survives.**
   - *Done:* the **model's own** uncertainty predicts explanation unreliability (Mikriukov et al. 2026, Saporta 2022 / CheXlocalize, Bhatt et al.). Jukić 2023 finds saliency agreement is *higher* on model-ambiguous inputs, so **test two-sided**.
   - **Open (moderate evidence after a 2026-09-30 retry:** citation chaining over about 850 citers of 6 key papers, 6 targeted searches, and 2 new Sept-2026 preprints checked, none of which tests explanations**):** *human* vote entropy as the predictor, **beyond** model uncertainty. Cite Singh & Pakrashi 2026 (model uncertainty vs human ambiguity, no explanations). A Google Scholar title check of CIFAR-10H's ~500 citers, done by you on 2026-09-30, found no threat. Evidence is now **moderate-to-good**. The galaxy angle is strong for three reasons:
@@ -153,6 +153,7 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 - **Why it is open:** the Zoobot papers report only an aggregate "noise floor", and nobody has compared galaxy-CNN explanations against GZ3D masks (FACT, verified).
 - **Reproduce:** Galaxy Zoo DESI Fig. 5 and Galaxy Zoo DECaLS Fig. 19.
 - **Spike (PASS):** 3 s per epoch; masks align to about 1 px. Bar pixels are 30× brighter than the image mean, so any explanation test **must beat a brightness baseline**.
+- **Validity risk (2026-09-30):** GZ3D masks are volunteer-drawn too, so vote ambiguity may go with noisier masks. Control for **mask consensus** (number of drawers, overlap), and lean on mask-free outcomes (cross-method and cross-seed agreement, deletion faithfulness).
 - **Spike round 2 (B2, PASS with a red flag):**
   - 100 GZ3D galaxies with independent votes, 3 seeds, 4 attribution methods.
   - **Brightness alone localizes bar masks better** (median AUPRC 0.83 vs 0.29–0.44). Attributions beat it on only 10–17% of galaxies and add just +0.005 to +0.02 over a light-profile model.
