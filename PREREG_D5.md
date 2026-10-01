@@ -281,3 +281,25 @@ Written after the N2 inference outputs existed but **before any N2 statistic was
 2. **R1-within:** the same leave-one-target-out predictions, scored by the mean within-target Spearman (for recall@5% and for AUROC).
 
 **Interpretation rule, fixed now.** If confirmatory R1 and R1-within disagree, D6 reports the disagreement and does not pick the favourable one.
+
+### Amendment 7: N1 scale failure and the rescaled re-run (2026-09-30, **after** seeing native-scale N1 accuracies, **before** any N1 dependence or QC statistic involving Cellpose-SAM, cyto3 or CellSAM)
+**What happened (FACT).** On N1 (mCellSeg) at native resolution, as pre-registered, the error rates (share of GT cells missed at IoU > 0.5) are:
+
+| Model | Cellpose-SAM | Cellpose-SAM v1 | FT seeds | cyto3 | livecell_cp3 | CellSAM | µSAM ViT-B | µSAM ViT-L |
+|---|---|---|---|---|---|---|---|---|
+| Error | **0.652** | 0.643 | 0.61–0.65 | 0.761 | 0.896 | 0.667 | 0.518 | 0.473 |
+
+- Every model except the two micro-SAM models fails the > 0.6 exclusion rule.
+- **The cause is cell scale.** The median GT cell diameter is 132 px (range 50–327). Cellpose-SAM's accuracy is 0.53 on images whose median diameter is ≤ 120 px, but 0.17 above 120 px. On the 40× images it predicts 2–9 objects for 30–100 cells. D0 §7 flagged this risk in advance.
+- The stats code builds pairs only among non-excluded models, so **no dependence or QC statistic** involving the excluded models has been computed on N1.
+
+**Pre-registered outcome, reported as such.** On native-scale N1, R1 has fewer than 3 eligible targets, and R2/R3 need Cellpose-SAM, which is excluded. So **R1–R3 are not testable on N1 as pre-registered.** This is the confirmatory result; it is neither "supported" nor "falsified".
+
+**Added analysis: N1-rescaled (post-hoc in design, blind to dependence and QC outcomes).**
+1. **Rescaling rule.** Each N1 image is resized by s = 30 / d_med before inference, where d_med is the median GT equivalent diameter of that image and 30 px is the Cellpose training mean. This uses GT, an "oracle scale", like the Part A K3 GT-median-diameter control.
+   - Images are resized with area-averaging (anti-aliased) interpolation and then go through the same Part A percentile scaling.
+   - The rule is identical for **every** model.
+   - Diameter-taking models get no extra diameter argument at the rescaled size: Cellpose 3 models use auto-diameter, as in the main roster, and the `_gtd` variants get 30 px.
+2. **Scoring.** Predictions are upsampled to the original size by nearest neighbour and matched against the **original** GT. Matching, exclusion (> 0.6 error), measures, bootstrap, R1–R3, R5–R8 and Holm are all exactly as in Part B and Amendments 5–6.
+3. **Status.** These results are labelled **"N1-rescaled: post-hoc design, outcome-blind"** everywhere. They carry less evidential weight than a pre-registered test, and D6 says so. R4 (N3/N2) is unaffected.
+4. **No further rescue.** If a model still fails the exclusion rule on N1-rescaled, it stays excluded, and no other preprocessing variant is tried.
