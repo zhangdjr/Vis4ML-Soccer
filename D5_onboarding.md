@@ -1,7 +1,8 @@
-# D5 Onboarding: "When Do Cell Segmenters Fail Together?"
+# D5 Onboarding: "When Does Agreement Between Cell Segmenters Reveal Their Errors?"
 
 **Purpose.** This document takes you from "I skimmed a lot of topics" to "I can write a strong 4-page proposal for D5 by Oct 20." Read it top to bottom once, which takes about 60–75 minutes, then work through the reading list in Part 3.
-**Written:** 2026-09-30, from the D5 deep dive, the novelty check, and two cluster spikes (A1, B1). Every number here comes from those files; §12 lists the sources.
+**Written:** 2026-09-30 from the D5 deep dive, the novelty check and two cluster spikes (A1, B1). **Rewritten the same day after rounds 3 and 4** (pre-registered held-out tests). Every number comes from those files; §12 lists the sources.
+> **What changed in the rewrite.** The original headline, "same family shares errors, a shared SAM encoder doesn't", **did not survive** held-out testing. Two later headlines didn't either (§4.3–4.4). The project is now framed around a **visual-analytics tool plus a pre-registered evaluation of when agreement-based QC works**, built on the results that *did* replicate. §1, §5, §7, §8, §10 and §11 are new. §2–§4 are kept as background and history.
 **Labels:** **FACT** = checked against a source or our own run. **SYNTHESIS** = my inference. **SPECULATION** = a guess to test.
 
 ---
@@ -13,7 +14,7 @@
 4. [What we have already measured](#4-what-we-have-already-measured)
 5. [Research questions and hypotheses](#5-research-questions-and-hypotheses)
 6. [Study design](#6-study-design)
-7. [The visual analytics part (and why it is scientifically necessary)](#7-the-visual-analytics-part-and-why-it-is-scientifically-necessary)
+7. [The visual analytics part (now the centre of the project)](#7-the-visual-analytics-part-now-the-centre-of-the-project)
 8. [Scope tiers, milestones and hours](#8-scope-tiers-milestones-and-hours)
 9. [Risks and mitigations](#9-risks-and-mitigations)
 10. [Course fit, the Silva connection, and the Oct 6 pitch](#10-course-fit-the-silva-connection-and-the-oct-6-pitch)
@@ -26,28 +27,34 @@
 
 **The setting.** Biologists increasingly segment microscopy images with **generalist cell-segmentation models**, pretrained models meant to work on any cell image without retraining. The main ones are Cellpose-SAM, micro-SAM, CellSAM, and older Cellpose models such as cyto3. Nobody has ground truth for their own images, so they need a way to tell **which cells were segmented wrong** without it.
 
-**The common trick.** Run several models and trust the cells where they **agree**. Tools like **BISCUIT** (F1000Research 2025) are built on this. BISCUIT states the assumption outright: *"Assuming that model prediction inaccuracies are uncorrelated between models, the model with the lowest score yields predictions closest to the ground truth"* (FACT, full text).
-
-**The problem.** If two models tend to make the **same mistakes**, their agreement is false comfort: they agree *and* are both wrong. These are "silent failures". A peer reviewer of BISCUIT, Peter Bankhead, asked exactly this. He doubted the assumption holds "whenever comparisons are made between overlapping methods, trained on overlapping training sets". **The authors never answered him** (FACT, the open review, still unanswered in the July 2026 version).
+**The common trick.** Run several models and trust the cells where they **agree**. Tools like **BISCUIT** (F1000Research 2025) are built on this. BISCUIT states the assumption outright: *"Assuming that model prediction inaccuracies are uncorrelated between models, the model with the lowest score yields predictions closest to the ground truth"* (FACT, full text). A peer reviewer, Peter Bankhead, doubted this holds "whenever comparisons are made between overlapping methods, trained on overlapping training sets". **The authors never answered** (FACT, still unanswered in the July 2026 version).
 
 **Your research question, in one sentence:**
-> *When do generalist cell-segmentation models fail on the same cells, what about the models (random seed, fine-tuning, shared SAM encoder, decoding objective, training data) predicts it, and when does that make agreement-based quality control untrustworthy?*
+> *When does per-cell agreement between generalist cell segmenters reveal their errors, and when does it fail, compared with the model's own confidence, and depending on which reference models you compare against?*
 
-**Why it is publishable, not just a course project.**
-- It answers a **named, published, unanswered question** (Bankhead's).
-- It extends a known classification result (Gontijo-Lopes et al., ICLR 2022: errors become less correlated as models differ more) to **per-cell instance segmentation**. Nobody has done this there (§3).
-- It ties to your instructor's lab. Visagreement (Silva lab, TVCG 2025) only *conjectured* that disagreement signals error. You test the analogous claim rigorously, against ground truth.
+**What you build:** a **visual-analytics (VA) tool** that loads several models' segmentations of the same images and shows:
+- where the models disagree, per cell;
+- each model's own confidence signal;
+- a ranked triage list of cells to inspect;
+- an adjudication view for the cells where every model agrees but may be wrong ("silent failures").
 
-**What we already found** (§4, preliminary, 40 LIVECell test images, 10,292 cells). Per-cell error agreement, measured with Cohen's κ (§2):
-- two random seeds of the same model: **0.92**
-- Cellpose-SAM vs the older Cellpose cyto3: **0.79** (different encoders, same Cellpose family)
-- Cellpose-SAM vs micro-SAM: **0.58** (same kind of SAM encoder, different groups)
+**What you evaluate**, against ground truth, with hypotheses pre-registered before the final run: how well each ranking finds real errors, and when it breaks.
 
-So **sharing a SAM encoder did *not* make errors alike. Belonging to the same model family did.** That goes against the intuitive guess, which is exactly the kind of result that makes a paper. And agreement worked better as a quality check when the two models were *less* alike (AUROC 0.71 → 0.78).
+**What we already know** (4 spike rounds, 4 datasets, details in §4). These are the parts that **replicated**:
+1. **Copies of a model fail on the same cells.** Seeds and fine-tunes have near-identical errors on every dataset (κ ≈ 0.9; log odds ratio 5–8). Agreement between them is nearly useless as a QC signal.
+2. **Agreement between *different* models is a strong QC signal, but only about as good as the model's own confidence.** Cellpose-SAM's flow error matches cross-model agreement on 4 datasets (AUROC about 0.80–0.90 for both). Combining them adds little (+0.002 to +0.013).
+3. **Averaging several references beats the best single one** (pre-registered, replicated): +0.03 to +0.05 AUROC.
+4. **"Related models fail together" depends on data.** Cellpose-SAM and cyto3 share more errors than Cellpose-SAM and micro-SAM on LIVECell and NeurIPS22 (data both saw related versions of). On a **brand-new** dataset (mCellSeg), the effect disappears.
+5. **Measurement pitfalls that change conclusions**, each with a concrete demonstration (§2, §4.4): κ vs odds ratio under different error rates; recall-at-budget ceilings; held-out sets outside a model's size range.
 
-**The big caveat.** All of this is on LIVECell, which most of these models were trained on. The results must be **replicated on a held-out dataset** (NeurIPS22 CellSeg Public-Test) before you claim anything.
+**Why this is worth doing.**
+- It gives an **evidence-based answer to Bankhead's question** and a practical recommendation to BISCUIT-style tools: compare against several *unrelated* models, show the model's own confidence alongside agreement, and don't read agreement as correctness for model copies.
+- It ties to your instructor's lab. Visagreement (Silva lab, TVCG 2025) *conjectured* that disagreement signals error. You test the analogous claim **per instance, against ground truth**, and build the tool that lets a user act on it.
+- The VA part is not decoration: no metric can tell "all models wrong" from "ground truth wrong". Only looking can (§7).
 
-**Your role as the researcher.** You design the hypotheses, the metrics and the visualizations. The spikes proved the pipeline works. The science still needs you.
+**What it is *not* any more:** a causal claim about *which* model component (encoder, decoder, data) causes shared failures. Three such headlines failed on new data. That history is itself useful: it is the honest, pre-registered record your proposal can point to.
+
+**Your role as the researcher.** You design the hypotheses, the views and the evaluation. The spikes proved the pipeline works and told you where the solid ground is.
 
 ---
 
@@ -88,6 +95,10 @@ Merges and splits come mostly from the *decoding* step. Misses can come from the
 - **Why not just count shared errors?** Two models that are each wrong 30% of the time will share some errors by pure chance. κ removes that.
 
 **κ_max and the accuracy trap.** When two models have very different error rates, κ *cannot* reach 1. For example, if model A errs on 10% of cells and model B on 60%, they can't fail on the same cells. So always report **κ / κ_max** and each pair's accuracies. (This is why CellSAM's rows are uninformative: it misses about 72% of cells.)
+
+**Log odds ratio (log-OR) of joint error.** A second dependence measure that, unlike κ, does **not** depend on the two models' error rates. It compares the odds that model B is wrong when A is wrong against the odds that B is wrong when A is right. 0 means independent errors; larger means more shared. **Why you need both:** in round 4, on one dataset κ halved (0.52 → 0.25) while log-OR *rose* (2.94 → 3.48), purely because one model's error rate changed. κ alone would have given the wrong conclusion.
+
+**Recall at an inspection budget, and its ceiling.** "If a biologist checks the top 5% of flagged cells, what share of all errors do they find?" If the model is wrong on 28% of cells, even a perfect ranking finds at most 5/28 ≈ 18% of errors in the top 5%. So always draw the **ceiling** (budget ÷ error rate). Round 4's main confirmatory test came out inconclusive partly because every reference sat at this ceiling.
 
 **Image-level (cluster) bootstrap.** Cells in the same image aren't independent: a blurry image makes every cell harder. To get honest confidence intervals, you resample *whole images* with replacement, not individual cells, and recompute κ each time. We used 1,000 resamples.
 
@@ -169,7 +180,7 @@ Plan for about 6–8 hours spread over the next two weeks. For each paper, extra
 | 3 | **Geirhos et al., NeurIPS 2020**, error consistency (arXiv 2006.16736) | 40 min | The κ definition, the expected-overlap formula, and how they report κ against accuracy | Methods (metric) |
 | 4 | **Zenk et al., MedIA 2024** (arXiv 2406.03323) | 60 min | The AURC / risk-coverage protocol; why they argue against AUROC-only reporting; the silent-failure definition; their "future work" sentence | Methods (QC evaluation), Related work |
 | 5 | **RBQE**, arXiv 2609.10495 | 30 min | Their referee design (seed vs architecture vs MedSAM) and results; what they *don't* do (per object, κ) | Related work: "closest work, and how we differ" |
-| 6 | **Cellpose-SAM** (bioRxiv 10.1101/2025.04.28.651001) | 40 min | Architecture; training data (LIVECell sampling 5%; NeurIPS22 616 images); the flow-error "QC step" | Models and data (leakage) |
+| 6 | **Cellpose-SAM** (bioRxiv 10.1101/2025.04.28.651001) | 40 min | Architecture; training data (LIVECell sampling 5%; NeurIPS22 **504** images, corrected in round 4); the flow-error "QC step" | Models and data (leakage) |
 | 7 | **micro-SAM** (Nature Methods 2025) + **Archit & Pape, MIDL 2026** (arXiv 2603.17845) | 45 min | AIS vs AMG; training data; that APG's IoU predictions are "a quality estimate for each predicted mask" but never validated | Models; QC signals |
 | 8 | **NeurIPS22 CellSeg challenge** (arXiv 2308.05864) | 30 min | What Public-Test contains (50 labeled images, modalities); the license (CC BY-NC-ND) | Data |
 | 9 | **Saxena et al., NeurIPS 2024** (arXiv 2404.01542) | 30 min | Why data-order-only seeds give little diversity | Discussion of the L0b seed results |
@@ -183,7 +194,7 @@ All are open access (arXiv, PMC or F1000). None needs a download from you.
 
 ## 4. What we have already measured
 
-These are preliminary: feasibility spikes, not results. Scripts and outputs are on the cluster in `~/vis4ml_spikes/work/{a1,b1}/`; write-ups are in `spike_results/A1_microscopy_seg.md` and `B1_d5_hierarchy.md`.
+**Read this section as history.** §4.1–4.2 are the pilots that motivated the original headline; §4.3–4.4 are the pre-registered tests that retired it. The take-aways that survived are listed in §1. Scripts and outputs are on the cluster in `~/vis4ml_spikes/work/{a1,b1}/`; write-ups are in `spike_results/A1_microscopy_seg.md` and `B1_d5_hierarchy.md`.
 
 ### 4.1 Spike A1 (8 LIVECell test images, 2,006 GT cells)
 - **Speed:** Cellpose-SAM 0.26 s per image; micro-SAM AIS 0.13 s. Both fit easily on one GPU (FACT).
@@ -288,34 +299,41 @@ Full details are in `spike_results/D0–D6`. Pre-registration: `PREREG_D5.md` Pa
 
 ## 5. Research questions and hypotheses
 
-This is the current version, updated after B1. **Pre-register** these in the proposal: write them down before you run the held-out experiment, with the thresholds that count as support or falsification. Pre-registration is what makes a null result publishable.
+**Rewritten after round 4.** Each hypothesis below either (a) already replicated in the spikes, so you are confirming it on a *new* held-out set, or (b) is a descriptive question with no pass/fail claim. Nothing here depends on a single striking contrast. Pre-register them in the proposal, with thresholds.
 
-**RQ1 (floor; grade-safe): error profile.** Per GT cell, what errors (miss / merge / split / FP / boundary) do 4–6 generalist models make, and which cell and image attributes (area, local density, touching fraction, contrast, cell type or modality) predict them?
-- **H1:** error rates rise with density and touching fraction and fall with contrast, and the attribute effects *differ by model*. Test with a model × attribute interaction in a logistic GLMM, a regression with a random effect per image that absorbs per-image clustering.
+**RQ1 (floor; grade-safe): what errors do generalist segmenters make, and where do they overlap?**
+- Per GT cell, the error type (miss / merge / split / boundary) for 5–7 models, and the **overlap structure**: which subsets of models fail on each cell (UpSet view, §7).
+- Error dependence for every pair, reported as **κ, κ/κ_max and log odds ratio** with image-bootstrap CIs.
+- **H1 (replication):** seed and fine-tune copies have higher error dependence than every cross-model pair (log-OR CI excludes 0). It held on 4 datasets; low risk.
+- *Descriptive (no claim):* which cell attributes (size, density, touching, contrast) go with errors, per model. Round 3 found these attributes weak on held-out data (within-image AUROC 0.50–0.57). That is itself worth reporting.
 
-**RQ2 (core novelty): error consistency along the relatedness hierarchy.** How does per-cell error consistency (κ) change across the levels L0–L4, and **which component of relatedness predicts shared errors?**
-- **H-lineage** (B1 supports it in-distribution): same-family pairs (e.g. Cellpose-SAM vs cyto3) have higher κ than shared-encoder cross-family pairs (Cellpose-SAM vs micro-SAM).
-  - Falsified on held-out data if the κ difference's bootstrap CI includes 0.
-- **H-decoder** (new; SYNTHESIS): the **instance-decoding objective** drives shared *merge/split* errors, while *misses* are driven more by data. Tests:
-  - (i) κ **by error type**;
-  - (ii) micro-SAM **AIS vs AMG**, which share the same encoder and weights with different decoding. A1 gave κ = 0.31, but AMG was weak, so it needs tuned thresholds on non-test data;
-  - (iii) Cellpose-SAM vs cyto3 (same decoding, different encoder; B1: 0.79).
-- **H-mono** (from the novelty check): shared-SAM pairs behave like seed copies. **Rejected in-distribution by B1.** Re-test on held-out data; a replicated rejection is a headline result.
-- **H-data > H-arch:** training data decorrelates errors more than architecture does. Not supported in B1, but that pair wasn't clean. Needs a cleaner data contrast (own-trained U-Nets on different subsets).
+**RQ2 (core): how well does agreement reveal errors, compared with the model's own confidence?**
+- Signals, per cell, for a target model (Cellpose-SAM):
+  - (a) agreement with each single reference model;
+  - (b) mean agreement over several references;
+  - (c) the model's own signal (flow error, with `flow_threshold=0`; cell probability);
+  - (d) a combination of (b) and (c);
+  - (e) an attribute-only baseline.
+- Metrics: within-image AUROC, AURC (risk–coverage), recall of errors at fixed inspection budgets (1%, 5%, 10%), always shown **with the ceiling** (budget ÷ error rate).
+- **H2 (replication):** mean agreement over ≥ 2 unrelated references beats the best single reference (AUROC Δ > 0, CI excludes 0). Supported on N2 and N1.
+- **H3 (replication):** agreement with a copy of the target (seed / fine-tune) is worse than agreement with any cross-model reference.
+- **H4 (two-sided, the honest question):** does agreement add to the model's own signal? Pre-register it as an *equivalence* test: "the combination beats flow error by < 0.02 AUROC" (the spikes' result) vs "≥ 0.02". Either outcome is a finding for BISCUIT-style tools.
 
-**RQ3 (the practical consequence): when can agreement be trusted as QC?** Does per-cell cross-model agreement rank a target model's errors better than:
-- (a) model-internal signals (flow error with `flow_threshold=0`, cell probability, predicted IoU);
-- (b) TTA self-consistency;
-- (c) an attribute-only baseline?
+**RQ3 (generalization): does the picture hold on new data and other targets?**
+- Repeat RQ2 with each model as the target, not only Cellpose-SAM.
+- Repeat on a **new, scale-checked held-out dataset** (§6.1), chosen and frozen before any model runs on it.
+- *Descriptive:* where the family effect appears and where it doesn't (LIVECell, NeurIPS22, mCellSeg). Report it as "depends on shared training data", not as a general law.
 
-Does its quality depend on the reference model's relatedness?
-- **H-QC1:** agreement's within-image AUROC is ≥ 0.05 higher than the best internal signal, and higher than the attribute baseline.
-  - **Falsified** if it is within 0.02 of the attribute-only baseline.
-- **H-QC2:** across pairs, QC AUROC is *negatively* related to κ (B1: the predicted sign). So **cross-family references give better QC** than same-family ones.
+**RQ4 (visual analytics): silent failures and adjudication.**
+- **H5 (triage):** in simulated inspection, a triage list ordered by the best signal finds ≥ 2× more errors than random ordering in the top 5% of cells (well below ceiling).
+- **H-label (exploratory):** among about 100 adjudicated silent failures (all models agree, GT disagrees), what share are **ground-truth label errors** or ambiguous cells? Report it with a Wilson CI. This matters: round 3 found the LIVECell test file lists 52 images twice with *different* annotations.
 
-**RQ4 (visual analytics + silent failures).**
-- **H-triage:** a triage list ordered by the best QC signal finds ≥ 2× more errors than random ordering in the top 5% of cells, and beats confidence-only ordering (simulated inspection).
-- **H-label (exploratory):** among sampled silent failures, a substantial share (≥ 20%) are **label errors** or ambiguous cells, not model errors. You adjudicate about 100 of them in the tool. This matters because the CellSAM authors themselves graded LIVECell test annotations as good, medium or poor.
+**What to leave out** (tested, and it didn't hold up; mention it in one paragraph as the pre-registered history):
+- "Same family > shared SAM encoder" (falsified on mCellSeg);
+- "Reference accuracy + independence predicts triage better than κ" (inconclusive; the AUROC version is close to true by definition);
+- "Shared SAM checkpoint raises dependence" (untestable, exploratory data point the other way);
+- "Distribution shift separates architectures more than seeds" (falsified);
+- the CellposeDINO "recipe > backbone" lead (exploratory, low prior).
 
 ---
 
@@ -329,8 +347,10 @@ Does its quality depend on the reference model's relatedness?
 | **NeurIPS22 CellSeg Public-Test** (Zenodo 10719375) | **The clean held-out set.** Must-have | 50 labeled images (mixed modalities). Range-read from the 2.9 GB `Testing.zip`; no full download needed | CC BY-NC-ND 4.0: analysis OK, **don't publish derived masks or overlays** | Held out for all models |
 | NeurIPS22 Tuning | Second held-out set, with a caveat | 101 labeled images | CC BY-NC-ND 4.0 | Likely used as micro-SAM's validation set, so it is "model-selection-exposed" |
 | ~~BBBC038 / DSB2018~~ | **Don't use for held-out claims** | — | CC0 | In every model's training data |
+| **mCellSeg** (Zenodo 20174259, May 2026) | Used in round 4 (N1). Genuinely new to every model | 198 images, 15,975 cells, DIC/bright-field | CC BY 4.0 | Held out for all, but **cells are 50–327 px**, outside Cellpose's 7.5–120 px range. Needs rescaling, and its round-4 results are now "seen" |
+| **A new held-out set (to choose)** | The confirmatory set for the final evaluation | ≥ 1,500 cells | must allow analysis | **Scale check first:** median GT cell diameter inside every model's documented range, checked from GT alone before any model runs |
 
-**Held-out cell-type probe (cheap, strong):** train your own seeds on 7 of LIVECell's 8 cell types and test on the 8th. That gives controlled distribution shift without new data.
+**Held-out cell-type probe:** done in round 4 (3 folds, 18 own-trained models). It falsified R4 and is not needed for the course project.
 
 ### 6.2 Models and training data (the leakage map)
 
@@ -343,14 +363,12 @@ Does its quality depend on the reference model's relatedness?
 
 (FACT, from each paper's full text; see `lit_notes_open/deep_5_microscopy_qc.md` §2.4. Round 4: the installed "Cellpose-SAM" is **v2** (June 2026, training data undocumented); micro-SAM v4 weights use NeurIPS22 Tuning as validation; see `spike_results/D0_n1_choice.md`.)
 
-### 6.3 The hierarchy experiment
-- **Done in B1:** L0b (3 cpsam fine-tune seeds), L1, L2, L3, L3′, a rough L4.
-- **To add:**
-  - **L0a** from-scratch seeds (cyto3-architecture U-Nets, about 1–2 GPU hours each, overnight);
-  - a **cleaner L4** (your own U-Nets trained on different data subsets);
-  - **micro-SAM AIS vs AMG** (H-decoder);
-  - optionally `cpsam_v2` / `cpdino`.
-- **Always** report κ, κ/κ_max, both accuracies, the silent-failure rate and the AUROC, per pair, **per dataset**, and **per error type**.
+### 6.3 Model roster (final)
+- **Target:** Cellpose-SAM (v2, the cellpose 4.2.1.1 default). Repeat with the other models as targets for RQ3.
+- **References:** cyto3, micro-SAM `vit_b_lm` (AIS), micro-SAM `vit_l_lm`, CellSAM (only where its error rate is ≤ 0.6), Cellpose-SAM v1.
+- **Copies** (for H1/H3): 3 Cellpose-SAM fine-tune seeds, already trained in B1.
+- **Drop:** `livecell_cp3` (a LIVECell specialist that fails elsewhere; useful only as an "unrelated but bad" contrast), micro-SAM AMG (weak).
+- **Always** report each model's accuracy next to any dependence or QC number, because both depend on it.
 
 ### 6.4 Pipeline (most of it exists)
 1. **Inference per model per image.** Save masks, plus flows and probabilities for the QC signals. Run Cellpose with `flow_threshold=0` to get *unfiltered* flow errors. With the default 0.4 threshold, every surviving cell has error < 0.4, which deflates correlations (a "range restriction" artifact).
@@ -370,67 +388,62 @@ Reproduce one or two published numbers, e.g. Cellpose-SAM's LIVECell accuracy, o
 
 ---
 
-## 7. The visual analytics part (and why it is scientifically necessary)
+## 7. The visual analytics part (now the centre of the project)
 
-The course wants visualization that *does science*, not decoration. Each view below answers a specific question that a table cannot. Build it in **Streamlit + Plotly** over the precomputed Parquet files. Silva confirmed JS/D3 isn't required.
+The course wants visualization that *does science*, not decoration. The tool is the main deliverable, and each view answers a question a table cannot. Build it in **Streamlit + Plotly** over precomputed Parquet files (no model runs inside the app). Silva confirmed JS/D3 isn't required.
 
 | View | What it shows | Why it is necessary |
 |---|---|---|
-| **1. Hierarchy view** (the headline figure) | κ (with CI) per model pair, grouped by relatedness level. Toggles for dataset and error type; κ/κ_max shown alongside | This is RQ2. Grouping by level makes departures from the classification ordering *visible* (e.g. the SAM–SAM pair sitting below the same-family pair) |
-| **2. κ vs QC-AUROC scatter** | One dot per pair: x = κ, y = QC AUROC | This is H-QC2 in one picture: "the more alike two models are, the worse their agreement is as a quality check" |
-| **3. Error overlay + adjudication** | The raw image with each model's errors colour-coded (miss / merge / split); click a cell to see its crop across all models and label it *model error / label error / ambiguous* | Needed for H-label. No metric can tell "all models wrong" from "ground truth wrong"; only looking can |
-| **4. UpSet plot of failures** | Which *subsets* of models fail on each cell (an UpSet plot is a Venn-diagram alternative for many sets) | Shows the silent-failure mass (all fail) against unique failures |
-| **5. Triage list + risk–coverage curve** | Cells ranked by a chosen QC signal, with live precision@K and AURC against random and confidence-only ranking | RQ3/RQ4. It is also the practical demo: "here's how a biologist would find errors" |
-| 6. *(Optional)* attribute small multiples | Error rate vs density/contrast, one line per model | H1: shows *where* model curves cross, which one regression table hides |
+| **1. Error overlay + adjudication** (the core view) | The raw image with each model's outline and error colour-coded; click a cell to see its crop across all models, the agreement scores and the model's own confidence; label it *model error / label error / ambiguous* | Needed for H-label. No metric can tell "all models wrong" from "ground truth wrong" |
+| **2. Triage list + budget curve** | Cells ranked by a chosen signal (single reference, mean of references, own confidence, combination). Live recall at a budget, **with the ceiling line drawn**, and the risk–coverage curve | RQ2/RQ4, and the practical demo: "here's how a biologist would find errors". Drawing the ceiling prevents the misreading round 4 found |
+| **3. UpSet plot of failures** | Which subsets of models fail on each cell; click a bar to load those cells in view 1 | Shows the silent-failure mass (all fail) against model-specific failures |
+| **4. Reference chooser** | For the target model, one dot per reference: x = how often the reference is wrong where the target is right (false alarms), y = the share of the target's errors it shares; colour = AUROC | Lets a user see *why* one reference flags errors better than another. Explanatory, not a claimed finding (see §4.4 reviewer note) |
+| **5. Dependence matrix** | κ and log-OR for every pair, toggled; per dataset | RQ1. Showing both makes the κ-vs-log-OR pitfall visible |
 
-**The VA contribution** isn't "a dashboard". It is **an adjudication and triage workflow validated by simulated inspection**. Say that explicitly, and don't oversell the UI.
+**The VA contribution** is **a triage and adjudication workflow, validated by simulated inspection, that shows agreement and the model's own confidence side by side.** Say that explicitly, and don't oversell the UI.
+
+**Optional (core tier):** a short think-aloud with 1–2 people who segment cells (e.g. a lab-mate or a biology student). Even 2 sessions give qualitative evidence for the VA section.
 
 ---
 
 ## 8. Scope tiers, milestones and hours
 
-**Principle:** build the **floor first**, so every later step is upside.
+**Principle:** build the **floor first**, so every later step is upside. Most of the computation already exists on the cluster; your hours go into the tool and the writing.
 
 | Tier | What | Done by | Your hours (est.) |
 |---|---|---|---|
-| **Floor (A-grade safe)** | RQ1 error taxonomy + RQ2 κ hierarchy on LIVECell *and* NeurIPS22 Public-Test, with CIs; views 1, 2 and 3 | Nov 3 update → Dec 14 | ~25–30 |
-| **Core** | + RQ3 QC comparison (internal signals, TTA, attribute baseline, AURC); view 5; 100-cell adjudication | Dec 14 | +8–10 |
-| **Ambitious (paper)** | + L0a from-scratch seeds, clean L4, AIS vs AMG, the held-out cell-type probe, more held-out datasets, a small user study | Mostly Jan–spring 2027 with Silva | +18–20 |
+| **Floor (A-grade safe)** | RQ1 + RQ2 on LIVECell and NeurIPS22 Public-Test (numbers already computed); views 1, 2, 3 | Nov 3 update → Dec 14 | ~22–28 |
+| **Core** | + RQ3 on a new scale-checked held-out set (pre-registered); views 4–5; 100-cell adjudication (H-label) | Dec 14 | +8–10 |
+| **Ambitious (paper)** | + 1–2 more held-out datasets; more targets; a small think-aloud study; release the tool | Jan–spring 2027 with Silva | +15–20 |
 
 **Milestones:**
 - **Oct 6:** pitch to Silva (paragraph in §10).
-- **Oct 7–19:** read papers 1–8 (§3.3); write the proposal (§11).
+- **Oct 7–19:** read papers 1–8 (§3.3); write the proposal (§11). Pre-register H1–H5 in it.
 - **Oct 20:** **proposal due** (4 pages).
-- **Oct 20–Nov 2:** get NeurIPS22 Public-Test in; rerun B1's κ table on it; add the error-type split.
-- **Nov 3:** **1-page update.** Headline: "Does the lineage result replicate on held-out data?"
-- **Nov 3–25:** QC comparison, views 1–5, adjudication.
-- **Dec 1 / Dec 8:** presentation.
+- **Oct 20–Nov 2:** export the existing per-cell tables to Parquet; build views 1 and 2.
+- **Nov 3:** **1-page update.** Headline: "the tool works on LIVECell + NeurIPS22; H2/H4 results".
+- **Nov 3–25:** choose and freeze the new held-out set (scale check first), run RQ3, build views 3–5, adjudicate about 100 silent failures.
+- **Dec 1 / Dec 8:** presentation (live demo of views 1–2).
 - **Dec 14:** **final 8-page report** in IEEE VIS format.
 
-About 3–4 h/week × 11 weeks ≈ 35–45 hours, enough for Floor + Core. GPU work runs overnight, so compute isn't the constraint.
+About 3–4 h/week × 11 weeks ≈ 35–45 hours, enough for Floor + Core.
 
 ---
 
 ## 9. Risks and mitigations
 
-> **Pre-mortem and kill tests:** `PREREG_D5.md` §4 lists seven concrete ways D5 could fail later (K1–K7), each with the test that checks it *now* and the rule for when to drop or reframe the idea. The three oversights the pilot had not yet tested:
-> - **K2:** shared errors might just be *hard or mislabeled cells*. Tested with a difficulty-controlled κ.
-> - **K3:** the family effect might come from *shared preprocessing* (cyto3's auto-diameter).
-> - **K4/K5:** accuracy-gap and threshold artifacts.
->
-> Round 3 on the cluster (`NEXT_SESSION_TASKS_3.md`) runs all of these plus the held-out replication.
-
+> **History.** `PREREG_D5.md` Parts A and B record two pre-registered rounds with kill tests. They caught the original headline (round 3) and its replacement (round 4) before you invested time. Keep pre-registering: write the final hypotheses and the new held-out set into the proposal *before* running anything on that set.
 
 | Risk | How likely | Mitigation |
 |---|---|---|
-| **The lineage result doesn't replicate on held-out data** | Medium | It is still a finding either way: "in-distribution vs held-out error consistency differs". Pre-register so a null is reportable |
-| **Agreement just encodes image difficulty** | Medium | Within-image AUROC; the attribute-only baseline; partial correlations. If agreement ≈ baseline, that is a clean negative result about BISCUIT-style QC |
-| **"Lineage" stays a bundle** (can't isolate the cause) | High for off-the-shelf models | Own-trained controlled pairs (L0a, clean L4), AIS vs AMG, and the error-type split. Be honest in the paper that off-the-shelf levels change several things at once |
-| **Accuracy differences distort κ** | Certain | Always report κ/κ_max and accuracies; add an accuracy-matched subset analysis |
-| **Label noise in LIVECell** | Medium | The adjudication view (H-label); report the share of label errors |
-| **Scoop** (the DKFZ, Pape or RBQE groups are close) | Low–Medium | Post a preprint soon after the course; re-check arXiv before Nov 3 ("error consistency segmentation", citers of RBQE and Gontijo-Lopes) |
-| **Environment friction** (Cellpose 3 vs 4, micro-SAM pins) | Low now | Solved in the spikes: the `d5` env plus the `d5c3` overlay on the cluster |
-| **License** (NeurIPS22 is ND) | Low | Use it for evaluation; don't publish its derived masks or overlays in the public tool |
+| **"Agreement ≈ own confidence" reads as a negative result** | Medium | Frame it as the answer to a practical question (should BISCUIT-style tools show model confidence too? Yes). Negative results about a widely used assumption are publishable, especially pre-registered |
+| **Forking paths** (finding a new "interesting contrast" in the data and chasing it) | High, based on rounds 2–4 | Only pre-registered hypotheses count as findings. Anything new goes in an "exploratory" section, never the headline |
+| **No clean held-out set** | Medium | Scale-check candidates from GT first. Fallback: report LIVECell + NeurIPS22 Public-Test + rescaled mCellSeg, labelled by how "held out" each is |
+| **Label noise** (GT itself wrong) | Medium | The adjudication view (H-label); report the share of label errors |
+| **The tool looks like "a dashboard"** | Medium | Tie every view to a research question (§7) and evaluate with simulated inspection; add a 1–2 person think-aloud if time allows |
+| **Measurement pitfalls** | Known | Report κ *and* log-OR, budget curves *with ceilings*, accuracies next to every number |
+| **Scoop** (RBQE group, Pape lab) | Low | Manual Google Scholar "Cited by" check before Oct 20 and Nov 3 (`spike_results/K7_scoop_check.md`) |
+| **License** (NeurIPS22 is ND) | Low | Evaluate on it, but never show its pixels or masks in the public tool; use LIVECell or mCellSeg images for the demo |
 
 ---
 
@@ -450,7 +463,7 @@ The visualization is the instrument for finding and adjudicating errors, not an 
 
 **Draft Oct 6 pitch** (about 45 seconds; adapt it into your own words):
 
-> *"Biologists increasingly segment cells with generalist models like Cellpose-SAM and micro-SAM, and without ground truth they check results by seeing where several models agree. Tools like BISCUIT assume those models make independent errors, but a reviewer asked whether that holds for models sharing architectures or training data, and it was never answered. I want to measure, per cell, how often generalist segmenters fail together, and what about the models predicts it: random seed, fine-tuning, a shared SAM encoder, the decoding objective, or the training data. Then I want to test when that makes agreement-based quality control untrustworthy. I've run a pilot on 40 LIVECell images: surprisingly, two models sharing a SAM encoder agree on errors much less (κ 0.58) than two Cellpose-family models with different encoders (κ 0.79). And agreement works better as a quality check the less related the models are. The next step is replicating this on held-out data, and building a visual tool to triage and adjudicate the 'silent failures' where all models agree but are wrong. It's in the spirit of Visagreement's disagreement–error conjecture, tested against ground truth."*
+> *"Biologists increasingly segment cells with generalist models like Cellpose-SAM and micro-SAM, and without ground truth they check results by seeing where several models agree. Tools like BISCUIT assume those models make independent errors. A reviewer asked whether that holds for related models, and it was never answered. I want to build a visual-analytics tool that shows, per cell, where segmenters disagree, how confident each model is, and which cells a biologist should check first, and then evaluate against ground truth when agreement actually reveals errors. I've already run pre-registered pilots on four datasets. Three things held up: copies of a model fail on the same cells, so agreement between them is useless; averaging several unrelated references beats any single one; and, surprisingly, cross-model agreement is only about as good as the model's own confidence signal. One thing didn't hold up: whether 'related' models share errors depends on their training data, not on a general rule. The tool would let users see all of this per cell, and adjudicate the 'silent failures' where every model agrees but may be wrong. It's in the spirit of Visagreement's disagreement–error conjecture, tested against ground truth."*
 
 **Questions to ask him:**
 - Is this topic close enough to the class?
@@ -465,25 +478,25 @@ The visualization is the instrument for finding and adjudicating errors, not an 
 
 A suggested structure and page budget. It follows a conference-proposal shape, which suits the IEEE VIS final format.
 
-**Working title:** *"When Do Cell Segmenters Fail Together? Model Relatedness, Per-Cell Error Consistency, and the Limits of Agreement-Based Quality Control."*
+**Working title:** *"When Does Agreement Reveal Segmentation Errors? A Visual Analytics Tool and a Pre-Registered Evaluation of Ground-Truth-Free QC for Cell Segmentation."*
 
 | Section | Pages | What to write | Draw from |
 |---|---|---|---|
-| **1. Introduction and motivation** | 0.5 | Generalist segmenters; no GT in practice; agreement-based QC (BISCUIT) and its independence assumption; Bankhead's unanswered question; silent failures; your RQ in one sentence; 3 bullet contributions | §1, §3.1; reading #1, #11 |
-| **2. Related work** | 0.75 | Four paragraphs: (i) error consistency and diversity in classification (Gontijo-Lopes, Geirhos, Saxena, Klein, Kim); (ii) segmentation failure detection (Zenk, Kirscher, RBQE: "closest work; we differ in per-object κ, 5 levels, microscopy"); (iii) agreement-based bio-image QC (BISCUIT, SEG, MARC); (iv) generalist models and their internal quality signals (Cellpose-SAM, micro-SAM, CellSAM, Archit & Pape). End with the gap statement | §3; the check file's §4 |
-| **3. Research questions and pre-registered hypotheses** | 0.5 | RQ1–RQ4 with H-lineage, H-decoder, H-QC1, H-QC2, H-triage, H-label. Give the thresholds (e.g. "falsified if the CI includes 0"; "within 0.02 of the attribute baseline") | §5 |
-| **4. Data and models** | 0.4 | LIVECell test (in-distribution) + NeurIPS22 Public-Test (held out) + the cell-type probe; the leakage table; models and their lineage; licenses | §6.1, §6.2 |
-| **5. Methods** | 0.6 | Matching and the error taxonomy; the per-cell error indicator; κ, κ/κ_max, image bootstrap; QC signals; within-image AUROC, AURC, simulated inspection; GLMM; the multiple-comparison plan | §2, §6.3–6.4 |
-| **6. Visual analytics design** | 0.5 | Views 1–5 with one sentence each on the question it answers; a small sketch or screenshot (you can mock one from the B1 data) | §7 |
-| **7. Preliminary results** | 0.35 | The B1 table (trimmed) and 2–3 sentences: the SAM-encoder surprise, the κ–AUROC direction, and the in-distribution caveat | §4.2 |
-| **8. Timeline, risks, deliverables** | 0.4 | The milestone table; the top 3 risks and mitigations; the scope tiers (floor / core / ambitious) | §8, §9 |
+| **1. Introduction and motivation** | 0.5 | Generalist segmenters; no GT in practice; agreement-based QC (BISCUIT) and its independence assumption; Bankhead's unanswered question; silent failures; your RQ in one sentence; 3 contributions (the tool, the pre-registered evaluation, the measurement lessons) | §1, §3.1; reading #1, #11 |
+| **2. Related work** | 0.75 | Four paragraphs: (i) error consistency in classification and LLMs (Gontijo-Lopes, Geirhos, Kim 2025); (ii) segmentation failure detection (Zenk, Kirscher, RBQE: "closest work; we differ: per cell, several references, against the model's own confidence, microscopy"); (iii) agreement-based bio-image QC (BISCUIT, SEG, MARC); (iv) VA for model disagreement and uncertainty (Visagreement, Calibrate). End with the gap statement | §3; `spike_results/K7_scoop_check.md` |
+| **3. Research questions and pre-registered hypotheses** | 0.5 | RQ1–RQ4 with H1–H5 and H-label; thresholds; the held-out set and how it was chosen (scale check). One sentence pointing to the earlier pre-registered rounds | §5 |
+| **4. Data and models** | 0.35 | LIVECell, NeurIPS22 Public-Test, the new held-out set; the leakage table; the roster; licenses | §6.1–6.3 |
+| **5. Methods** | 0.5 | Matching and error taxonomy; κ, κ/κ_max **and log-OR**; QC signals; within-image AUROC, AURC, budget recall **with ceilings**; image bootstrap; Holm | §2, §6.4 |
+| **6. Visual analytics design** | 0.6 | Views 1–5, one sentence each on the question it answers; a mock-up of view 1 or 2 (LIVECell image, not NeurIPS22) | §7 |
+| **7. Preliminary results** | 0.4 | One figure (`spike_results/fig_kappa_by_level_v2.png`) and 3–4 sentences: copies share errors; mean-of-references > single; agreement ≈ own confidence; the family effect depends on data. State plainly that earlier headlines failed pre-registered tests | §4 |
+| **8. Timeline, risks, deliverables** | 0.4 | The milestone table; top 3 risks; the scope tiers | §8, §9 |
 | References | (extra) | About 15–20 | §3.3 |
 
 **Tips:**
-- **Lead with the question, not the tool.** Graders and reviewers reward a sharp, falsifiable question.
-- **Put the preliminary result in.** Few proposals have one. It shows feasibility and a non-obvious finding.
-- **State the caveats yourself** (in-distribution, bundled lineage) before a reader does.
-- **Make one clear, labelled figure** for the proposal: κ by level, from B1's `kappa_by_level.csv`.
+- **Lead with the question, then the tool that answers it.** "When does agreement reveal errors?" is the question; the tool is how a user (and you) see the answer per cell.
+- **Put the preliminary results in.** Few proposals have pre-registered pilots on four datasets.
+- **Be upfront about what failed.** One sentence: "two earlier hypotheses about model relatedness failed pre-registered tests on new data; we report them and build on what replicated." Reviewers trust this.
+- **Make one clear, labelled figure:** `fig_kappa_by_level_v2.png`, or a mock-up of the triage view.
 - Add an **AI-use disclosure** (the course requires it).
 
 ---
@@ -491,15 +504,15 @@ A suggested structure and page budget. It follows a conference-proposal shape, w
 ## 12. Open decisions, things to verify, and where everything lives
 
 **Decisions for you:**
-1. **The primary "target" model for QC** (the one whose errors you rank). Cellpose-SAM is the natural choice as the most accurate.
-2. **How many LIVECell images** for the final run: 100–200 stratified is plenty.
-3. **Include CellSAM?** It is nearly uninformative at default settings (72% error). Either keep it as an "incompetent model" contrast or drop it.
-4. **Train from-scratch seeds (L0a)?** Needed for a clean paper; optional for the course.
+1. **The new held-out set** for RQ3 (core tier). Scale-check candidates from GT first. The D0 runner-up was the Xiong murine set (licence unclear).
+2. **Which views to build first.** Recommended: view 1 (overlay + adjudication) and view 2 (triage), since the demo and H5 depend on them.
+3. **Include CellSAM?** Only on datasets where its error rate is ≤ 0.6 (it fails on LIVECell).
+4. **Think-aloud with 1–2 users?** Optional; strengthens the VA section.
 
 **Verify yourself (quick):**
 - Read BISCUIT's open reviews and confirm Bankhead's comment is still unanswered.
-- Re-check arXiv for "error consistency" + segmentation, and for new citers of RBQE and Gontijo-Lopes, before Oct 20 and again before Nov 3.
-- Confirm the NeurIPS22 Public-Test modalities and whether per-image modality labels exist.
+- **Scoop check (manual, ~20–30 min):** in Google Scholar, open "Cited by" for RBQE, BISCUIT, Gontijo-Lopes 2022 and Geirhos 2020; filter to 2026; skim titles for segmentation / cells / agreement. Before Oct 20 and again before Nov 3. First automated pass: `spike_results/K7_scoop_check.md`.
+- Check whether micro-SAM's 1,151 NeurIPS22 training images include Public-Test (D6 open question).
 - Confirm cyto3's training data includes LIVECell. It is secondhand so far, and it affects the L4 interpretation.
 
 **Where everything lives:**
@@ -507,7 +520,9 @@ A suggested structure and page budget. It follows a conference-proposal shape, w
 | What | Where |
 |---|---|
 | This onboarding doc | `D5_onboarding.md` |
-| **Pre-registration + kill criteria** (hypotheses fixed before the held-out run) | `PREREG_D5.md` |
+| **Pre-registration history** (Part A: round 3; Part B: round 4; amendments) | `PREREG_D5.md` |
+| Round-3 and round-4 results and verdicts | `spike_results/C1–C5`, `D0–D6` (verdicts: end of `C1_heldout_replication.md`, `D6_verdict.md`) |
+| Proposal figures | `spike_results/fig_kappa_by_level_v2.png`, `fig_reference_tradeoff.png` |
 | Round-3 cluster brief (kill tests, held-out replication, pitch figure) | `NEXT_SESSION_TASKS_3.md` |
 | Round-4 cluster brief (reference-QC question, new held-out set N1, ViT-L contrast, controlled shift) | `NEXT_SESSION_TASKS_4.md`, `PREREG_D5.md` Part B |
 | Scoop check, first pass | `spike_results/K7_scoop_check.md` |
@@ -515,6 +530,6 @@ A suggested structure and page budget. It follows a conference-proposal shape, w
 | Novelty check for the hierarchy framing (must-cites, experiment sketch) | `lit_notes_open/check_d5_error_hierarchy.md` |
 | Spike write-ups | `spike_results/A1_microscopy_seg.md`, `spike_results/B1_d5_hierarchy.md` |
 | Summary and rankings across all candidates | `research_gap_review.md` (short); `research_gap_details.md` (full) |
-| Code, envs, models, outputs | Cluster: `~/vis4ml_spikes/` (`work/a1`, `work/b1`; envs `d5` and the `d5c3` overlay; fine-tuned seeds in `work/b1/models/`) |
+| Code, envs, models, outputs | Cluster: `~/vis4ml_spikes/` (`work/a1`, `b1`, `c1`, `c4`, `r4`; envs `d5`, the `d5c3` and `dinov3` overlays; fine-tuned seeds in `work/b1/models/`); aggregate tables in `spike_results/r4_tables/` |
 
 *AI-use note: this onboarding doc was produced with Claude from the project's research notes and spike results. The research design choices are yours to make and defend.*

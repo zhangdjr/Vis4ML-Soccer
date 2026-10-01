@@ -1,7 +1,20 @@
 # Research-Gap Review (short version)
 
 **Project:** solo final project for NYU DS-GA 3001 *Visualization for ML* (Prof. Claudio Silva), Fall 2026.
-**Updated:** 2026-09-29, after three literature rounds and the feasibility spikes.
+**Updated:** 2026-09-29, after three literature rounds and the feasibility spikes. **Last update 2026-09-30:** D5 chosen and reframed after spike rounds 3–4 (see the box below).
+
+> **Current status (2026-09-30). Read this first.**
+> - **D5 is the project.** Your study guide is **`D5_onboarding.md`**; read §1–§5 and §7 before Oct 6.
+> - **Rounds 3–4 retired the original headline.** Two pre-registered rounds on held-out data (NeurIPS22 Public-Test, then the new mCellSeg set) tested it. "Same family shares errors, a shared SAM encoder doesn't" did not survive, and neither did the two replacement headlines.
+> - **What replicated:**
+>   - model copies fail on the same cells;
+>   - cross-model agreement is a strong QC signal, but only about as good as the model's own confidence;
+>   - averaging several references beats any single one;
+>   - "related models fail together" only where they share training data.
+> - **New framing:** *"When does agreement between cell segmenters reveal their errors? A visual-analytics tool and a pre-registered evaluation of ground-truth-free QC."*
+>   - Grade safety: **High**.
+>   - Paper upside: **Medium** (workshop or VIS short paper with Silva).
+> - **D4** stays the alternative. Everything below §3 is the earlier comparison, kept for reference.
 **Full evidence:** `research_gap_details.md`. The §-numbers below point there.
 
 > **Labels.**
@@ -52,7 +65,7 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 | # | Candidate | Upside | Grade safety | Difficulty | Compute (your setup effort) | Viz burden | Data risk | Scoop risk | Silva fit | Interest | Main risk |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **1** | **D5:** do cell-segmentation models share mistakes, and does agreement flag bad cells without GT? (microscopy) | **Med–High** (B1: "lineage, not encoder" is a real departure hook) | **High** | Med | Low (<2 s/img; seeds 30 min each) | Low–Med | Low–Med (NC licenses) | **Low** (0 citers; RBQE partial) | High (tests Visagreement's conjecture) | High (your segmentation skills) | In-distribution so far (needs NeurIPS22 Public-Test); "lineage" still confounds objective, decoder and data |
+| **1** | **D5 (chosen):** when does agreement between cell segmenters reveal their errors? VA tool + pre-registered evaluation (microscopy) | **Med** (the "lineage" hook failed held-out tests; the tool + evaluation story replicated) | **High** (floor results already replicate on 4 datasets) | Med | Low (all models run; per-cell tables exist) | **Med** (the tool is now the centre) | Low–Med (NC/ND licenses) | **Low** (K7 first pass: no scoop; RBQE partial) | High (tests Visagreement's conjecture) | High (your segmentation skills) | "Agreement ≈ own confidence" reads as a negative result; forking-paths temptation |
 | **2** | **D2:** where do time-series foundation models fail, window by window? | Med | **High** | Low–Med | **None** (released outputs) | Low–Med | Low | Med–High (fast field; Wang et al.) | Med–High (mTSeer) | Low | Thin novelty; a null result is plausible |
 | **3** | **D4:** Zoobot uncertainty and explanations vs. volunteer disagreement (astronomy) | Med (RQ-B signal weak in B2; RQ-A safe) | Med–High | Med | Low (3 s/epoch) | Low–Med | Low (NC-SA + code-release clause) | Med (data owners; lab image extension) | High (Calibrate, Visagreement) | **High** (astronomy) | Brightness dominates mask localization (B2 red flag) |
 | **4** | **D3:** why LLM judges disagree with each other and with humans | Med− | **High** | Low–Med | Med (~4.7 h, 32 GB of models) | Med | Low | **High** (PAIR/KAIST/IBM; lab text extension) | Med–High | Med | "Not novel enough" |
@@ -75,7 +88,7 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 | # | Ambitious version | Upside | Grade safety (with floor) | Difficulty | Compute | Extra hours vs. 40 | Scoop risk | Floor if it fails | Paper needs (post-course) | Plausible venues (verify deadlines) |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **1** | **D5 full:** a correlated-error audit across 4+ models (incl. non-SAM) and 2–3 held-out datasets, plus GT-free triage evaluated by simulated inspection. **With the cluster, it can add seed-level ensembles** (see the D5 + Rashomon note below) | **Med–High → High** if the lineage result replicates on held-out data (B1) | Med–High | Med–High | Low | **+18–20 h** (B1 built the pipeline) | Low | Error taxonomy + consistency matrix on LIVECell | A third dataset; κ with CIs across model lineages; optional biologist feedback | CVPR/MICCAI microscopy workshops; IEEE VIS short; ISBI |
+| **1** | **D5 full:** a correlated-error audit across 4+ models (incl. non-SAM) and 2–3 held-out datasets, plus GT-free triage evaluated by simulated inspection. **With the cluster, it can add seed-level ensembles** (see the D5 + Rashomon note below) | **Med** (was Med–High; the lineage result did **not** replicate on new data in rounds 3–4, so the paper is now the tool + evaluation) | Med–High | Med–High | Low | **+18–20 h** (B1 built the pipeline) | Low | Error taxonomy + consistency matrix on LIVECell | A third dataset; κ with CIs across model lineages; optional biologist feedback | CVPR/MICCAI microscopy workshops; IEEE VIS short; ISBI |
 | **2** | **D4 RQ-B:** does *human* ambiguity predict *explanation* unreliability? (GZ3D masks, beating a brightness baseline) | **Med** (down from Med–High after B2: brightness dominates; the signal is weak) | Med− | Med–High | Low | +21–24 h | Med (data owners; lab image extension) | Small-N calibration audit (RQ-A) | Several morphology questions; comparison vs. ZooBot:3D | NeurIPS ML4PS; RAS Techniques & Instruments (rolling); VIS short |
 | **3** | **(Merged into #1 after B1, which built the seed pipeline and the seed level.)** **Rashomon/multiplicity VA for segmentation:** where seed-varied models disagree, and whether that tracks annotation ambiguity (pairs naturally with D5) | Med–High | Med | High (training pipeline) | **Low** (10–20 seeds = one overnight run on the cluster) | +30–40 h | Low–Med | Seed-variance maps on one dataset | A link to annotation ambiguity; a second dataset | VIS short; CVPR/ICCV workshops; the VIS Uncertainty workshop |
 | **4** | **D2-max:** the in-vivo test of Jander's TSFM failure modes, plus failure *prediction* on held-out datasets | Med | High | Med | None–Low | +20–30 h | **Med–High** | Variance decomposition + a failure predictor | A second benchmark (GIFT-Eval); a dose-response analysis | ICLR TSFM workshops; IEEE VIS short; IJF |
@@ -123,10 +136,10 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 **The biggest lever for a paper is not the topic.** It is asking Silva on Oct 6 whether he would advise an extension if the course result is strong. #1, #2 and #5 can each be pitched as "a rigorous, GT-based test of your lab's Visagreement conjecture", which makes his involvement natural.
 
-**For Oct 6:**
-- **Grade-first:** pitch #1 plus one or two of 3a's #2–#4.
-- **Ambitious (updated after round 2):** lead with **D5**, framed as *"What makes segmentation models fail together: the shared encoder, the decoding objective, or the training data? And when does that break agreement-based QC?"* Pre-register the hypotheses.
+**For Oct 6 (updated 2026-09-30 after rounds 3–4):**
+- **Lead with D5**, framed as *"When does agreement between cell segmenters reveal their errors? A VA tool and a pre-registered evaluation."* The pitch paragraph is in `D5_onboarding.md` §10.
 - Offer **D4** as the higher-risk alternative. **State the brightness finding up front**, and mention the "agreement is misleading under ambiguity" pivot.
+- *(Superseded framing, kept for the record: "What makes segmentation models fail together: the shared encoder, the decoding objective, or the training data?" Retired after rounds 3–4.)*
 
 ## 4. The candidates in one screen each
 
@@ -149,7 +162,15 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
   - 3 fine-tune seeds, plus cyto3 and livecell_cp3, on 40 images (10,292 cells).
   - Per-cell κ: seeds **0.92** > checkpoint variant 0.88 > **SAM vs non-SAM (both Cellpose lineage) 0.79** > **SAM vs SAM (Cellpose-SAM vs micro-SAM) 0.58** [0.52, 0.62].
   - So **shared lineage, not the shared SAM encoder, predicts shared errors**; H-mono is not supported. Agreement-QC AUROC rises as κ falls.
-- **Still needed:** a run on **NeurIPS22 Public-Test**, the clean held-out set. LIVECell test is in-distribution for all models except CellSAM.
+- **Still needed:** a run on **NeurIPS22 Public-Test**, the clean held-out set. LIVECell test is in-distribution for all models except CellSAM. *(Done in round 3.)*
+- **Rounds 3–4 (2026-09-30, pre-registered; `spike_results/C1–C5`, `D0–D6`, `PREREG_D5.md`):**
+  - **Round 3, NeurIPS22 Public-Test.** The family effect passed as pre-registered, but two kill tests triggered: it is accuracy-confounded (K4), and a same-family reference triages errors as well or better (K6).
+  - **Round 4, the new mCellSeg set.** The family effect was falsified, and nothing confirmatory was supported. The dataset's cells were too large for Cellpose; a lesson for choosing held-out data.
+  - **What replicated:**
+    - copies share errors;
+    - agreement ≈ the model's own flow error;
+    - the mean of references beats the best single one.
+  - **Reframed** as a VA tool + pre-registered evaluation of GT-free QC. Plan: `D5_onboarding.md`.
 - **Details:** `research_gap_details.md` §5.1; `lit_notes_open/deep_5_microscopy_qc.md`; `spike_results/A1_microscopy_seg.md`.
 
 ### #2 D2: Window-level failure regimes of time-series foundation models
@@ -212,10 +233,10 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 
 ## 6. Your open tasks
 
-**This week:**
-1. Read this file. For your top picks, skim the matching `research_gap_details.md` §5 sections.
-2. Choose 2–3 candidates to pitch.
-3. Decide whether to make the GitHub repo **private**. It is public now. I recommend private.
+**This week (updated 2026-09-30):**
+1. Read **`D5_onboarding.md`** §1–§5 and §7 (about 45 min), then reading-list papers 1–4 (§3.3 there).
+2. Skim D4's card (§4 #3) so you can offer it as the alternative.
+3. **Scoop check (manual, ~20–30 min):** Google Scholar "Cited by" for RBQE, BISCUIT, Gontijo-Lopes 2022 and Geirhos 2020, filtered to 2026. First automated pass: `spike_results/K7_scoop_check.md`.
 
 **Oct 6: ask Silva:**
 - Which pitched topic he prefers.
@@ -229,12 +250,10 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 **Optional:** ask the TA for last year's project list; skim BISCUIT's open reviews, which are the D5 hook.
 
 **After Oct 6:**
-- Write the proposal by Oct 20. I can draft it from the deep-dive notes and spike results.
-- Remaining technical steps on the HPC, depending on your pick:
-  - D5: cyto3 plus a Public-Test run.
-  - D3: the full run, which needs approval.
-  - D2: a weekly scoop check.
-- Disk: the cluster folder is 49 GB, 32 GB of it Ollama models. Delete those if you drop D3.
+- Write the proposal by Oct 20 from `D5_onboarding.md` §11. I can draft it.
+- Pre-register the final hypotheses (onboarding §5) in the proposal, and choose the new held-out set with a **scale check first**.
+- No more hypothesis-hunting rounds on the cluster. The next cluster work is exporting the existing per-cell tables for the tool.
+- Disk: the cluster folder is large; the Ollama models (about 30 GB) can go, since D3 is dropped.
 
 ## 7. Where everything lives
 
@@ -245,7 +264,9 @@ Ratings are qualitative (SYNTHESIS from the deep dives and spikes). Reasons are 
 | `lit_notes_open/deep_1…5_*.md` | Deep dives: full paper tables, search logs, project designs, hour budgets |
 | `lit_notes_open/scan_1…10_*.md` | Broad scans per domain |
 | `lit_notes/` | Round 1 (soccer) notes, plus the archived soccer review |
-| `NEXT_SESSION_TASKS.md` | The brief used by the HPC spike session |
+| **`D5_onboarding.md`** | **The current D5 plan and study guide** (start here) |
+| `PREREG_D5.md` | Pre-registrations for rounds 3–4, with dated amendments |
+| `NEXT_SESSION_TASKS*.md` | The briefs used by the HPC spike sessions (rounds 1–4) |
 | Cluster: `~/vis4ml_spikes/` | Code, conda envs, data, weights and job scripts (not in the repo) |
 
 *AI-use disclosure: produced with Claude (Opus 5.5) and sub-agents. Load-bearing claims were verified against primary sources (see `research_gap_details.md` §0.2 and §13.4). The research choices are yours to make and defend.*

@@ -200,6 +200,14 @@ Each candidate follows the template you asked for in round 1. Hour budgets are S
 ### 5.1 D5: Does cross-model agreement tell you which cells were segmented wrong? (microscopy)
 Full notes: `lit_notes_open/deep_5_microscopy_qc.md`.
 
+> **Status after spike rounds 2–4 (2026-09-30): the chosen project, reframed.** The card below is the original (round-3 deep dive) design and is kept for its evidence. The current plan is in **`D5_onboarding.md`**:
+> - RQ1: error overlap;
+> - RQ2: agreement vs the model's own confidence, single vs mean of references;
+> - RQ3: generalization to a new scale-checked held-out set;
+> - RQ4: a VA triage and adjudication tool.
+>
+> The "relatedness hierarchy" headline was tested and retired (see §12, rounds 3–4).
+
 - **Research question.** On held-out open microscopy data:
   - **RQ1:** Does instance-level agreement across generalist segmenters (Cellpose-SAM, micro-SAM, CellSAM, Cellpose3/cyto3) rank per-cell segmentation quality without ground truth? It is compared against model-internal signals (Cellpose flow error and cell probability, SAM-style predicted IoU), test-time-augmentation self-consistency, and an attribute-only model (size, density, contrast).
   - **RQ2:** Is the "uncorrelated errors" assumption violated? This is measured as instance-level error consistency (Cohen's κ, the chance-corrected agreement between two raters) between models that share a backbone or training data vs. those that do not.
@@ -450,7 +458,7 @@ These ratings are qualitative, and each has its reason in §5. No overall score 
 
 | Rank | Candidate | Why it is here | Main risk | What would move it |
 |---|---|---|---|---|
-| **1** | **D5: cross-model agreement as ground-truth-free cell-segmentation QC** (microscopy) | Objective GT-based evaluation; a **specific, unanswered reviewer question** (BISCUIT); no lab overlap (dblp-verified); your strongest skill; **the spike passed** (both models run in <2 s per image, and early κ = 0.52 with 113 silent failures says the question is live) | "Agreement = difficulty" triviality; still needs a non-SAM model (cyto3); must cite RBQE | ↓ if cyto3 won't run or Public-Test shows no structure; ↑ if Silva likes the "test the Visagreement conjecture" pitch |
+| **1** | **D5: cross-model agreement as ground-truth-free cell-segmentation QC** (microscopy). **Chosen; reframed 2026-09-30 as a VA tool + pre-registered evaluation** (`D5_onboarding.md`) | Objective GT-based evaluation; a **specific, unanswered reviewer question** (BISCUIT); no lab overlap (dblp-verified); your strongest skill; **the spike passed** (both models run in <2 s per image, and early κ = 0.52 with 113 silent failures says the question is live) | "Agreement = difficulty" triviality; still needs a non-SAM model (cyto3); must cite RBQE | ↓ if cyto3 won't run or Public-Test shows no structure; ↑ if Silva likes the "test the Visagreement conjecture" pitch |
 | **2** | **D2: window-level failure regimes of time-series foundation models** | **Lowest execution risk** (released outputs, no inference, TIME reproduced within 0.1%); pre-registered, falsifiable criteria; lab hook (mTSeer) | **Novelty thinner after the spikes** (Wang et al. overlap; H1 fails for CRPS; features \|ρ\| ≈ 0.2, so a null result is plausible); none of your interest domains | ↓ if the weekly scoop check finds window-level failure *prediction* on TIME; a close call with #3 and #4 |
 | **3** | **D4: Zoobot vs. volunteer disagreement** (astronomy) | Your interest; **the spike passed easily** (3 s per epoch; GZ3D masks align to about 1 px); RQ-B (explanations vs. human ambiguity on GZ3D masks) is the **most distinctive story** of any candidate | The brightness confound is real (bar pixels 30× brighter); RQ-A alone is incremental; **Visagreement's authors plan an image extension** (possible in-lab scoop); the data owners could scoop RQ-B | ↑ above D2 if Silva says the image extension is not in progress and you want the higher-upside path |
 | **4** | **D3: decomposing LLM-judge disagreement** (LLM; education option) | **Exact reproduction** (MT-Bench 66.0 / 84.6 / 63.0 / 81.0%); planted-bias evaluation with a null control is objective; **the minimum run is now about 4.7 h** on an L40S (not 13–46 h) | Novelty is "integration + validation"; it is structurally Visagreement-for-judges; **Visagreement's authors plan a text extension**; PAIR/KAIST/IBM could ship it first | ↑ if you value the LLM portfolio and Silva confirms no in-lab text work |
@@ -466,6 +474,7 @@ These ratings are qualitative, and each has its reason in §5. No overall score 
 **Update history:**
 - The earlier top 2 were D2 then D3 (before D4 and D5 were reviewed), then D5 then D2 (after the round-3 deep dives).
 - After the spikes (2026-09-29), D5 stays #1. D2 stays #2, but with a thinner margin. D3 rises in feasibility but not in novelty.
+- After spike rounds 2–4 (2026-09-30), D5 is chosen. Its "error hierarchy" headline failed pre-registered held-out tests, so it is reframed around the VA tool and the GT-free-QC evaluation. Grade safety stays high; paper upside is now Medium (workshop / VIS short). D4 remains the alternative.
 
 ---
 
@@ -649,7 +658,18 @@ What this changes (SYNTHESIS):
   - Cellpose recipe with DINOv3 vs with SAM: log-OR 4.95 (N2) and 4.55 (N1), close to v1↔v2 at 5.9/5.0.
   - Different recipes: 2.6–3.2.
   - The family effect is null on N1, there is no shared-checkpoint effect, and shift does not separate architectures.
-- **Lesson:** held-out sets need a GT-only scale check in their inclusion criteria. Pre-register the recipe-vs-backbone contrast on a new, scale-checked set for the proposal.
+- **Lesson:** held-out sets need a GT-only scale check in their inclusion criteria.
+
+**Lead-reviewer verdict on round 4 (Mac session, 2026-09-30; full notes at the end of `spike_results/D6_verdict.md`). This supersedes the two bullets above.**
+- **The "robust" {f, o} → AUROC result is close to true by definition.** For a binary agreement flag, AUROC = (2 − o − f)/2. On the committed tables, Spearman(AUROC, (2 − o − f)/2) is 0.94 (PT), 0.74 (LC200), 0.58 (N2) and 0.85 (N1s). It explains *why* one reference beats another; it is not a finding.
+- **Forking paths.** Three rounds in a row produced an exploratory headline that failed on new data. The CellposeDINO lead has the same shape: 2 exploratory models, undocumented training data, and on N2 DINO-B (4.51) ≈ cyto3 (4.53). **Low prior; not pursued.**
+- **What is solid** (pre-registered or replicated on ≥ 3 datasets):
+  - copies (seeds, fine-tunes) share errors almost completely;
+  - cross-model agreement ≈ the model's own flow error as a QC signal (4 datasets);
+  - mean of ≥ 2 references > best single reference (pre-registered);
+  - the family effect exists where models share training data and not on new data;
+  - a set of measurement pitfalls, each demonstrated.
+- **Decision (2026-09-30): stop hypothesis rounds. D5 is reframed** as *"When does agreement between cell segmenters reveal their errors? A VA tool and a pre-registered evaluation of GT-free QC."* The rewritten plan is in `D5_onboarding.md` (§1, §5, §7–§11).
 
 ---
 
