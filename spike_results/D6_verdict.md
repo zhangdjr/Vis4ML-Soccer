@@ -71,3 +71,49 @@ Prediction: log-OR(backbone-only) > log-OR(recipe/data) on accuracy-matched data
 4. **R4's folds are weak shifts** (2 of 3 held-out types are easier). A stronger controlled shift needs other modalities or a more different held-out type.
 5. **The scoop check (K7) still needs the manual Google Scholar "Cited by" pass.** RBQE (arXiv 2609.10495) is the closest prior work.
 6. **Compute is fine.** This round used about 27 GPU-hours, including about 7.5 h lost to L4 timeouts last night. Everything runs in under 1 h per job on L40S.
+
+---
+
+## Lead-reviewer notes (2026-09-30, Mac session)
+
+**1. The "robust secondary" result ({f, o} predicts AUROC far better than κ) is close to true by definition.**
+- If agreement were a binary flag ("disagree / agree"), then for target t:
+  - TPR = P(disagree | t wrong) ≈ 1 − o;
+  - TNR = P(agree | t right) ≈ 1 − f;
+  - so AUROC = (TPR + TNR)/2 ≈ **(2 − o − f)/2**.
+
+  The real signal is continuous IoU agreement scored within images, which adds about 0.16–0.26 on top. But the ranking is mostly the identity.
+- FACT (from `r4_tables/*_directed.csv`, confirmatory pairs): Spearman(AUROC, (2 − o − f)/2) is
+
+  | | PT | LC200 | N2 | N1s |
+  |---|---|---|---|---|
+  | Spearman | 0.94 | 0.74 | 0.58 | 0.85 |
+  | Pairs | 56 | 42 | 72 | 42 |
+
+- So {f, o} "beating κ" for AUROC restates how AUROC is built. It is a useful **explanation** (it tells a user why one reference beats another), not an empirical **finding**. Do not headline it.
+- What would still be a finding: the part of AUROC *not* explained by (2 − o − f)/2. That part comes from the continuous IoU agreement and the within-image scoring. It is small and unexamined.
+
+**2. The pattern across rounds is the real warning sign.**
+- Each round's exploratory data produced a new headline:
+  - B1: family > encoder;
+  - round 3: the reference trade-off;
+  - round 4: recipe > backbone.
+- Each confirmatory test on new data then failed or became untestable.
+- That is the "garden of forking paths": with ~10 models and ~4 dependence measures there is always *some* interesting contrast in the exploratory data.
+- **The DINO lead (recipe > backbone) has the same shape.**
+  - It rests on 2 exploratory models with undocumented training data.
+  - On N2, CellposeDINO-B (4.51) ≈ cyto3 (4.53), so the separation appears only on rescaled N1.
+  - Treat its prior as low. **Do not commission round 5 to chase it before the proposal.**
+
+**3. What is solid (pre-registered or replicated on ≥ 3 datasets):**
+- seed/fine-tune copies are near-identical in errors (log-OR 5–8) everywhere;
+- agreement-based QC ≈ the model's own flow-error signal (H4, R5: 4 datasets);
+- averaging ≥ 2 references beats the best single one (R6: pre-registered on N2, plus N1s);
+- **measurement pitfalls**, each with a concrete demonstration:
+  - κ inverts conclusions under error-rate mismatch (BV2: κ halves while log-OR rises);
+  - recall@budget has a ceiling of budget/error rate, and pooled comparisons mostly measure the target's error rate;
+  - held-out sets need a scale check;
+  - the version mix-ups (v1/v2, 504 vs 616).
+- the family effect is real in-distribution and on the NeurIPS22 split, and **absent** on genuinely new data. That is a clean, honest finding about where "related models fail together" applies.
+
+**Reviewer verdict.** Stop the hypothesis rounds. The project is now best framed around the **visual-analytics tool plus a pre-registered evaluation** of when agreement does and does not reveal segmentation errors, with the results above as its evidence base. See the onboarding §4.4 note.

@@ -278,6 +278,10 @@ Full details are in `spike_results/D0–D6`. Pre-registration: `PREREG_D5.md` Pa
   - Round 3's "Cellpose-SAM" was **v2** (the cellpose 4.2.1.1 default). Round 4 added v1.
   - Cellpose-SAM used **504** NeurIPS22 training images, not 616 (616 is LynSec).
   - The micro-SAM weights that micro_sam 1.8.x downloads (v4) use NeurIPS22 Tuning as validation.
+- **Reviewer note (Mac session; full text at the end of `D6_verdict.md`):**
+  - The "robust" {f, o}-predicts-AUROC result is nearly definitional, since binary AUROC ≈ (2 − o − f)/2 (Spearman 0.58–0.94 with the real AUROC). Do not headline it.
+  - Three rounds in a row produced an exploratory headline that failed on new data, so the DINO "recipe > backbone" lead gets a low prior.
+  - **Recommendation:** stop chasing a headline. Frame the project as a VA tool + pre-registered evaluation of when agreement-based QC works.
 - **Lesson.** A held-out set needs a GT-only scale check, e.g. median cell diameter inside the models' training range, as an inclusion criterion.
 
 ---
