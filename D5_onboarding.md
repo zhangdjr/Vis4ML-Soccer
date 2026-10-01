@@ -259,6 +259,27 @@ Full details are in `spike_results/C1–C5`. Pre-registration: `PREREG_D5.md`. A
   - One mechanism, reference *independence* traded off against reference *accuracy*, explains K6, the H3 reversal and H4. Suggested new headline question: **"What makes a good reference for agreement-based QC?"**
 - **Implication for the proposal:** pre-register the accuracy-matched analysis as primary, alongside raw κ and κ/κ_max. Rename L2 "shared SAM pretraining". Add a same-checkpoint contrast (micro-SAM ViT-B vs ViT-L). Frame RQ3 as "agreement vs the model's own signals", not "agreement vs nothing".
 
+### 4.4 Round 4: "what makes a good reference?" (2026-09-30)
+Full details are in `spike_results/D0–D6`. Pre-registration: `PREREG_D5.md` Part B, with Amendments 5–7 (all dated, "before"/"after" labelled).
+- **Data:**
+  - **N1 = mCellSeg** (new, May 2026, CC BY): 198 DIC/bright-field images, 15,975 whole cells, in no model's training data.
+  - **N2:** 200 fresh LIVECell test images.
+  - **N3:** 3 LIVECell leave-one-cell-type-out folds with 18 own-trained models.
+- **Confirmatory results: nothing supported.**
+  - **R1–R3 were untestable on native-scale N1.** Its cells are 50–327 px, outside Cellpose's training range, so Cellpose-SAM missed 65% of cells and failed the exclusion rule.
+  - On an outcome-blind rescaled re-run:
+    - **R1 (reference accuracy + independence beat κ for top-5% triage) is inconclusive.**
+    - **R2 (the family effect) is falsified.**
+    - **R3 (shared ViT-L checkpoint) is still untestable.**
+  - **R4 (shift separates architectures more than seeds) is falsified:** seeds diverge more.
+- **Robust secondary result.** Reference accuracy and independence (f, o) predict how well agreement *ranks* errors (AUROC) far better than κ, on all four datasets. Top-5% triage saturates once the target's error rate is ≫ 5%.
+- **Exploratory lead for the proposal.** The Cellpose recipe with a DINOv3 backbone fails on nearly the same cells as Cellpose-SAM (log-OR 4.6–5.0, close to v1↔v2), while different recipes sit at 2.6–3.2. **Shared training data and recipe, not the foundation backbone, predicts shared failures.** Pre-register this.
+- **Corrections:**
+  - Round 3's "Cellpose-SAM" was **v2** (the cellpose 4.2.1.1 default). Round 4 added v1.
+  - Cellpose-SAM used **504** NeurIPS22 training images, not 616 (616 is LynSec).
+  - The micro-SAM weights that micro_sam 1.8.x downloads (v4) use NeurIPS22 Tuning as validation.
+- **Lesson.** A held-out set needs a GT-only scale check, e.g. median cell diameter inside the models' training range, as an inclusion criterion.
+
 ---
 
 ## 5. Research questions and hypotheses
@@ -311,12 +332,12 @@ Does its quality depend on the reference model's relatedness?
 
 | Model | LIVECell train | NeurIPS22 Training | NeurIPS22 Tuning | NeurIPS22 Public-Test |
 |---|---|---|---|---|
-| Cellpose-SAM | trained (5% sampling) | trained (616 of 1,000) | held out | held out |
+| Cellpose-SAM | trained (5% sampling) | trained (**504** of 1,000; corrected in round 4, 616 was LynSec) | held out | held out |
 | cyto3 | trained | not listed | held out | held out |
 | micro-SAM `vit_b_lm` | trained | trained | likely validation | held out |
 | CellSAM (generalist) | **held out** | not in the generalist | — | held out |
 
-(FACT, from each paper's full text; see `lit_notes_open/deep_5_microscopy_qc.md` §2.4.)
+(FACT, from each paper's full text; see `lit_notes_open/deep_5_microscopy_qc.md` §2.4. Round 4: the installed "Cellpose-SAM" is **v2** (June 2026, training data undocumented); micro-SAM v4 weights use NeurIPS22 Tuning as validation; see `spike_results/D0_n1_choice.md`.)
 
 ### 6.3 The hierarchy experiment
 - **Done in B1:** L0b (3 cpsam fine-tune seeds), L1, L2, L3, L3′, a rough L4.

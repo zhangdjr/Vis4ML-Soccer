@@ -632,6 +632,25 @@ What this changes (SYNTHESIS):
 - **But "family, not encoder" should not be the headline.** It passes its pre-registered test, but it is accuracy-confounded (K4), modality-dependent, and mislabelled: Cellpose-SAM uses ViT-L while micro-SAM uses ViT-B. A stronger, better-supported headline: **"error consistency is high in-distribution and collapses out of distribution. Shared training distribution, not a shared foundation backbone, predicts shared failures there. And agreement-based QC is only as good as the model's own flow-error signal."**
 - **Newly opened question:** the only same-encoder cross-family pair (micro-SAM vs CellSAM, both ViT-B) is the most consistent cross-family pair on Public-Test (κ 0.39). A narrow H-mono may hold; test micro-SAM `vit_b_lm` vs `vit_l_lm`.
 
+### Spike round 4 (2026-09-30, "what makes a good reference for agreement-based QC?"; details in `spike_results/D0–D6`, pre-registration in `PREREG_D5.md` Part B + Amendments 5–7)
+
+| Task | Verdict | Key numbers |
+|---|---|---|
+| **D0 N1 choice** | done; frozen before any model run | **N1 = mCellSeg** (Zenodo 20174259, May 2026, CC BY 4.0): 198 DIC/BF images, 15,975 whole cells, HEK-293T + HUVEC; in no model's training list. N2 = 200 fresh LIVECell test images; N3 = 3 leave-one-type-out folds (SH-SY5Y, BV2, SKOV3) |
+| **D1 re-analysis (round-3 data)** | exploratory | ORs confirmed: PT 16.7 vs 5.6, LC200 91.6 vs 22.7. H1 under log-OR +1.10 (PT), +1.40 (LC200), but null on PT when accuracy-matched or R8-stratified. R1 dry run mixed (PT +0.22, LC200 −0.02, N2 +0.05). AUROC version supported everywhere. recall@5% has a 0.05/e_t ceiling (Amendment 6) |
+| **D2 new models** | done | Round-3 "Cellpose-SAM" was **v2** (cellpose 4.2.1.1 default); v1 added. µSAM `vit_l_lm` added. CellposeDINO-L/B (DINOv3 backbone, exploratory) via a separate overlay. Encoder table from the installed code: Cellpose-SAM v1/v2 = SAM ViT-L (patch 8); µSAM ViT-B/L; CellSAM = SAM ViT-B; cyto3 = CNN |
+| **D3 confirmatory on N1** | **nothing supported** | Native scale: every Cellpose model, cyto3 and CellSAM fail the > 0.6 error rule (Cellpose-SAM error 0.652; cells 50–327 px), so **R1–R3 untestable**. Rescaled (Amendment 7, outcome-blind): **R1 inconclusive (+0.05 [−0.02, 0.17]); R2 falsified (−0.06 [−0.28, 0.15])**, also null at R7's matched operating point and under R8; R3 untestable (µSAM ViT-L error 0.604). R5 not supported (≈ flow error); R6 supported (+0.03–0.05 AUROC) |
+| **D4 controlled shift (R4)** | **falsified** | 18 own models (3 seeds × U-Net/µSAM-from-vanilla-SAM × 3 folds). Cross − seed Δ = **−0.57 [−0.72, −0.43]**, negative in every fold: shift makes *seeds* less alike. BV2 shows κ halving while log-OR rises (margin artefact) |
+| **D5 figures** | done | `fig_kappa_by_level_v2.png` (κ + log-OR, 5 groups); `fig_reference_tradeoff.png` (PT, N2, N1-rescaled) |
+
+What this changes (SYNTHESIS):
+- **"What makes a good reference" does not survive as a confirmed headline.** Its robust part is secondary: {f, o} predicts *ranking* quality (AUROC) far better than κ on all four datasets. For budgeted triage, reference choice saturates when the target's error rate exceeds the budget.
+- **Better-supported headline, from the nulls plus a consistent exploratory pattern:** shared failures come from **shared training data and recipe, not a shared foundation backbone.**
+  - Cellpose recipe with DINOv3 vs with SAM: log-OR 4.95 (N2) and 4.55 (N1), close to v1↔v2 at 5.9/5.0.
+  - Different recipes: 2.6–3.2.
+  - The family effect is null on N1, there is no shared-checkpoint effect, and shift does not separate architectures.
+- **Lesson:** held-out sets need a GT-only scale check in their inclusion criteria. Pre-register the recipe-vs-backbone contrast on a new, scale-checked set for the proposal.
+
 ---
 
 ## 13. Appendix
