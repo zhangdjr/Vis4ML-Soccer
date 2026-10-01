@@ -1,0 +1,233 @@
+{
+ "data": "n1",
+ "n_cells": 15975,
+ "n_images": 198,
+ "accuracy": {
+  "cellsam": 0.3326,
+  "cpdino": 0.4121,
+  "cpdino_b": 0.3526,
+  "cpsam": 0.3485,
+  "cpsam_ft0": 0.3633,
+  "cpsam_ft_s1": 0.3881,
+  "cpsam_ft_s2": 0.3671,
+  "cpsam_ft_s3": 0.3512,
+  "cpsam_v1": 0.3574,
+  "cyto3": 0.2394,
+  "cyto3_gtd": 0.3981,
+  "livecell_cp3": 0.1044,
+  "livecell_cp3_gtd": 0.1816,
+  "msam_ais": 0.4822,
+  "msam_ais_l": 0.5274
+ },
+ "excluded": [
+  "cellsam",
+  "cpdino_b",
+  "cpsam",
+  "cpsam_ft0",
+  "cpsam_ft_s1",
+  "cpsam_ft_s2",
+  "cpsam_ft_s3",
+  "cpsam_v1",
+  "cyto3",
+  "cyto3_gtd",
+  "livecell_cp3",
+  "livecell_cp3_gtd"
+ ],
+ "roster": [
+  "msam_ais",
+  "msam_ais_l"
+ ],
+ "roster_exploratory": [
+  "msam_ais",
+  "msam_ais_l",
+  "cpdino"
+ ],
+ "R1": {
+  "recall5": null,
+  "auroc_secondary": null,
+  "recall5_with_exploratory_models": {
+   "n_directed_pairs": 6,
+   "targets": [
+    "cpdino",
+    "msam_ais",
+    "msam_ais_l"
+   ],
+   "rho_kappa": 0.4857,
+   "rho_kappa_ci": [
+    0.3714,
+    0.5429
+   ],
+   "rho_fo": 0.4286,
+   "rho_fo_ci": [
+    0.2571,
+    0.8286
+   ],
+   "diff": -0.0571,
+   "diff_ci": [
+    -0.2286,
+    0.3443
+   ],
+   "p_one_sided": 0.616,
+   "verdict": "falsified",
+   "fo_coef_full": [
+    0.076,
+    -0.1022,
+    0.0394
+   ]
+  },
+  "recall5_ceiling_normalised_secondary": null,
+  "recall5_within_target_secondary": null,
+  "auroc_within_target_secondary": null
+ },
+ "R2": {
+  "logOR": null,
+  "kappa": null,
+  "kappa_norm": null
+ },
+ "R2_v1_sensitivity": {
+  "logOR": null,
+  "kappa": null,
+  "kappa_norm": null
+ },
+ "R3": {
+  "logOR": null,
+  "kappa": null,
+  "kappa_norm": null
+ },
+ "R3_v1_sensitivity": {
+  "logOR": null,
+  "kappa": null,
+  "kappa_norm": null
+ },
+ "H1_logOR_exploratory": {
+  "logOR": null,
+  "kappa": null,
+  "kappa_norm": null
+ },
+ "R2_accuracy_matched": {
+  "logOR": {
+   "point": 0.2744,
+   "ci": [
+    -0.0577,
+    0.6029
+   ],
+   "p_two_sided": 0.1,
+   "p_one_sided": 0.05,
+   "n_images": 11,
+   "n_cells": 1222,
+   "values": {
+    "cpsam|cyto3": 3.6369,
+    "cpsam|msam_ais": 3.3625
+   }
+  },
+  "kappa": {
+   "point": 0.0359,
+   "ci": [
+    -0.0107,
+    0.0767
+   ],
+   "p_two_sided": 0.118,
+   "p_one_sided": 0.059,
+   "n_images": 11,
+   "n_cells": 1222,
+   "values": {
+    "cpsam|cyto3": 0.6993,
+    "cpsam|msam_ais": 0.6634
+   }
+  }
+ },
+ "R3_accuracy_matched": {
+  "logOR": {
+   "point": 0.154,
+   "ci": [
+    -0.147,
+    0.4914
+   ],
+   "p_two_sided": 0.318,
+   "p_one_sided": 0.159,
+   "n_images": 15,
+   "n_cells": 2347,
+   "values": {
+    "cpsam|msam_ais_l": 3.6718,
+    "cpsam|msam_ais": 3.5178
+   }
+  },
+  "kappa": {
+   "point": 0.0192,
+   "ci": [
+    -0.0168,
+    0.0629
+   ],
+   "p_two_sided": 0.332,
+   "p_one_sided": 0.166,
+   "n_images": 15,
+   "n_cells": 2347,
+   "values": {
+    "cpsam|msam_ais_l": 0.7068,
+    "cpsam|msam_ais": 0.6877
+   }
+  }
+ },
+ "R8": {
+  "R2": {
+   "other_models": [
+    "msam_ais_l"
+   ],
+   "kappa": [
+    0.149,
+    0.0835
+   ],
+   "MH_logOR": [
+    1.8006,
+    0.9768
+   ],
+   "kappa_diff": {
+    "point": 0.0655,
+    "ci": [
+     0.0336,
+     0.0997
+    ],
+    "p_two_sided": 0.001,
+    "p_one_sided": 0.001
+   },
+   "MH_logOR_diff": {
+    "point": 0.8238,
+    "ci": [
+     0.5931,
+     1.0758
+    ],
+    "p_two_sided": 0.001,
+    "p_one_sided": 0.001
+   }
+  },
+  "R3": {
+   "other_models": [],
+   "kappa": [
+    0.2516,
+    0.2185
+   ],
+   "MH_logOR": [
+    2.1499,
+    1.8489
+   ],
+   "kappa_diff": {
+    "point": 0.0331,
+    "ci": [
+     0.0162,
+     0.0496
+    ],
+    "p_two_sided": 0.001,
+    "p_one_sided": 0.001
+   },
+   "MH_logOR_diff": {
+    "point": 0.301,
+    "ci": [
+     0.1816,
+     0.4364
+    ],
+    "p_two_sided": 0.001,
+    "p_one_sided": 0.001
+   }
+  }
+ }
+}

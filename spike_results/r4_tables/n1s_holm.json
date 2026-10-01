@@ -1,0 +1,47 @@
+{
+ "R1": {
+  "p": 0.095,
+  "point": 0.0502,
+  "ci": [
+   -0.0172,
+   0.1665
+  ],
+  "own_rule": "inconclusive",
+  "holm_threshold": 0.0125,
+  "holm_reject": false,
+  "final": "not supported (fails rule or Holm)"
+ },
+ "R2": {
+  "p": 0.693,
+  "point": -0.0568,
+  "ci": [
+   -0.2792,
+   0.1539
+  ],
+  "own_rule": "falsified",
+  "holm_threshold": 0.0167,
+  "holm_reject": false,
+  "final": "falsified"
+ },
+ "R3": {
+  "p": 1.0,
+  "point": null,
+  "ci": null,
+  "own_rule": "not testable",
+  "holm_threshold": 0.025,
+  "holm_reject": false,
+  "final": "not testable"
+ },
+ "R4": {
+  "p": 1.0,
+  "point": -0.5703,
+  "ci": [
+   -0.7198,
+   -0.4261
+  ],
+  "own_rule": "falsified",
+  "holm_threshold": 0.05,
+  "holm_reject": false,
+  "final": "falsified"
+ }
+}
